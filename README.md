@@ -53,16 +53,28 @@ git switch member-a-data
 git status
 ```
 
-本仓库目前仅在本地创建，尚未配置远程地址。后续在所选托管平台创建空仓库，再将真实地址替换到下面变量中：
+远程仓库：<https://github.com/Mushgel/data_agent_course>，当前为私有仓库。本地 `origin` 已关联该地址，主分支和四个成员分支使用共同起点。
+
+仓库管理员先在 GitHub 的仓库设置中添加队友为协作者。队友接受邀请后，即可克隆并切换到自己的分支。以成员 B 为例：
 
 ```powershell
-$projectRemoteUrl = '替换为实际仓库地址'
-git remote add origin $projectRemoteUrl
-git push -u origin main
-git push origin member-a-data member-b-clean member-c-agent member-d-ui
+git clone https://github.com/Mushgel/data_agent_course.git
+cd data_agent_course
+git switch member-b-clean
 ```
 
-远程创建和推送后，其他成员才能通过该地址克隆协作。不要直接执行尚未替换的地址示例。
+在自己的分支完成一小块工作后，先用 `git status` 确认修改文件属于本次交付，再提交和上传：
+
+```powershell
+git status
+git add .
+git commit -m "feat: implement member B cleaning module"
+git push -u origin member-b-clean
+```
+
+以上提交示例需要在实际完成修改后使用。其他成员替换为自己的分支名和真实提交说明。上传后把分支、运行命令、实际结果和已知问题发给集成人，由集成人合并到 `main`。
+
+收到主分支更新通知时，先保存并提交自己的修改，再在个人分支执行 `git fetch origin` 和 `git merge origin/main`。发生冲突时交给集成人共同处理，不需要每天全员联调。
 
 ## 资料位置
 
