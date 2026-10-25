@@ -53,14 +53,23 @@ git switch member-a-data
 git status
 ```
 
-远程仓库：<https://github.com/Mushgel/data_agent_course>，当前为公开仓库。本地 `origin` 已关联该地址，主分支和四个成员分支使用共同起点。
+远程仓库：<https://github.com/2026-XJTU-UG-DM-Assignment-10/data_agent_course>，当前为公开仓库。本地 `origin` 已关联该地址，主分支和四个成员分支使用共同起点。
 
-任何人都可以查看和克隆本仓库。需要直接向本仓库的成员分支推送代码时，仓库管理员仍需添加队友为协作者，队友接受邀请后才能推送。以成员 B 为例，先克隆并切换分支：
+项目归属于组织 [2026-XJTU-UG-DM-Assignment-10](https://github.com/2026-XJTU-UG-DM-Assignment-10)，组织显示名称为 `2026_XJTU_Undergraduate_Data_Mining_Course_Assignment_10`。迁移保留原有 Git 提交历史，具体见[仓库迁移说明](docs/仓库迁移说明.md)。
+
+任何人都可以查看和克隆本仓库。队友加入组织后，仍需获得本仓库的 Write 或更高权限才能直接推送；共同管理组织的成员可由现有 Owner 提升为 Owner。以成员 B 为例，先克隆并切换分支：
 
 ```powershell
-git clone https://github.com/Mushgel/data_agent_course.git
+git clone https://github.com/2026-XJTU-UG-DM-Assignment-10/data_agent_course.git
 cd data_agent_course
 git switch member-b-clean
+```
+
+已克隆旧地址的成员，在自己的项目根目录更新远程地址即可：
+
+```powershell
+git remote set-url origin https://github.com/2026-XJTU-UG-DM-Assignment-10/data_agent_course.git
+git fetch origin
 ```
 
 在自己的分支完成一小块工作后，先用 `git status` 确认修改文件属于本次交付，再提交和上传：
