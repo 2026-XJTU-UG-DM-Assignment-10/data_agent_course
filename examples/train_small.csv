@@ -1,0 +1,9 @@
+age,workclass,fnlwgt,education,education_num,marital_status,occupation,relationship,race,sex,capital_gain,capital_loss,hours_per_week,native_country,income,_source_id,_group_id
+39,State-gov,77516,Bachelors,13,Never-married,Adm-clerical,Not-in-family,White,Male,2174,0,40,United-States,<=50K,S001,G001
+50,Self-emp-not-inc,83311,Bachelors,13,Married-civ-spouse,Exec-managerial,Husband,White,Male,0,0,13,United-States,>50K,S002,G002
+38,?,215646,HS-grad,9,Divorced,Handlers-cleaners,Not-in-family,White,Male,0,0,40 hours,United-States,<=50K,S003,G003
+-5,Private,234721,HS-grad,9,Married-civ-spouse,Handlers-cleaners,Husband,Black,Male,0,0,999,United-States,<=50K,S004,G004
+28,Private,338409,,13,Married-civ-spouse,Prof-specialty,Wife,Black,Female,0,0,40,United-States,>50K,S005,G005
+37,Private,284582,Masters,14,Married-civ-spouse,Exec-managerial,Wife,White,Female,0,0,40,United-States,>50K,S006,G006
+49,Private,160187,9th,5,Married-spouse-absent,Other-service,Not-in-family,Black,Female,0,0,16,United-States,<=50K,S007,G007
+39,State-gov,77516,Bachelors,13,Never-married,Adm-clerical,Not-in-family,White,Male,2174,0,40,United-States,<=50K,S001,G001

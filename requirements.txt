@@ -1,0 +1,9 @@
+# Versions available in the initial local environment.
+# Shared contracts are verified; verify the full application after implementation.
+pydantic==2.12.4
+pandas==2.3.3
+numpy==2.3.5
+scikit-learn==1.7.2
+requests==2.32.5
+streamlit==1.51.0
+matplotlib==3.10.6

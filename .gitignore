@@ -1,0 +1,38 @@
+# Local credentials
+.env
+.env.*
+!.env.example
+
+# Python environments and caches
+.venv/
+venv/
+env/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+*.egg-info/
+build/
+dist/
+
+# Editor and operating-system files
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
+*.log
+
+# Generated datasets; keep reproducible scripts and directory markers
+/data/raw/*
+!/data/raw/.gitkeep
+/data/reference/*
+!/data/reference/.gitkeep
+/data/dirty/*
+!/data/dirty/.gitkeep
+/data/manifests/*
+!/data/manifests/.gitkeep
+
+# Run artifacts are submitted separately from source control
+/outputs/*
+!/outputs/.gitkeep
