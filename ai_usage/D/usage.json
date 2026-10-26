@@ -1,7 +1,7 @@
 {
   "schema_version": "1.0",
   "role": "D",
-  "coverage_note": "仅覆盖 2026-10-26 本轮新增 AI 使用记录规则的协作会话，不覆盖此前开发和仓库配置；本轮内部模型次数、用量、实际模型标识及单次费用不可获知。",
+  "coverage_note": "仅覆盖 2026-10-26 本轮新增 AI 使用记录规则的协作会话，不覆盖此前开发和仓库配置；本轮内部模型次数、用量、实际模型标识及单次费用不可获知。 本次另覆盖成员 D 分类、页面、CLI 与集成开发会话；保留原记录，不补造历史。",
   "records": [
     {
       "id": "D-20261026-ai-usage-rules",
@@ -27,6 +27,31 @@
       "result": "succeeded",
       "source_id": "D-local-session-20261026-ai-usage-rules",
       "notes": "完成本轮协作基础维护：独立账本、提示词规则、自动统计、交接检查和展示提要；9 项记账检查、11 项协作控制回归及公共契约检查已通过。未实施或运行项目业务模型，历史会话未补造，内部模型次数、参数与成本仍未知。"
+    },
+    {
+      "id": "D-20261026-ui-development",
+      "scope": "development",
+      "time": "2026-10-26T23:20:20.085133+08:00",
+      "tool": "Codex Desktop",
+      "model": null,
+      "parameters": {},
+      "parameters_note": "未提供可核实的实际模型标识、采样参数和推理参数。",
+      "prompt_files": [
+        "ai_usage/D/prompts/D-20261026-ui-development.md"
+      ],
+      "calls": null,
+      "interactions": 1,
+      "input_tokens": null,
+      "output_tokens": null,
+      "cost": {
+        "kind": "unknown",
+        "amount": null,
+        "currency": null,
+        "basis": "未提供本会话实际用量或计费，不将订阅使用记为 0 元。"
+      },
+      "result": "succeeded",
+      "source_id": "D-local-session-20261026-ui-development",
+      "notes": "本轮D独立范围完成：真实7/3样例训练Accuracy=0、Macro-F1=0，15类无效输入、页面/CLI自测通过；浏览器检查合成预览/实际下载和缺C错误。仅缺C接线用明确替身；正式数据、真实模型、完整集成和正式材料待验证。保留旧账，不推算内部请求/费用，不登记项目运行请求。"
     }
   ]
 }

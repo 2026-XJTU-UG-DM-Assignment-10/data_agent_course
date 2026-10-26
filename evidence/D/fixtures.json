@@ -1,0 +1,58 @@
+{
+  "workflow_version": "2.0",
+  "contract_version": "1.0",
+  "role": "D",
+  "scope": "fixtures",
+  "status": "passed",
+  "checked_at": "2026-10-26T15:43:07.999084+00:00",
+  "command": "python checks/check_D.py",
+  "uses_test_doubles": true,
+  "summary": {
+    "train_rows": 7,
+    "test_rows": 3,
+    "accuracy": 0.0,
+    "macro_f1": 0.0,
+    "confusion_matrix": [
+      [
+        0,
+        1
+      ],
+      [
+        2,
+        0
+      ]
+    ],
+    "classification_checks": [
+      "train_only_scaler_and_encoder",
+      "fixed_14_features",
+      "unknown_category",
+      "matrix_orientation",
+      "independent_accuracy_and_macro_f1",
+      "input_immutability",
+      "metadata_exclusion",
+      "single_class_test",
+      "valid_png"
+    ],
+    "invalid_inputs_rejected": 15,
+    "ui_cli_checks": [
+      "success_and_failed_RunResult",
+      "page_redraw_keeps_result",
+      "one_click_one_run",
+      "mode_selection_keeps_result_mode",
+      "failed_start_clears_metrics",
+      "synthetic_preview_labeled",
+      "downloads_present",
+      "artifact_path_containment",
+      "cli_missing_input_exit_1",
+      "cli_invalid_mode_exit_2",
+      "before_after_quality_table",
+      "strategy_and_reasons",
+      "cleaning_audit"
+    ],
+    "limitations": "Synthetic 7/3 fixtures; missing C replaced ONLY for UI/CLI; no formal data, real model or end-to-end evidence"
+  },
+  "artifacts": [
+    "outputs/member_D/check.json",
+    "outputs/member_D/classification/confusion_matrix.png"
+  ]
+}

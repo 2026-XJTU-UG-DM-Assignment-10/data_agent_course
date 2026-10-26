@@ -7,9 +7,37 @@
 | A | pending | 尚未交付 | — | 等待数据与检测交付 |
 | B | pending | 尚未交付 | — | 等待清洗交付 |
 | C | pending | 尚未交付 | — | 等待规则/模型流程交付 |
-| D | pending | 尚未交付 | — | 开发分类、页面和集成检查 |
+| D | pending | 本次独立模块自测通过，交付门禁生成 handoffs/D.json；evidence/D/fixtures.json | 真实依赖尚缺，不能标记完整集成 accepted | 保留 member-d-ui 交付，待 A/B/C 就绪后在 main 正常合并与复验 |
 
 状态使用 `pending、accepted、changes_requested`。退回问题写清角色、最小输入、复现命令、实际错误、预期结果，不要求全员开会。不要把“待评审”自动当作已接受。
+
+## 2026-10-26 D 独立开发与集成前检查
+
+- 开工时 main / 工作区干净，四个成员分支同为 2325930。实际 git fetch origin 后仍无其他交付；已切 member-d-ui，仅改 D 归属文件，保留 A/B/C 和冻结契约。
+- D 分类真实训练7行人工样例、测试3行；Accuracy=0、Macro-F1=0、矩阵 [[0,1],[2,0]]。通过未知类别、训练拟合边界、排除标签/ID、15类输入拒绝。不是正式实验。
+- AppTest 和 CLI 成功/失败检查通过；仅缺失的 C 接线被明确替身替代。实际浏览器检查合成标识、示例SVG下载和真实入口缺C错误。合成预览指标不作为实测。
+- checks/check_D.py --integration 返回2，uses_test_doubles=false；D分类真实执行，但缺6个上游模块，未执行成功接线；outputs/member_D/integration_check.json，未改 evidence。
+- scripts/smoke_check.py 的 rules/llm 均返回2 / not_ready；outputs/integration/smoke_rules.json、smoke_llm.json。缺正式7个文件及6个上游模块，没有实际端到端或模型请求。
+- 当前未合并 main；四模块未齐备，scripts/check_integration.py --mode rules/llm 的正式 main 集成尚未执行。不将 member-d-ui 自测称为 main 集成通过。后续按 B→A/D→C 正常合并与复验。
+- AI全员严格检查实际失败（A先报无记录，汇总显示A/B/C均空）；D单人严格检查通过，不改他人账本。outputs/ai_usage 两份汇总仅统计已登记记录与未知项。
+- 公共契约、11项协作控制与9项AI账本回归实际通过。首次AppTest退出出现Windows沙箱临时目录清理错误，限定到outputs/member_D/tmp后重跑已消除；bare-mode提示仍为测试环境提示。
+
+### 等待交付与最小复现
+
+A/B/C均未声明交付，没有已提交业务缺陷可退回，评审保持pending。以下是缺失依赖，不伪装成他人实现错误。命令中的 python 在本机使用 .venv/Scripts/python.exe。
+
+| 归属 | 最小复现 | 实际结果 | 下一步 |
+| --- | --- | --- | --- |
+| A | python scripts/smoke_check.py --mode rules --report outputs/integration/smoke_rules.json | 缺正式数据、manifest及profiler | 交付prepare_data/profiler，按--seed 42 --sample-size 10000重建 |
+| B | python checks/check_D.py --integration | missing_dependencies含normalization/cleaner，退出2 | 完成规范化、清洗、测试转换和本人自测 |
+| C | python -m src.cli --mode rules --train examples/train_small.csv --test examples/test_small.csv | 明确Member C has not delivered src/pipeline.py，退出1；浏览器同样提示 | 交付真实规则流程，再接模型/日志，不静默用替身 |
+| C | python scripts/smoke_check.py --mode llm --report outputs/integration/smoke_llm.json | not_ready，未调用模型 | 模块/正式数据齐备后配置并实测；真实请求账只由C登记 |
+
+正式材料缺项见docs/acceptance.md；本次未生成报告PDF、正式PPT、正式数据包或真实成功目录，未完成全员排练。docs/demo_script.md是后续安排脚本，不是排练证明。
+
+### 并发修改隔离
+
+首次D提交门禁发现本轮期间其他会话新增data/README.md和D数据目录说明记录，按归属检查返回not_ready。未重置、覆盖、暂存或提交这些其他会话修改，也未放宽roles.json。使用D:/iot/member_d_delivery_20261026本地干净检出，仅复制本轮D交付文件及基线+本轮账本进行最终门禁；原工作区和并发新增记录保留。交付快照的D账本为2条，原工作区另含目录说明会话记录，二者覆盖范围不同。
 
 ## 课程最终验收
 

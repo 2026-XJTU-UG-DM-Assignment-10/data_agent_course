@@ -1,5 +1,5 @@
-# Versions available in the initial local environment.
-# Shared contracts are verified; verify the full application after implementation.
+# D's classifier/UI/CLI checked on Windows, Python 3.12.14 with these versions.
+# Full A/B/C/D application and real-model integration remain unverified.
 pydantic==2.12.4
 pandas==2.3.3
 numpy==2.3.5

@@ -2,7 +2,7 @@
 
 四人协作、两周展示版。目标是完成固定 Adult 表格数据的质量检测、模型制定清洗计划、工具执行、分类和结果展示。
 
-当前仓库提供公共接口、独立开发样例、AI 角色指令、机器可读交接记录和交付检查工具。数据准备、清洗业务、真实模型调用、分类和页面由四位成员按分工实现，当前没有可运行的完整应用。
+当前仓库提供公共接口、独立开发样例、AI 角色指令、机器可读交接记录和交付检查工具。D 已实现分类器、Streamlit 页面、CLI 和正式数据 smoke 检查；A/B/C 的数据、清洗和总流程尚未交付，因此当前没有可运行的完整应用。D 的样例自测不代表正式数据或真实模型验收，详见 [D 交接](docs/handoff_D.md)与[验收清单](docs/acceptance.md)。
 
 ## 从哪里开始
 
@@ -20,11 +20,11 @@
 | C：智能体与流程 | `src/llm_client.py`、`src/agent.py`、`src/pipeline.py` | [成员 C](docs/成员C_AI任务.md) | `member-c-agent` |
 | D：分类与界面 | `src/classifier.py`、`app.py`、`src/cli.py` | [成员 D](docs/成员D_AI任务.md) | `member-d-ui` |
 
-表中业务文件为待实现文件，未用空实现冒充已完成功能。公共文件和依赖由 D 统一维护，C 维护总流程，其他模块按文件归属修复。
+表中 A/B/C 业务文件仍待实现；D 的实现与验证范围见 [分类说明](docs/classification.md)。公共文件和依赖由 D 统一维护，C 维护总流程，其他模块按文件归属修复。
 
 ## 环境与当前可运行检查
 
-完整依赖要求 Python 3.11+（固定的 NumPy 2.3.5 要求至少 3.11）。公共接口已在 Python 3.13.9、Pydantic 2.12.4 下验证；业务流程完成后还需验证完整依赖组合。
+完整依赖要求 Python 3.11+（固定的 NumPy 2.3.5 要求至少 3.11）。D 已在 Windows / Python 3.12.14 和 requirements.txt 的固定依赖组合下完成分类与页面/CLI 自测；业务总流程仍待验证。
 
 在项目根目录的 PowerShell 中执行：
 
@@ -39,7 +39,32 @@ python -m venv .venv
 
 `examples/` 包含脏/已规范化/干净小样本，以及模拟摘要、指标、运行结果和模型返回，便于独立开发。它们均非正式实验，见 [fixtures_manifest.json](examples/fixtures_manifest.json)。正式数据由 A 的准备脚本生成，详见 [data/README.md](data/README.md)。
 
-成员实现业务和自测后，用 `python scripts/check_delivery.py --role B --submit`（B 替换为本人角色）生成待评审交付。当前角色代码尚未实现时返回 not_ready/退出码 2 是预期结果。D 的最终检查入口为 `python scripts/check_integration.py --mode rules` 和 `--mode llm`。
+成员实现业务和自测后，用 `python scripts/check_delivery.py --role B --submit`（B 替换为本人角色）生成待评审交付。角色代码尚未实现时返回 not_ready/退出码 2 是预期结果。D 的最终检查入口为 `python scripts/check_integration.py --mode rules` 和 `--mode llm`。
+
+### 当前 D 模块可运行命令
+
+在项目根目录执行（当前机器应直接使用项目内 Python，系统 `python` 别名不可用）：
+
+```powershell
+.venv\Scripts\python.exe checks/check_D.py
+.venv\Scripts\python.exe -m src.cli --help
+.venv\Scripts\python.exe -m streamlit run app.py
+```
+
+第一条真实训练共享的 7 行/3 行人工样例；仅为尚缺失的 C 流程安装 UI/CLI 测试替身。页面可显式打开“合成页面示例（非真实运行）”，只能演示展示与下载。页面与 CLI 的实际执行均只调用 C 的 `run_pipeline`，缺失依赖会明确失败。
+
+上游交付后再执行以下命令；当前缺少准备脚本、业务模块和正式数据，不能宣称已跑通：
+
+```powershell
+.venv\Scripts\python.exe scripts/prepare_data.py --seed 42 --sample-size 10000
+.venv\Scripts\python.exe -m src.cli --mode rules
+.venv\Scripts\python.exe -m src.cli --mode llm
+.venv\Scripts\python.exe scripts/smoke_check.py --mode rules --report outputs/integration/smoke_rules.json
+.venv\Scripts\python.exe scripts/check_integration.py --mode rules
+.venv\Scripts\python.exe scripts/check_integration.py --mode llm
+```
+
+集成交付检查须在 `main` 执行，并验证已提交摘要未被改写；缺少真实依赖时，`checks/check_D.py --integration` 返回 2。LLM 模式仍需由 C 实现客户端并配置本地环境变量，不自动降级为规则模式。
 
 模型配置字段见 `.env.example`，默认值为空；实际密钥放入本地环境变量。当前尚未实现 `.env` 文件自动加载。密钥、虚拟环境、生成数据和运行输出均由 `.gitignore` 排除。
 
