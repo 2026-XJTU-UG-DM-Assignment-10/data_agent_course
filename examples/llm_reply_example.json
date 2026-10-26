@@ -1,0 +1,14 @@
+{
+  "contract_version": "1.0",
+  "text": "{\"contract_version\":\"1.0\",\"mode\":\"rules\",\"steps\":[\"normalize_format\",\"drop_duplicates\",\"mark_invalid\",\"impute_missing\"],\"numeric_imputation\":\"median\",\"categorical_imputation\":\"constant\",\"categorical_fill_value\":\"Unknown\",\"reason_numeric\":\"联调规则计划，固定使用中位数；不是模型返回。\",\"reason_categorical\":\"联调规则计划，固定使用 Unknown；不是模型返回。\"}",
+  "provider": "TEST_DOUBLE_NOT_REAL_PROVIDER",
+  "model": "TEST_DOUBLE_NOT_REAL_MODEL",
+  "parameters": {
+    "fixture_only": true
+  },
+  "input_tokens": null,
+  "output_tokens": null,
+  "cost": null,
+  "currency": null,
+  "cost_source": null
+}

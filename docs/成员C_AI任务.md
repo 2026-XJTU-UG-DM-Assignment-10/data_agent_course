@@ -1,6 +1,6 @@
 # 成员 C：可直接交给 AI 的任务
 
-请先阅读原《数据处理智能体_AI开发任务书》、本包《公共接口说明》以及 `src/schema.py、src/contracts.py`，然后只实施智能体、模型适配和总流程。
+从 `docs/START_HERE.md` 进入，先读协作协议 2.0、`collaboration/roles.json` 的 C 条目和公共契约 1.0，再实施智能体、模型适配和总流程。读取本人交接和 D 的退回记录，继续未完成项，不依赖聊天历史。可直接复制的开工词见 `prompts/C.md`。
 
 ## 我负责的文件
 
@@ -9,6 +9,7 @@
 - `src/pipeline.py`
 - `docs/agent.md`
 - `docs/handoff_C.md`
+- `handoffs/C.json`、`checks/check_C.py`、`examples/role_C/` 中本人新增测试样例。
 
 不要重写 A 的检测、B 的清洗、D 的分类或页面。公共契约直接使用，模型服务只接一家用户可用的接口。
 
@@ -24,6 +25,16 @@
 
 ## 交付与时间
 
-第 4 天跑通规则流程，第 6 天完成真实模型流程。缺少凭据时继续完成其他功能并明确标记真实调用待验证；不能用假响应冒充真实运行。
+第 4 天目标为真实模块的规则流程，第 6 天目标为真实模型流程，由 D 异步检查，不要求全员在线。先使用 `quality_report_example.json、llm_reply_example.json、run_result_example.json` 开发，不等待 A/B/D；缺失同伴依赖可以在自测中使用替身，正式流程不能静默使用替身。缺少凭据时继续其他功能并明确标记真实调用待验证。
 
 故障测试可以使用明确标记的 fake client 返回非法 JSON，验证最多两次和失败日志，不把它计为真实模型成功。实际调用示例、输出和未完成事项写入 `handoff_C.md`，流程与真实日志说明放入 `agent.md`。
+
+## 固定自测和交付
+
+实现 `checks/check_C.py`：默认离线执行规则、白名单、测试摘要拒绝、最多两次请求、错误记录和管道接线检查；支持 `--integration`，管道接线时强制真实的 A/B/D 模块。故障单测的假模型可以继续使用，但必须标注。
+
+另支持 `--real-llm --report PATH`，在凭据配置后显式执行一次真实模型验证并保存证据。默认自测不发送真实网络请求。
+
+填写 fixtures、real_llm 等各自状态，执行 `python scripts/check_delivery.py --role C --submit`。离线模块可先待评审，缺少真实凭据记在 real_llm 和 next_action；如果它不阻止离线交付，不设为整份模块的顶层 blocker。课程最终验收仍必须补真实调用证据。
+
+原始请求与响应留在 outputs；随代码提交 `evidence/C/` 中的脱敏验证摘要，让交接 JSON 引用这些摘要。默认自测可用明确标记的假客户端，真实模型摘要必须对应实际请求，不能包含密钥或完整提示词/返回文本。

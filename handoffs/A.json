@@ -1,0 +1,11 @@
+{
+  "workflow_version": "2.0", "contract_version": "1.0", "role": "A", "branch": "member-a-data",
+  "status": "not_started", "based_on_commit": null, "completed": [], "changed_files": [],
+  "verification": {
+    "fixtures": {"status": "not_run", "evidence": []},
+    "formal_data": {"status": "not_run", "evidence": []},
+    "real_llm": {"status": "not_run", "evidence": []},
+    "end_to_end": {"status": "not_run", "evidence": []}
+  },
+  "blockers": [], "next_action": "Read prompts/A.md and implement only role A files.", "last_gate": null
+}

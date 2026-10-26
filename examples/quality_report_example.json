@@ -1,0 +1,97 @@
+{
+  "contract_version": "1.0",
+  "dataset": "train",
+  "stage": "before",
+  "row_count": 8,
+  "feature_count": 14,
+  "dtypes": {
+    "age": "object",
+    "workclass": "object",
+    "fnlwgt": "object",
+    "education": "object",
+    "education_num": "object",
+    "marital_status": "object",
+    "occupation": "object",
+    "relationship": "object",
+    "race": "object",
+    "sex": "object",
+    "capital_gain": "object",
+    "capital_loss": "object",
+    "hours_per_week": "object",
+    "native_country": "object"
+  },
+  "missing_by_column": {
+    "age": 0,
+    "workclass": 1,
+    "fnlwgt": 0,
+    "education": 1,
+    "education_num": 0,
+    "marital_status": 0,
+    "occupation": 0,
+    "relationship": 0,
+    "race": 0,
+    "sex": 0,
+    "capital_gain": 0,
+    "capital_loss": 0,
+    "hours_per_week": 0,
+    "native_country": 0
+  },
+  "duplicate_rows": 1,
+  "outlier_cells": 2,
+  "outlier_rows": 1,
+  "format_issue_cells": 1,
+  "parse_error_cells": 0,
+  "numeric_summary": {
+    "age": {
+      "count": 7.0,
+      "mean": 40.0,
+      "median": 39.0,
+      "min": 28.0,
+      "max": 50.0,
+      "std": 7.52772652709081
+    },
+    "fnlwgt": {
+      "count": 8.0,
+      "mean": 183986.0,
+      "median": 187916.5,
+      "min": 77516.0,
+      "max": 338409.0,
+      "std": 100652.14765716626
+    },
+    "education_num": {
+      "count": 8.0,
+      "mean": 11.125,
+      "median": 13.0,
+      "min": 5.0,
+      "max": 14.0,
+      "std": 3.1367635732209265
+    },
+    "capital_gain": {
+      "count": 8.0,
+      "mean": 543.5,
+      "median": 0.0,
+      "min": 0.0,
+      "max": 2174.0,
+      "std": 1006.3664484527634
+    },
+    "capital_loss": {
+      "count": 8.0,
+      "mean": 0.0,
+      "median": 0.0,
+      "min": 0.0,
+      "max": 0.0,
+      "std": 0.0
+    },
+    "hours_per_week": {
+      "count": 7.0,
+      "mean": 32.714285714285715,
+      "median": 40.0,
+      "min": 13.0,
+      "max": 40.0,
+      "std": 12.472827609304499
+    }
+  },
+  "warnings": [
+    "SYNTHETIC DEVELOPMENT FIXTURE; not a result from the profiler implementation."
+  ]
+}

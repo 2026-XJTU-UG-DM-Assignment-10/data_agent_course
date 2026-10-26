@@ -1,0 +1,275 @@
+{
+  "workflow_version": "2.0",
+  "contract_version": "1.0",
+  "integration_owner": "D",
+  "frozen_files": [
+    "src/schema.py",
+    "src/contracts.py"
+  ],
+  "roles": {
+    "A": {
+      "branch": "member-a-data",
+      "task": "docs/成员A_AI任务.md",
+      "prompt": "prompts/A.md",
+      "handoff": "handoffs/A.json",
+      "self_check": "checks/check_A.py",
+      "required_claims": [
+        "fixtures",
+        "formal_data"
+      ],
+      "required_files": [
+        "scripts/prepare_data.py",
+        "src/profiler.py",
+        "checks/check_A.py",
+        "docs/data.md",
+        "docs/handoff_A.md"
+      ],
+      "owned_paths": [
+        "scripts/prepare_data.py",
+        "src/profiler.py",
+        "checks/check_A.py",
+        "examples/role_A/**",
+        "docs/data.md",
+        "docs/handoff_A.md",
+        "handoffs/A.json",
+        "evidence/A/**"
+      ],
+      "entrypoints": [
+        {
+          "file": "src/profiler.py",
+          "name": "profile_data",
+          "args": [
+            "df"
+          ],
+          "kwonly": [
+            "dataset",
+            "stage"
+          ],
+          "kw_defaults": {
+            "dataset": "train",
+            "stage": "before"
+          }
+        }
+      ],
+      "offline_inputs": [
+        "examples/train_small.csv",
+        "examples/normalized_train_small.csv",
+        "examples/quality_report_example.json"
+      ]
+    },
+    "B": {
+      "branch": "member-b-clean",
+      "task": "docs/成员B_AI任务.md",
+      "prompt": "prompts/B.md",
+      "handoff": "handoffs/B.json",
+      "self_check": "checks/check_B.py",
+      "required_claims": [
+        "fixtures"
+      ],
+      "required_files": [
+        "src/normalization.py",
+        "src/cleaner.py",
+        "checks/check_B.py",
+        "docs/cleaning.md",
+        "docs/handoff_B.md"
+      ],
+      "owned_paths": [
+        "src/normalization.py",
+        "src/cleaner.py",
+        "checks/check_B.py",
+        "examples/role_B/**",
+        "docs/cleaning.md",
+        "docs/handoff_B.md",
+        "handoffs/B.json",
+        "evidence/B/**"
+      ],
+      "entrypoints": [
+        {
+          "file": "src/normalization.py",
+          "name": "normalize_frame",
+          "args": [
+            "df"
+          ],
+          "kwonly": [],
+          "kw_defaults": {}
+        },
+        {
+          "file": "src/cleaner.py",
+          "name": "clean_training_data",
+          "args": [
+            "train_df",
+            "plan"
+          ],
+          "kwonly": [],
+          "kw_defaults": {}
+        },
+        {
+          "file": "src/cleaner.py",
+          "name": "transform_test_data",
+          "args": [
+            "test_df",
+            "cleaning_state"
+          ],
+          "kwonly": [],
+          "kw_defaults": {}
+        }
+      ],
+      "offline_inputs": [
+        "examples/train_small.csv",
+        "examples/test_small.csv",
+        "examples/plan_rules.json",
+        "examples/clean_train_small.csv",
+        "examples/cleaning_state_example.json"
+      ]
+    },
+    "C": {
+      "branch": "member-c-agent",
+      "task": "docs/成员C_AI任务.md",
+      "prompt": "prompts/C.md",
+      "handoff": "handoffs/C.json",
+      "self_check": "checks/check_C.py",
+      "required_claims": [
+        "fixtures"
+      ],
+      "required_files": [
+        "src/llm_client.py",
+        "src/agent.py",
+        "src/pipeline.py",
+        "checks/check_C.py",
+        "docs/agent.md",
+        "docs/handoff_C.md"
+      ],
+      "owned_paths": [
+        "src/llm_client.py",
+        "src/agent.py",
+        "src/pipeline.py",
+        "checks/check_C.py",
+        "examples/role_C/**",
+        "docs/agent.md",
+        "docs/handoff_C.md",
+        "handoffs/C.json",
+        "evidence/C/**"
+      ],
+      "entrypoints": [
+        {
+          "file": "src/agent.py",
+          "name": "get_cleaning_plan",
+          "args": [
+            "train_report"
+          ],
+          "kwonly": [
+            "mode",
+            "llm_client",
+            "event_sink"
+          ],
+          "kw_defaults": {
+            "llm_client": null,
+            "event_sink": null
+          }
+        },
+        {
+          "file": "src/pipeline.py",
+          "name": "run_pipeline",
+          "args": [
+            "train_path",
+            "test_path"
+          ],
+          "kwonly": [
+            "mode",
+            "output_dir",
+            "seed",
+            "llm_client"
+          ],
+          "kw_defaults": {
+            "output_dir": "outputs",
+            "seed": 42,
+            "llm_client": null
+          }
+        }
+      ],
+      "offline_inputs": [
+        "examples/quality_report_example.json",
+        "examples/llm_reply_example.json",
+        "examples/plan_invalid.json",
+        "examples/run_result_example.json"
+      ]
+    },
+    "D": {
+      "branch": "member-d-ui",
+      "task": "docs/成员D_AI任务.md",
+      "prompt": "prompts/D.md",
+      "handoff": "handoffs/D.json",
+      "self_check": "checks/check_D.py",
+      "required_claims": [
+        "fixtures"
+      ],
+      "required_files": [
+        "src/classifier.py",
+        "src/cli.py",
+        "app.py",
+        "scripts/smoke_check.py",
+        "checks/check_D.py",
+        "docs/classification.md",
+        "docs/handoff_D.md"
+      ],
+      "owned_paths": [
+        "src/classifier.py",
+        "src/cli.py",
+        "app.py",
+        "scripts/smoke_check.py",
+        "checks/check_D.py",
+        "examples/role_D/**",
+        "docs/classification.md",
+        "docs/handoff_D.md",
+        "handoffs/D.json",
+        "docs/acceptance.md",
+        "docs/integration_log.md",
+        "docs/report*",
+        "docs/presentation*",
+        "docs/demo_script.md",
+        "docs/contributions.md",
+        "docs/interface_changes.md",
+        "README.md",
+        "requirements.txt",
+        ".env.example",
+        ".gitignore",
+        ".gitattributes",
+        "scripts/check_delivery.py",
+        "scripts/check_integration.py",
+        "collaboration/**",
+        "AGENTS.md",
+        "docs/START_HERE.md",
+        "docs/低沟通协作协议.md",
+        "evidence/D/**",
+        "scripts/build_ai_briefs.py",
+        "checks/check_workflow.py",
+        "evidence/README.md"
+      ],
+      "entrypoints": [
+        {
+          "file": "src/classifier.py",
+          "name": "train_and_evaluate",
+          "args": [
+            "clean_train",
+            "clean_test"
+          ],
+          "kwonly": [
+            "output_dir",
+            "seed"
+          ],
+          "kw_defaults": {
+            "seed": 42
+          }
+        }
+      ],
+      "offline_inputs": [
+        "examples/clean_train_small.csv",
+        "examples/clean_test_small.csv",
+        "examples/classification_result_example.json",
+        "examples/run_result_example.json",
+        "examples/mock_confusion_matrix.svg"
+      ]
+    }
+  },
+  "repository_url": "https://github.com/2026-XJTU-UG-DM-Assignment-10/data_agent_course"
+}

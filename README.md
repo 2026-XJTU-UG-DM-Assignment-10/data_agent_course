@@ -2,14 +2,15 @@
 
 四人协作、两周展示版。目标是完成固定 Adult 表格数据的质量检测、模型制定清洗计划、工具执行、分类和结果展示。
 
-当前仓库提供公共接口、联调小样本、分工文档与项目结构。数据准备、清洗业务、真实模型调用、分类和页面由四位成员按分工实现，当前没有可运行的完整应用。
+当前仓库提供公共接口、独立开发样例、AI 角色指令、机器可读交接记录和交付检查工具。数据准备、清洗业务、真实模型调用、分类和页面由四位成员按分工实现，当前没有可运行的完整应用。
 
 ## 从哪里开始
 
-1. 阅读[项目任务书](docs/数据处理智能体_AI开发任务书.md)。
-2. 全员使用同一版[公共接口说明](docs/公共接口说明.md)和 `src/schema.py`、`src/contracts.py`。
-3. 查看[四人分工与协作](docs/四人分工与协作.md)，各自把对应成员任务交给自己的 AI。
-4. 当前已有公共文件和小样本，不需要再次从交接包复制。
+1. 从[统一入口](docs/START_HERE.md)开始。协作协议为 2.0，业务契约仍为 1.0。
+2. 成员分别把 [A](prompts/A.md)、[B](prompts/B.md)、[C](prompts/C.md)、[D](prompts/D.md) 的开工指令交给自己的 AI；任何模型均需按文件读取规则，不依赖聊天记忆。
+3. 遵守[低沟通协作协议](docs/低沟通协作协议.md)、`collaboration/roles.json` 及[公共接口说明](docs/公共接口说明.md)。
+4. 查看本人 `handoffs/X.json` 和 `docs/handoff_X.md`，根据[角色任务](docs/README.md)继续开发。
+5. 课程功能边界与正式交付物见[项目任务书](docs/数据处理智能体_AI开发任务书.md)。公共文件和样例已准备，不重新创建项目。
 
 | 成员 | 主要文件 | 独立任务 | 开发分支 |
 | --- | --- | --- | --- |
@@ -22,7 +23,7 @@
 
 ## 环境与当前可运行检查
 
-建议 Python 3.10+。依赖版本取自当前开发环境，公共接口已在 Python 3.13.9、Pydantic 2.12.4 下验证；业务流程完成后还需验证完整依赖组合。
+完整依赖要求 Python 3.11+（固定的 NumPy 2.3.5 要求至少 3.11）。公共接口已在 Python 3.13.9、Pydantic 2.12.4 下验证；业务流程完成后还需验证完整依赖组合。
 
 在项目根目录的 PowerShell 中执行：
 
@@ -30,21 +31,26 @@
 python -m venv .venv
 .venv\Scripts\python.exe -m pip install -r requirements.txt
 .venv\Scripts\python.exe scripts/check_contracts.py
+.venv\Scripts\python.exe scripts/check_delivery.py --foundation
 ```
 
 已有满足依赖的环境时，可以直接执行 `python scripts/check_contracts.py`。该命令检查共享类型、计划校验与样本，不调用模型、不下载数据，也不代表端到端验收已通过。
 
-`examples/` 中为明确标记的微型联调样本，不满足课程规模要求。正式数据由 A 的准备脚本生成，详见 [data/README.md](data/README.md)。
+`examples/` 包含脏/已规范化/干净小样本，以及模拟摘要、指标、运行结果和模型返回，便于独立开发。它们均非正式实验，见 [fixtures_manifest.json](examples/fixtures_manifest.json)。正式数据由 A 的准备脚本生成，详见 [data/README.md](data/README.md)。
+
+成员实现业务和自测后，用 `python scripts/check_delivery.py --role B --submit`（B 替换为本人角色）生成待评审交付。当前角色代码尚未实现时返回 not_ready/退出码 2 是预期结果。D 的最终检查入口为 `python scripts/check_integration.py --mode rules` 和 `--mode llm`。
 
 模型配置字段见 `.env.example`，默认值为空；实际密钥放入本地环境变量。当前尚未实现 `.env` 文件自动加载。密钥、虚拟环境、生成数据和运行输出均由 `.gitignore` 排除。
 
+需要交给无法直接读取仓库的聊天模型时，执行 `python scripts/build_ai_briefs.py`，将生成的 `outputs/ai_briefs/member_X_AI_brief.md` 整份上传给对应模型。它是当前开工快照，不是运行完成记录。修改交付工具后，可执行 `python checks/check_workflow.py` 回归验证协作控制逻辑；该检查也不代表业务验收。
+
 ## Git 协作
 
-- `main` 保存集成后的共同起点。
+- `main` 保存共享基础和经过集成人评审的代码，完整应用需等待四模块实际集成。
 - 每位成员切到自己的分支，只主要修改本人负责文件。
-- 交付时附运行命令、实际结果、已知问题及新增依赖，记录到 `docs/handoff_X.md`。
+- 交付时更新本人 `docs/handoff_X.md` 与 `handoffs/X.json`，运行固定自测及交付检查；声明真实数据、真实模型、完整流程各自的实际验证范围。
 - 通过 PR 或交给集成人合并；公共接口变更统一记录到 [interface_changes.md](docs/interface_changes.md)。
-- 不要求每天全员联调：第 4 天规则流程、第 6 天真实模型、第 8 天页面集中联调，第 10 天完整排练。接口变更或出现阻塞时及时同步。
+- 全体交流只保留开工确认和展示前排练。第 4/6/8 天由 D 异步执行技术检查，问题写入 `docs/integration_log.md` 后退回原负责人；无需四人同时在线。
 
 本地切换示例：
 
@@ -81,7 +87,7 @@ git commit -m "feat: implement member B cleaning module"
 git push -u origin member-b-clean
 ```
 
-以上提交示例需要在实际完成修改后使用。其他成员替换为自己的分支名和真实提交说明。上传后把分支、运行命令、实际结果和已知问题发给集成人，由集成人合并到 `main`。
+以上提交示例需要在实际完成修改后使用。其他成员替换为自己的分支名和真实提交说明。上传后由集成人根据分支、交接文件和检查报告异步评审并合并到 `main`，无需额外口头讲解。
 
 收到主分支更新通知时，先保存并提交自己的修改，再在个人分支执行 `git fetch origin` 和 `git merge origin/main`。发生冲突时交给集成人共同处理，不需要每天全员联调。
 

@@ -1,0 +1,8 @@
+{
+  "contract_version": "1.0",
+  "canonicalization": "UTF-8 without BOM; CRLF normalized to LF",
+  "files": {
+    "src/schema.py": "ae2c73901eafdb8db523c0fe91c0efcff1c52eb862e1e1fe9b5c51b337b71e0f",
+    "src/contracts.py": "0711e00c0c2c7ba62a598bcf25ade5fe2ec27a6a22789e51efb9885321f5f5f6"
+  }
+}

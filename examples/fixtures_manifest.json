@@ -1,0 +1,68 @@
+{
+  "workflow_version": "2.0",
+  "is_experiment": false,
+  "contains_synthetic_data": true,
+  "warning": "Development fixtures only; never count these files as formal-data or real-LLM evidence.",
+  "files": [
+    {
+      "file": "examples/train_small.csv",
+      "kind": "csv"
+    },
+    {
+      "file": "examples/test_small.csv",
+      "kind": "csv"
+    },
+    {
+      "file": "examples/normalized_train_small.csv",
+      "kind": "csv"
+    },
+    {
+      "file": "examples/clean_train_small.csv",
+      "kind": "csv_clean"
+    },
+    {
+      "file": "examples/clean_test_small.csv",
+      "kind": "csv_clean"
+    },
+    {
+      "file": "examples/plan_rules.json",
+      "kind": "json",
+      "model": "CleaningPlan"
+    },
+    {
+      "file": "examples/plan_invalid.json",
+      "kind": "json",
+      "model": "CleaningPlan",
+      "expect_invalid": true
+    },
+    {
+      "file": "examples/quality_report_example.json",
+      "kind": "json",
+      "model": "QualityReport"
+    },
+    {
+      "file": "examples/cleaning_state_example.json",
+      "kind": "json",
+      "model": "CleaningState"
+    },
+    {
+      "file": "examples/classification_result_example.json",
+      "kind": "json",
+      "model": "ClassificationResult"
+    },
+    {
+      "file": "examples/run_result_example.json",
+      "kind": "json",
+      "model": "RunResult"
+    },
+    {
+      "file": "examples/llm_reply_example.json",
+      "kind": "json",
+      "model": "LLMReply"
+    },
+    {
+      "file": "examples/mock_confusion_matrix.svg",
+      "kind": "image"
+    }
+  ]
+}

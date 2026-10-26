@@ -1,0 +1,52 @@
+{
+  "contract_version": "1.0",
+  "plan": {
+    "contract_version": "1.0",
+    "mode": "rules",
+    "steps": [
+      "normalize_format",
+      "drop_duplicates",
+      "mark_invalid",
+      "impute_missing"
+    ],
+    "numeric_imputation": "median",
+    "categorical_imputation": "constant",
+    "categorical_fill_value": "Unknown",
+    "reason_numeric": "联调规则计划，固定使用中位数；不是模型返回。",
+    "reason_categorical": "联调规则计划，固定使用 Unknown；不是模型返回。"
+  },
+  "numeric_fill_values": {
+    "age": 38.5,
+    "fnlwgt": 215646.0,
+    "education_num": 13.0,
+    "capital_gain": 0.0,
+    "capital_loss": 0.0,
+    "hours_per_week": 40.0
+  },
+  "categorical_fill_values": {
+    "workclass": "Unknown",
+    "education": "Unknown",
+    "marital_status": "Unknown",
+    "occupation": "Unknown",
+    "relationship": "Unknown",
+    "race": "Unknown",
+    "sex": "Unknown",
+    "native_country": "Unknown"
+  },
+  "feature_columns": [
+    "age",
+    "workclass",
+    "fnlwgt",
+    "education",
+    "education_num",
+    "marital_status",
+    "occupation",
+    "relationship",
+    "race",
+    "sex",
+    "capital_gain",
+    "capital_loss",
+    "hours_per_week",
+    "native_country"
+  ]
+}

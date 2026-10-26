@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="560" height="260" viewBox="0 0 560 260">
+<rect width="560" height="260" fill="white"/><text x="20" y="28" font-size="16" fill="#a00">SYNTHETIC EXAMPLE - NOT AN EXPERIMENT</text>
+<text x="180" y="65" font-size="14">Predicted: &lt;=50K / &gt;50K</text><text x="20" y="110" font-size="14">Actual &lt;=50K</text><text x="20" y="185" font-size="14">Actual &gt;50K</text>
+<rect x="170" y="80" width="120" height="65" fill="#bdd7ee"/><rect x="295" y="80" width="120" height="65" fill="#eef4fa"/>
+<rect x="170" y="150" width="120" height="65" fill="#bdd7ee"/><rect x="295" y="150" width="120" height="65" fill="#bdd7ee"/>
+<g font-size="24" text-anchor="middle"><text x="230" y="123">1</text><text x="355" y="123">0</text><text x="230" y="193">1</text><text x="355" y="193">1</text></g></svg>

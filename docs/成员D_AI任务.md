@@ -1,6 +1,6 @@
 # 成员 D：可直接交给 AI 的任务
 
-请先阅读原《数据处理智能体_AI开发任务书》及本包全部公共约定，然后实施分类、界面、CLI、集成与提交材料整理。
+从 `docs/START_HERE.md` 进入，先读协作协议 2.0、`collaboration/roles.json`、公共契约 1.0 和四份交接，再实施分类、界面、CLI 与异步集成。可直接复制的开工词见 `prompts/D.md`。
 
 ## 我负责的文件
 
@@ -8,12 +8,13 @@
 - 公共 `src/schema.py、src/contracts.py` 的统一维护
 - README、依赖文件、配置示例、忽略规则
 - `docs/acceptance.md、docs/handoff_D.md`，以及报告和 PPT 的最终汇总。
+- `handoffs/D.json`、`checks/check_D.py`、`docs/classification.md` 和 `examples/role_D/` 中本人新增测试样例。
 
 不要另写检测、清洗和模型接口。总流程 `src/pipeline.py` 由 C 维护，页面和 CLI 只调用它。
 
 ## 必须完成
 
-1. 将本包 starter 公共代码和小样本同步给全员，统一接口版本与依赖。已有代码先核对，不直接覆盖。
+1. 公共代码和样例已准备，确认全员使用同版本，无需再次复制 starter。维护公共文件时遵守冻结约定，不修改哈希绕过检查。
 2. 实现 `train_and_evaluate(clean_train, clean_test, *, output_dir, seed=42) -> ClassificationResult`。
 3. 显式选择 14 个特征，训练拟合 StandardScaler/OneHotEncoder/LogisticRegression；测试只转换，未知类别可接受，来源 ID 与标签不进特征。
 4. 固定标签顺序，输出真实 Accuracy、Macro-F1 和 2×2 混淆矩阵，保存图片。
@@ -24,6 +25,16 @@
 
 ## 交付与时间
 
-第 1 天同步公共文件，第 3 天交可用分类函数，第 4 天参与规则流程联调，第 8 天交完整页面和 README。
+用 `clean_train_small.csv、clean_test_small.csv` 独立训练分类器，用显式标记的示例指标/RunResult 开发页面，不等待 B/C。第 3 天交分类函数；第 4/6/8 天按协议独自执行规则、模型、页面技术检查，问题异步退回对应负责人。
 
 第 9 天汇总其他成员的真实报告素材、PPT 页面和贡献说明；第 10 天按 README 在新终端复现并打包，不包含密钥、虚拟环境或缓存。将已完成、待验证和缺失的正式文件如实列出。
+
+## 固定自测、集成和交付
+
+实现 `checks/check_D.py`，支持 `--integration`：真实训练干净小样本，验证未知类别、固定矩阵顺序和正确特征选择；页面可测试展示逻辑，CLI 返回码可测试错误输入。示例 JSON 不能作为本人的真实分类结果。
+
+本人功能通过后执行 `python scripts/check_delivery.py --role D --submit`。集成时在 main 使用 `--role X --integration` 复验各人；在 `docs/integration_log.md` 记录接受/退回，错误附最小复现交原负责人。
+
+本人默认自测把脱敏摘要写入 `evidence/D/` 并提交；`--integration` 自测只写 outputs，不重写其他成员或本人的已提交摘要。各成员的原始输出不在 Git 中，正式数据可按 A 的准备命令重建，不依赖队友手动发送本机目录。
+
+实现 `scripts/smoke_check.py --mode rules|llm --report PATH`，按协议生成真实模块、正式数据、对应模型模式和证据路径的报告。之后用 `python scripts/check_integration.py --mode rules`、`--mode llm` 运行检查。不得仅填写 uses_real_modules=true 等标志而不实际执行相应流程。
