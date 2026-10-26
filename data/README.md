@@ -1,19 +1,45 @@
-# 正式数据目录
+# data：正式实验数据放在哪里、用来做什么
 
-当前尚未下载或生成正式数据。`examples/` 中只有明确标记的微型联调样本，不能用于课程规模验收。
+这个目录保存数据准备阶段的原始文件、参考数据、待清洗数据和制作记录。可以记成：**原始下载件 → 抽样并划分 → 给训练集加入问题 → 交给程序检测和清洗**。
 
-由 A 实现 `scripts/prepare_data.py`，按任务书从 UCI Adult 获取 `adult.data`，保留来源、许可、原始文件与构造记录：<https://archive.ics.uci.edu/dataset/2/adult>。
+当前四个子目录只有 `.gitkeep` 占位文件，尚未下载或生成正式数据。`.gitkeep` 只是让 Git 保留空目录，不是数据文件。独立开发可先使用项目根目录 `examples/` 下的微型联调样本；正式课程验收需要另外准备真实数据。
 
-目标布局：
+## 四个文件夹各自负责什么
+
+| 文件夹 | 通俗理解 | 放什么、后续怎么用 |
+| --- | --- | --- |
+| `raw/` | 下载回来的原件 | 保存 UCI Adult 原始文件，由 A 的准备脚本读取；保留原样，方便核对来源和重新制作数据。 |
+| `reference/` | 人为加入问题之前的底稿 | 保存抽样、划分后的训练集和测试集。训练底稿用于制作待清洗数据和对照；测试集留给后续评估。参考数据仍可能含原生缺失值。 |
+| `dirty/` | 给清洗程序出的题 | 保存人为加入缺失、重复、异常数值、格式问题后的训练集，作为质量检测和清洗流程的正式输入。 |
+| `manifests/` | 数据的制作记录 | 保存训练/测试划分、问题注入明细和准备结果汇总。供成员核查数据如何生成、能否复现；不作为检测答案，也不传给大模型或分类器。 |
+
+## 文件名旁边的具体说明
+
+以下是 A 完成数据准备后应生成的目录结构，以及各文件的用途：
 
 ```text
-raw/adult.data
-reference/train_reference.csv
-reference/test_reference.csv
-dirty/train_dirty.csv
-manifests/split_manifest.csv
-manifests/injection_manifest.csv
-manifests/preparation_summary.json
+data/
+├─ raw/                              # 原始下载文件
+│  └─ adult.data                     # UCI Adult 原始数据，保留原件
+├─ reference/                        # 抽样、划分后的参考底稿
+│  ├─ train_reference.csv            # 人为加入问题前的训练集
+│  └─ test_reference.csv             # 测试集，不额外注入问题
+├─ dirty/                            # 等待检测、清洗的正式输入
+│  └─ train_dirty.csv                # 在训练底稿上加入四类问题后的训练集
+└─ manifests/                        # 数据制作过程的记录
+   ├─ split_manifest.csv             # 记录抽样记录及来源组分到了训练集还是测试集
+   ├─ injection_manifest.csv         # 记录哪条数据的哪个字段被怎样修改，或发生了复制
+   └─ preparation_summary.json       # 汇总数据来源、随机种子、规模和构造结果
 ```
 
-生成数据由 `.gitignore` 排除，仓库保存准备脚本、固定参数和目录标记。正式提交时仍需将原始数据、构造数据、处理后数据和获取/构造说明另外打包；运行输出位于 `outputs/<run_id>/`。
+测试集不额外注入问题，但仍需进行格式规范化和必要的缺失处理；填补值等参数只从训练集学习，再用于测试集。
+
+## 谁生成，其他成员从哪里接着用
+
+- **A 准备数据**：实现项目根目录 `scripts/prepare_data.py`，从 [UCI Adult](https://archive.ics.uci.edu/dataset/2/adult) 获取原始文件，按任务书完成抽样、分组划分和问题注入，并保留来源、许可与制作记录。该脚本当前尚待实现。
+- **B/C 接入清洗流程**：正式训练输入使用 `dirty/train_dirty.csv`，正式测试输入使用 `reference/test_reference.csv`。B 实现清洗函数，C 的总流程负责调用并导出结果。
+- **D 分类和展示**：分类器接收清洗后的训练集、测试集；页面和 CLI 调用 C 的总流程查看结果。
+
+清洗完成后的数据由 C 导出到项目根目录 `outputs/<run_id>/train_processed.csv` 和 `outputs/<run_id>/test_processed.csv`，与该次运行的计划、审计和指标放在一起。
+
+生成数据由 `.gitignore` 排除，仓库保存准备脚本、固定参数和目录标记。因此只拉取代码时，这四个文件夹通常还是空的。正式提交课程作业时，需要把原始数据、构造数据、处理后数据和获取/构造说明另外打包。
