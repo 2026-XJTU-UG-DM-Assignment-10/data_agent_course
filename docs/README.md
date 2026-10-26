@@ -16,7 +16,7 @@
 | [公共文件检查记录](公共文件检查记录.md) | 已验证的共享部分及当前边界 |
 | [接口变更记录](interface_changes.md) | 公共契约变更统一入口 |
 | [仓库迁移说明](仓库迁移说明.md) | 组织归属、远程新地址、旧副本更新与迁移核对记录 |
-| [线上讨论会提要](线上讨论会提要.md) | 开工确认议程、分工、检验及会末决策 |
+| [线上讨论会提要](线上讨论会提要.md) | 可直接展示的议程、分工、验收标准与人员/勾选/数字式决议记录 |
 | [集成检查记录](integration_log.md) | D 的接受、退回及课程最终验收清单 |
 
 给不能直接读取仓库的 AI：运行 `python scripts/build_ai_briefs.py`，使用 `outputs/ai_briefs/member_X_AI_brief.md`。可提交的验证摘要规范见 `../evidence/README.md`，角色自测规范见 `../checks/README.md`。
