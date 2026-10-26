@@ -144,9 +144,11 @@ def record_errors(role: str, record: dict, config: dict, *, ready: bool = False)
 
 def foundation_errors(manifest: dict) -> list[str]:
     from pydantic import ValidationError
+    from scripts.summarize_ai_usage import load_records
     from src import schema
 
     errors = []
+    load_records(ROOT)  # Empty starter logs are valid; final role delivery needs real records.
     if manifest.get("workflow_version") != "2.0" or manifest.get("contract_version") != "1.0":
         errors.append("Unexpected workflow or contract version")
     if set(manifest.get("roles", {})) != set("ABCD"):
@@ -258,6 +260,12 @@ def run_role(role: str, manifest: dict, *, integration: bool, submit: bool) -> t
     record = read_json(config["handoff"])
     errors.extend(record_errors(role, record, config))
     errors.extend(signature_errors(config))
+    if submit or integration:
+        from scripts.summarize_ai_usage import load_records
+        try:
+            load_records(ROOT, role, require_records=True)
+        except (ValueError, OSError, TypeError, KeyError) as exc:
+            errors.append(f"AI usage log not ready: {exc}")
     if errors:
         return 2, report
     receipt_snapshots = {str(path): path.read_bytes() for path in (ROOT / "evidence" / role).glob("*.json")}

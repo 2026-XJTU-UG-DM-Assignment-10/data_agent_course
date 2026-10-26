@@ -38,3 +38,9 @@
 本人默认自测把脱敏摘要写入 `evidence/D/` 并提交；`--integration` 自测只写 outputs，不重写其他成员或本人的已提交摘要。各成员的原始输出不在 Git 中，正式数据可按 A 的准备命令重建，不依赖队友手动发送本机目录。
 
 实现 `scripts/smoke_check.py --mode rules|llm --report PATH`，按协议生成真实模块、正式数据、对应模型模式和证据路径的报告。之后用 `python scripts/check_integration.py --mode rules`、`--mode llm` 运行检查。不得仅填写 uses_real_modules=true 等标志而不实际执行相应流程。
+
+## 本人 AI 使用记录
+
+按 [AI 使用记录规范](AI使用记录规范.md)维护 `ai_usage/D/usage.json` 和本人提示词文件，每段实际开发会话及时更新，交接前核对模型、参数、次数、费用和未知项。不要修改其他人的账本，也不要用开发辅助记录替代项目实际运行证据。
+
+合并四人的账本后运行 `python scripts/summarize_ai_usage.py --check --require-records`，再运行不带参数的汇总命令。账本、脱敏提示词与 outputs/ai_usage/ 下两份汇总一起打包；各成员仍负责核实本人记录。

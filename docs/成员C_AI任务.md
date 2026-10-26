@@ -38,3 +38,9 @@
 填写 fixtures、real_llm 等各自状态，执行 `python scripts/check_delivery.py --role C --submit`。离线模块可先待评审，缺少真实凭据记在 real_llm 和 next_action；如果它不阻止离线交付，不设为整份模块的顶层 blocker。课程最终验收仍必须补真实调用证据。
 
 原始请求与响应留在 outputs；随代码提交 `evidence/C/` 中的脱敏验证摘要，让交接 JSON 引用这些摘要。默认自测可用明确标记的假客户端，真实模型摘要必须对应实际请求，不能包含密钥或完整提示词/返回文本。
+
+## 本人 AI 使用记录
+
+按 [AI 使用记录规范](AI使用记录规范.md)维护 `ai_usage/C/usage.json` 和本人提示词文件，每段实际开发会话及时更新，交接前核对模型、参数、次数、费用和未知项。不要修改其他人的账本，也不要用开发辅助记录替代项目实际运行证据。
+
+项目每次真实请求（含失败及修正）另建 project_runtime 条目，calls=1，source_id 使用原始 events 的 run_id:请求序号；提示词及原始事件可追溯。D 触发的项目运行也由 C 统一登记，不重复计账。

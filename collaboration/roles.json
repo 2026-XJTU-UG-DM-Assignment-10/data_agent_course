@@ -32,7 +32,8 @@
         "docs/data.md",
         "docs/handoff_A.md",
         "handoffs/A.json",
-        "evidence/A/**"
+        "evidence/A/**",
+        "ai_usage/A/**"
       ],
       "entrypoints": [
         {
@@ -55,7 +56,8 @@
         "examples/train_small.csv",
         "examples/normalized_train_small.csv",
         "examples/quality_report_example.json"
-      ]
+      ],
+      "ai_usage_log": "ai_usage/A/usage.json"
     },
     "B": {
       "branch": "member-b-clean",
@@ -81,7 +83,8 @@
         "docs/cleaning.md",
         "docs/handoff_B.md",
         "handoffs/B.json",
-        "evidence/B/**"
+        "evidence/B/**",
+        "ai_usage/B/**"
       ],
       "entrypoints": [
         {
@@ -120,7 +123,8 @@
         "examples/plan_rules.json",
         "examples/clean_train_small.csv",
         "examples/cleaning_state_example.json"
-      ]
+      ],
+      "ai_usage_log": "ai_usage/B/usage.json"
     },
     "C": {
       "branch": "member-c-agent",
@@ -148,7 +152,8 @@
         "docs/agent.md",
         "docs/handoff_C.md",
         "handoffs/C.json",
-        "evidence/C/**"
+        "evidence/C/**",
+        "ai_usage/C/**"
       ],
       "entrypoints": [
         {
@@ -192,7 +197,8 @@
         "examples/llm_reply_example.json",
         "examples/plan_invalid.json",
         "examples/run_result_example.json"
-      ]
+      ],
+      "ai_usage_log": "ai_usage/C/usage.json"
     },
     "D": {
       "branch": "member-d-ui",
@@ -243,7 +249,11 @@
         "evidence/D/**",
         "scripts/build_ai_briefs.py",
         "checks/check_workflow.py",
-        "evidence/README.md"
+        "evidence/README.md",
+        "ai_usage/D/**",
+        "scripts/summarize_ai_usage.py",
+        "checks/check_ai_usage.py",
+        "docs/AI使用记录规范.md"
       ],
       "entrypoints": [
         {
@@ -268,7 +278,8 @@
         "examples/classification_result_example.json",
         "examples/run_result_example.json",
         "examples/mock_confusion_matrix.svg"
-      ]
+      ],
+      "ai_usage_log": "ai_usage/D/usage.json"
     }
   },
   "repository_url": "https://github.com/2026-XJTU-UG-DM-Assignment-10/data_agent_course"

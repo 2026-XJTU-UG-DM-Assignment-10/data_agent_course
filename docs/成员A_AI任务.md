@@ -36,3 +36,7 @@
 数据准备使用固定命令 `python scripts/prepare_data.py --seed 42 --sample-size 10000`。自测不应在用户不知情时重新下载数据；缺正式文件时明确输出准备命令并返回非零状态。
 
 完整证据写入 `outputs/member_A/` 和 `data/manifests/`，可提交的脱敏摘要写入 `evidence/A/`；handoffs/A.json 的 fixtures/formal_data.evidence 引用摘要文件。依次执行本人自测、填写交接、`python scripts/check_delivery.py --role A --submit`，通过后再提交个人分支。未下载真实数据时不能把 A 的正式交付标记 ready。
+
+## 本人 AI 使用记录
+
+按 [AI 使用记录规范](AI使用记录规范.md)维护 `ai_usage/A/usage.json` 和本人提示词文件，每段实际开发会话及时更新，交接前核对模型、参数、次数、费用和未知项。不要修改其他人的账本，也不要用开发辅助记录替代项目实际运行证据。

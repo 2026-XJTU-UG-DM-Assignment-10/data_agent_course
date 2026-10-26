@@ -11,6 +11,7 @@
 3. 遵守[低沟通协作协议](docs/低沟通协作协议.md)、`collaboration/roles.json` 及[公共接口说明](docs/公共接口说明.md)。
 4. 查看本人 `handoffs/X.json` 和 `docs/handoff_X.md`，根据[角色任务](docs/README.md)继续开发。
 5. 课程功能边界与正式交付物见[项目任务书](docs/数据处理智能体_AI开发任务书.md)。公共文件和样例已准备，不重新创建项目。
+6. 按 [AI 使用记录规范](docs/AI使用记录规范.md)维护本人的 `ai_usage/X/usage.json` 和脱敏提示词。开发辅助与项目运行、可核实支出与估算分开；未知参数、请求数和成本如实保留。
 
 | 成员 | 主要文件 | 独立任务 | 开发分支 |
 | --- | --- | --- | --- |
@@ -100,3 +101,14 @@ git push -u origin member-b-clean
 - [接口检查记录](docs/公共文件检查记录.md)
 
 正式提交需包含报告、源码、原始及处理后数据、PPT、贡献说明和真实运行日志。生成数据和日志虽不进入 Git，最终仍需另行打包提交。
+
+## AI 使用记录
+
+每段开发会话由 AI 更新本人账本，成员交接前核对；同一会话不重复登记。各人的目录独立维护，随个人分支合并，正式模块交付检查要求本人至少有一条真实记录。
+
+```powershell
+python scripts/summarize_ai_usage.py --role B --check --require-records
+python scripts/summarize_ai_usage.py
+```
+
+第二条命令由 D 合并后运行，生成 `outputs/ai_usage/summary.md` 和 `summary.json`；开发/项目运行分别汇总，未知值不当成零，实际费用与估算、不同币种分别列示。完整账本、提示词与汇总随课程提交包交付；开发记录不能代替真实智能体运行日志。

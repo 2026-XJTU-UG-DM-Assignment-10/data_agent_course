@@ -120,6 +120,22 @@ print(json.dumps({'workflow_control_only':True,'integration':'--integration' in 
         cleaner.write_text(cleaner_text, encoding="utf-8")
         passed.append("signature_default_drift_rejected")
 
+        assert any("AI usage log not ready" in error for error in gate(2, "--role", "B", "--submit")["errors"])
+        passed.append("missing_ai_usage_blocks_final_role_submission")
+        # Synthetic accounting input exists only inside this temporary control repo.
+        prompt = project / "ai_usage/B/prompts/control-test.md"
+        prompt.parent.mkdir(parents=True, exist_ok=True)
+        prompt.write_text("Synthetic workflow-control prompt only; not a real course model call.", encoding="utf-8")
+        usage_path = project / "ai_usage/B/usage.json"
+        usage = json.loads(usage_path.read_text(encoding="utf-8"))
+        usage["records"] = [{"id": "B-control-test", "time": "2026-10-26T11:00:00+08:00", "scope": "development",
+                             "tool": "Synthetic control input", "model": None, "parameters": {},
+                             "parameters_note": "Workflow test only", "prompt_files": ["ai_usage/B/prompts/control-test.md"],
+                             "calls": None, "interactions": None, "input_tokens": None, "output_tokens": None,
+                             "cost": {"kind": "unknown", "amount": None, "currency": None, "basis": "Synthetic test only"},
+                             "result": "partial", "source_id": "workflow-control-session", "notes": "Synthetic test only"}]
+        usage_path.write_text(json.dumps(usage), encoding="utf-8")
+
         result = gate(0, "--role", "B", "--submit")
         assert result["handoff_status"] == "ready_for_review"
         submitted = json.loads(handoff_path.read_text(encoding="utf-8"))

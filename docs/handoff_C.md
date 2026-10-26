@@ -22,6 +22,10 @@
 - 真实模型 real_llm：not_run
 - 完整流程 end_to_end：not_run
 
+## AI 使用记录
+
+账本：`ai_usage/C/usage.json`；实际提示词：`ai_usage/C/prompts/`。交接前核对实际覆盖范围和未知项。当前业务开发尚未开始，不推断此前会话的模型、用量或成本。
+
 ## 已知问题和下一步
 
 阅读 prompts/C.md，完成本人职责，更新 handoffs/C.json。

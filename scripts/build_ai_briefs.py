@@ -23,13 +23,14 @@ def main() -> None:
     roles = "ABCD" if args.role == "all" else args.role
     common = [
         "AGENTS.md", "README.md", "docs/START_HERE.md",
-        "docs/低沟通协作协议.md", "docs/公共接口说明.md",
+        "docs/低沟通协作协议.md", "docs/公共接口说明.md", "docs/AI使用记录规范.md",
         "src/schema.py", "src/contracts.py", "collaboration/contract_hashes.json",
         "checks/README.md", "evidence/README.md", "examples/README.md",
         "docs/数据处理智能体_AI开发任务书.md", "docs/integration_log.md",
     ]
     for role in roles:
         config = manifest["roles"][role]
+        usage = json.loads((ROOT / config["ai_usage_log"]).read_text(encoding="utf-8"))
         content = [
             f"# 成员 {role} 的 AI 开工资料（自包含快照）\n",
             f"生成时间：{datetime.now(timezone.utc).isoformat()}；协作协议 2.0；业务契约 1.0。\n",
@@ -39,14 +40,15 @@ def main() -> None:
             "后续交接时可重新生成此文件；不要用旧快照覆盖已接受的工作。\n",
             "## 本人的机器可读角色清单\n\n```json\n" + json.dumps({"workflow_version": "2.0", "contract_version": "1.0", "role": role, **config}, ensure_ascii=False, indent=2) + "\n```\n",
         ]
-        sources = [config["prompt"], *common, config["task"], config["handoff"], f"docs/handoff_{role}.md", *config["offline_inputs"]]
+        sources = [config["prompt"], *common, config["task"], config["handoff"], f"docs/handoff_{role}.md", config["ai_usage_log"], *config["offline_inputs"]]
+        sources.extend(reference for record in usage["records"] for reference in record["prompt_files"])
         included = set()
         for relative in sources:
             if relative in included:
                 continue
             included.add(relative)
             path = (ROOT / relative).resolve()
-            allowed = relative in {"AGENTS.md", "README.md"} or relative.startswith(("docs/", "src/", "prompts/", "handoffs/", "examples/", "collaboration/", "checks/", "evidence/"))
+            allowed = relative in {"AGENTS.md", "README.md"} or relative.startswith(("docs/", "src/", "prompts/", "handoffs/", "examples/", "collaboration/", "checks/", "evidence/", "ai_usage/"))
             if not allowed or not path.is_relative_to(ROOT) or not path.is_file():
                 raise ValueError(f"Unsafe or missing public context file: {relative}")
             text = path.read_text(encoding="utf-8")

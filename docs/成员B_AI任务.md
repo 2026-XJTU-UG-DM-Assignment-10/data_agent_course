@@ -33,3 +33,7 @@
 实现 `checks/check_B.py`，支持无参数及 `--integration`。用真实清洗函数验证训练重复删除、非法值置空后填补、格式可重复规范化、测试统计不重拟合，以及异常/全缺失列边界。至少增加一个不同于共享八行样例的用例，避免对固定数据硬编码。
 
 完整证据写入 `outputs/member_B/`，可提交的脱敏摘要写入 `evidence/B/`；本人 JSON 的 fixtures.evidence 引用摘要。填写 Markdown 交接，然后执行 `python scripts/check_delivery.py --role B --submit`；通过后再提交个人分支。不得用改共享样例、公共数据结构或空自测让检查通过。
+
+## 本人 AI 使用记录
+
+按 [AI 使用记录规范](AI使用记录规范.md)维护 `ai_usage/B/usage.json` 和本人提示词文件，每段实际开发会话及时更新，交接前核对模型、参数、次数、费用和未知项。不要修改其他人的账本，也不要用开发辅助记录替代项目实际运行证据。
