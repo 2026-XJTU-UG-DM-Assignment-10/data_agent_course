@@ -1,6 +1,6 @@
 # 成员 A 交接记录
 
-协作协议：2.0；业务契约：1.0；当前状态：working（本地自测通过，待 Git 提交与 D 复验）。
+协作协议：2.0；业务契约：1.0；当前状态：ready_for_review（自测通过，`check_delivery --role A --submit` 通过，待 D 复验）。
 
 ## 完成内容和修改文件
 
@@ -64,10 +64,10 @@ python scripts/check_delivery.py --role A --submit
 
 ## 已知问题和下一步
 
-1. **本机无 Git**：`scripts/check_delivery.py --role A --submit` 依赖 Git 分支与 `origin/main`，当前无法执行。请在装有 Git 的克隆中切到 `member-a-data` 分支后运行该命令，再提交推送。
-2. **status 仍为 working**：需要 `--submit` 通过后由工具自动改为 `ready_for_review` 并写入 `last_gate`。不要手工伪造该字段。
-3. **D 复验**：合并后由 D 在 main 执行 `python scripts/check_delivery.py --role A --integration`，再跑 `scripts/check_integration.py`。
-4. **`.venv` 已在本机创建**，未纳入版本控制；他人按 README 自建。
+1. **D 复验**：合并后由 D 在 main 执行 `python scripts/check_delivery.py --role A --integration`，再跑 `scripts/check_integration.py --mode rules`。A 的 `real_llm` 与 `end_to_end` 保持 not_run，由 C/D 的真实调用和完整流程验收负责。
+2. **B 的目录名问题（不属于 A，仅提醒 D）**：`ai_usage/B/ prompts/` 目录名带前导空格，与 B 账本里 `ai_usage/B/prompts/` 的引用不一致，会让 `check_delivery.py --foundation` 全局失败并阻塞所有人 `--submit`。A 只在本地 `.git/info/exclude` 临时绕过，未修改 B 的文件，也未提交任何绕过。
+3. **`.venv` 已在本机创建**，未纳入版本控制；他人按 README 自建。
+4. **数据不随 Git 提交**：`data/` 下正式数据与 `outputs/` 均被 `.gitignore` 排除，课程打包时需单独提供，或按 `docs/data.md` 的固定命令重建。
 5. `capital_gain`/`capital_loss` 中位数为 0，均值受长尾影响，可作为报告里“为什么需要模型选择填补策略”的论据。
 
-先完成本记录编辑，再执行最后一次交付检查；检查后不再改动已测文件。
+本记录在最后一次交付检查前定稿；`ready_for_review` 状态与 `last_gate` 由 `check_delivery.py --role A --submit` 实际写入，未手工填写。

@@ -3,19 +3,19 @@
   "contract_version": "1.0",
   "role": "A",
   "branch": "member-a-data",
-  "status": "working",
-  "based_on_commit": null,
+  "status": "ready_for_review",
+  "based_on_commit": "bd8ae7daa5f27065c05cccbb31ede548e44f0243",
   "changed_files": [
-    "scripts/prepare_data.py",
-    "src/profiler.py",
+    "ai_usage/A/prompts/A-20261028-session.md",
+    "ai_usage/A/usage.json",
     "checks/check_A.py",
     "docs/data.md",
     "docs/handoff_A.md",
-    "handoffs/A.json",
     "evidence/A/fixtures.json",
     "evidence/A/formal_data.json",
-    "ai_usage/A/usage.json",
-    "ai_usage/A/prompts/A-20261028-session.md"
+    "handoffs/A.json",
+    "scripts/prepare_data.py",
+    "src/profiler.py"
   ],
   "completed": [
     "读取全部规则、公共契约、A 角色任务与本人交接模板",
@@ -31,11 +31,15 @@
   "verification": {
     "fixtures": {
       "status": "passed",
-      "evidence": ["evidence/A/fixtures.json"]
+      "evidence": [
+        "evidence/A/fixtures.json"
+      ]
     },
     "formal_data": {
       "status": "passed",
-      "evidence": ["evidence/A/formal_data.json"]
+      "evidence": [
+        "evidence/A/formal_data.json"
+      ]
     },
     "real_llm": {
       "status": "not_run",
@@ -48,7 +52,17 @@
   },
   "blockers": [],
   "next_action": "等待 D 合并并执行 check_delivery.py --role A --integration 复验；real_llm 与 end_to_end 属于 C/D 范围",
-  "last_gate": null,
+  "last_gate": {
+    "checked_at": "2026-10-28T09:57:44.002024+00:00",
+    "verified_revision": "bd8ae7daa5f27065c05cccbb31ede548e44f0243",
+    "tested_files_sha256": {
+      "scripts/prepare_data.py": "a82e1dfa8fa226956dbe74c53bf65bf16f793a979f39765f4df97888815fb28a",
+      "src/profiler.py": "4c728d416277853b10fa631158f2a1733956870993a2f324837722e7944b5d6a",
+      "checks/check_A.py": "2c1762fd4d73937e7ca81013908151fc9706b2b39a76ccfe18b83dea9cc2b810",
+      "docs/data.md": "fd8c61f6cea17b57096b689cee24f72acd2fe5f58e2591ff6e78deb172e1520a",
+      "docs/handoff_A.md": "9d18b57e2c38eabd14f5d18e2ade0854a0a139bf51191e04f839ebb0a31d873f"
+    }
+  },
   "notes": [
     "formal_data 验证只在真实获取 UCI adult.data 并运行准备脚本后标记 passed",
     "real_llm 与 end_to_end 分别由 C 的真实模型调用和完整流程验收负责，A 不声称已验证",
