@@ -1,11 +1,57 @@
 {
-  "workflow_version": "2.0", "contract_version": "1.0", "role": "A", "branch": "member-a-data",
-  "status": "not_started", "based_on_commit": null, "completed": [], "changed_files": [],
+  "workflow_version": "2.0",
+  "contract_version": "1.0",
+  "role": "A",
+  "branch": "member-a-data",
+  "status": "working",
+  "based_on_commit": null,
+  "changed_files": [
+    "scripts/prepare_data.py",
+    "src/profiler.py",
+    "checks/check_A.py",
+    "docs/data.md",
+    "docs/handoff_A.md",
+    "handoffs/A.json",
+    "evidence/A/fixtures.json",
+    "evidence/A/formal_data.json",
+    "ai_usage/A/usage.json",
+    "ai_usage/A/prompts/A-20261028-session.md"
+  ],
+  "completed": [
+    "读取全部规则、公共契约、A 角色任务与本人交接模板",
+    "实现 scripts/prepare_data.py：真实下载并保留 UCI Adult adult.data，固定种子 42 抽 10,000 条，按特征签名分组划分，只向训练集注入四类问题，写出全部正式路径",
+    "实现 src/profiler.py 的 profile_data，调用 B 的 normalize_frame，按公共口径输出 14 列缺失、六数值摘要与五类问题计数",
+    "实现 checks/check_A.py，支持 --integration，使用独立重算而非硬编码数字，验证输入不被修改",
+    "实际运行 checks/check_A.py 与 --integration，54 项检查全部通过",
+    "验证三态行为：真实模块通过、缺少 B 模块时时使用具名替身、--integration 下缺少 B 模块返回 2",
+    "验证缺少正式数据时不自动下载，输出固定准备命令并返回 2",
+    "撰写 docs/data.md 数据说明与报告素材",
+    "更新 handoffs/A.json 与 ai_usage/A 账本"
+  ],
   "verification": {
-    "fixtures": {"status": "not_run", "evidence": []},
-    "formal_data": {"status": "not_run", "evidence": []},
-    "real_llm": {"status": "not_run", "evidence": []},
-    "end_to_end": {"status": "not_run", "evidence": []}
+    "fixtures": {
+      "status": "passed",
+      "evidence": ["evidence/A/fixtures.json"]
+    },
+    "formal_data": {
+      "status": "passed",
+      "evidence": ["evidence/A/formal_data.json"]
+    },
+    "real_llm": {
+      "status": "not_run",
+      "evidence": []
+    },
+    "end_to_end": {
+      "status": "not_run",
+      "evidence": []
+    }
   },
-  "blockers": [], "next_action": "Read prompts/A.md and implement only role A files.", "last_gate": null
+  "blockers": [],
+  "next_action": "等待 D 合并并执行 check_delivery.py --role A --integration 复验；real_llm 与 end_to_end 属于 C/D 范围",
+  "last_gate": null,
+  "notes": [
+    "formal_data 验证只在真实获取 UCI adult.data 并运行准备脚本后标记 passed",
+    "real_llm 与 end_to_end 分别由 C 的真实模型调用和完整流程验收负责，A 不声称已验证",
+    "本机未安装 Git，未执行分支提交；提交与推送需成员在有 Git 的环境完成"
+  ]
 }
