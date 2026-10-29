@@ -1,44 +1,11 @@
 {
-  "workflow_version": "2.0",
-  "contract_version": "1.0",
-  "role": "B",
-  "branch": "member-b-clean",
-  "status": "working",
-  "based_on_commit": null,
-  "completed": [
-    "Implemented and verified normalization and cleaning using shared fixture and independent synthetic cases",
-    "Added member B self check, methodology, evidence and handoff"
-  ],
-  "changed_files": [
-    "checks/check_B.py",
-    "docs/cleaning.md",
-    "docs/handoff_B.md",
-    "handoffs/B.json",
-    "evidence/B/fixtures.json",
-    "ai_usage/B/usage.json",
-    "ai_usage/B/prompts/B-20261027-session.md"
-  ],
+  "workflow_version": "2.0", "contract_version": "1.0", "role": "B", "branch": "member-b-clean",
+  "status": "not_started", "based_on_commit": null, "completed": [], "changed_files": [],
   "verification": {
-    "fixtures": {
-      "status": "passed",
-      "evidence": [
-        "evidence/B/fixtures.json"
-      ]
-    },
-    "formal_data": {
-      "status": "not_run",
-      "evidence": []
-    },
-    "real_llm": {
-      "status": "not_run",
-      "evidence": []
-    },
-    "end_to_end": {
-      "status": "not_run",
-      "evidence": []
-    }
+    "fixtures": {"status": "not_run", "evidence": []},
+    "formal_data": {"status": "not_run", "evidence": []},
+    "real_llm": {"status": "not_run", "evidence": []},
+    "end_to_end": {"status": "not_run", "evidence": []}
   },
-  "blockers": [],
-  "next_action": "Apply to actual member-b-clean branch, rerun delivery gate and open PR; D will integrate.",
-  "last_gate": null
+  "blockers": [], "next_action": "Read prompts/B.md; provide normalize_frame first.", "last_gate": null
 }
