@@ -1,23 +1,33 @@
 # 成员 B 交接记录
 
-协作协议 2.0 / 业务契约 1.0。状态：**待评审（本地离线样例已通过）**。
+协作协议：2.0；业务契约：1.0；当前状态：not_started。
 
-## 完成内容
-- 保留并核对仓库已有的 `src/normalization.py`、`src/cleaner.py` 核心实现，与冻结接口一致。
-- 新增 `checks/check_B.py`（支持 `--integration`）、`docs/cleaning.md` 和样例测试证据 `evidence/B/fixtures.json`。
-- 更新本交接、`handoffs/B.json` 和成员 B 的 AI 使用记录。没有修改其他成员业务模块。
+这是未开始的交接模板，不代表业务已经实现。开发时用真实内容替换下列项目。
 
-## 已执行验证
-- `python checks/check_B.py`：PASS，33 项断言。
-- 训练样例：输入 8、输出 7；前去重 1；后去重 0；非法置空 2；缺失填补 4。
-- 测试样例：输入 3、输出 3，无去重，训练状态不变。
-- 证据 `evidence/B/fixtures.json`。共享样例是合成联调用例，不是正式实验。
+## 完成内容和修改文件
 
-## 未验证项目
-- A 的正式数据：not_run。
-- 项目真实 LLM 请求：not_run（本模块不发模型调用）。
-- C/D 联合端到端流程：not_run（相应模块不在 B 的提交包中）。
-- 本地 ZIP 快照不包含 `.git` 元数据，因此本地构造的 Git 参考仅用于门禁演练，不代表远程分支已经提交或集成验收。
+尚未实现。
 
-## 下一步
-在真实 `member-b-clean` 分支应用本包中 B 归属的文件，重新运行 `python checks/check_B.py`、`python scripts/check_delivery.py --role B --submit`，再提交 PR 供 D 评审。不要更改冻结契约。
+## 运行命令
+
+- python checks/check_B.py
+- python scripts/check_delivery.py --role B --submit
+
+须先实现所需业务和自测文件，再实际执行；当前不声称已通过。
+
+## 实际结果与证据
+
+- 样例检查 fixtures：not_run
+- 正式数据 formal_data：not_run
+- 真实模型 real_llm：not_run
+- 完整流程 end_to_end：not_run
+
+## AI 使用记录
+
+账本：`ai_usage/B/usage.json`；实际提示词：`ai_usage/B/prompts/`。交接前核对实际覆盖范围和未知项。当前业务开发尚未开始，不推断此前会话的模型、用量或成本。
+
+## 已知问题和下一步
+
+阅读 prompts/B.md，完成本人职责，更新 handoffs/B.json。
+
+先完成本记录编辑，再执行最后一次交付检查；检查后不再改动已测文件。

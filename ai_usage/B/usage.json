@@ -1,32 +1,6 @@
 {
   "schema_version": "1.0",
   "role": "B",
-  "coverage_note": "从 2026-10-27 本次可确认的开发会话开始登记；此前历史对话或工具使用未完整覆盖。",
-  "records": [
-    {
-      "id": "B-20261027-session",
-      "scope": "development",
-      "time": "2026-10-27T12:33:52.641914+00:00",
-      "tool": "ChatGPT",
-      "model": "GPT-6",
-      "parameters": {},
-      "parameters_note": "界面没有提供精确 API 采样参数，未推断",
-      "prompt_files": [
-        "ai_usage/B/prompts/B-20261027-session.md"
-      ],
-      "calls": null,
-      "interactions": 1,
-      "input_tokens": null,
-      "output_tokens": null,
-      "cost": {
-        "kind": "unknown",
-        "amount": null,
-        "currency": null,
-        "basis": "未提供本会话可核实的 API 计费数据"
-      },
-      "result": "succeeded",
-      "source_id": "B-chat-session-20261027",
-      "notes": "可确认当前开发请求一轮；未推断平台内部实际调用次数、历史聊天轮数或费用；核心模块在上传仓库中已有实现，此次验证并补全交付材料。"
-    }
-  ]
+  "coverage_note": "尚未录入。启用后记录本人实际会话；此前历史未覆盖，不能由空账本推断未使用 AI。",
+  "records": []
 }
