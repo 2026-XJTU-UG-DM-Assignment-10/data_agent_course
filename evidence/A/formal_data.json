@@ -1,0 +1,67 @@
+{
+  "workflow_version": "2.0",
+  "contract_version": "1.0",
+  "role": "A",
+  "scope": "formal_data",
+  "status": "passed",
+  "checked_at": "2026-10-28T09:57:43.380195+00:00",
+  "command": "python checks/check_A.py",
+  "uses_test_doubles": false,
+  "summary": {
+    "checks_passed": 28,
+    "checks": [
+      "summary_declares_ready",
+      "summary_command_matches",
+      "summary_seed_42",
+      "summary_sample_10000",
+      "raw_file_preserved",
+      "raw_sha256_matches",
+      "source_license_recorded",
+      "reference_is_10000_rows",
+      "train_gt_5000",
+      "test_positive",
+      "train_test_groups_disjoint",
+      "source_ids_unique_in_reference",
+      "split_manifest_columns",
+      "split_manifest_rows_match",
+      "split_manifest_groups_consistent",
+      "split_manifest_train_gt_5000",
+      "split_manifest_test_matches",
+      "injection_manifest_columns",
+      "injection_has_four_kinds",
+      "injection_sources_are_train",
+      "injection_row_count = train_ref + duplicates",
+      "duplicate_copies_keep_source_id",
+      "labels_untouched",
+      "test_not_injected",
+      "formal_dirty_counts_match_independent_recount",
+      "formal_detects_all_four_kinds",
+      "formal_duplicate_rows_equals_manifest_copies",
+      "formal_test_counts_match_independent_recount"
+    ],
+    "row_counts": {
+      "reference": 10000,
+      "train_reference": 7000,
+      "test_reference": 3000,
+      "train_dirty": 7140
+    },
+    "injection_counts": {
+      "missing": 4857,
+      "format": 1198,
+      "duplicate": 140,
+      "outlier": 70
+    },
+    "quality_before": {
+      "row_count": 7140,
+      "duplicate_rows": 140,
+      "outlier_cells": 70,
+      "outlier_rows": 70,
+      "format_issue_cells": 1218,
+      "parse_error_cells": 0
+    }
+  },
+  "artifacts": [
+    "outputs/member_A/check.json",
+    "data/manifests/preparation_summary.json"
+  ]
+}
