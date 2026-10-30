@@ -1,5 +1,28 @@
 # 集成检查与退回记录
 
+## 最新：2026-10-30第二阶段规则交付
+
+member-d-ui提交e9718f8已由D正常合入main；本机检出D:/iot/member_d_delivery_20261026，保留其他两个工作区未提交修改。实际执行check_integration.py --mode rules退出0，A/B/C/D复验均passed。新证据evidence/D/main_rules_stage2_20261030.json；原始报告outputs/integration/integration_rules.json。这是规则范围接受，真实模型及真人事项仍待补。
+
+| 角色/范围 | 本轮状态 | 依据/下一步 |
+| --- | --- | --- |
+| A 数据/检测 | accepted（rules） | main真实依赖复验；确认集成人补写数据说明。三个生成清单归属已精确修复 |
+| B 清洗 | accepted（rules） | main真实复验；D从正式运行提取案例，待B复核文字 |
+| C 流程/日志 | accepted（rules），真实LLM待验 | 9项真实依赖自测；受控非法计划两次后拒绝，非实际模型请求 |
+| D 分类/页面/材料 | accepted（当前规则范围） | D submit退出0、main复验0，人工页面/下载和6页报告/7页PPT已检查 |
+
+报告、PPT和人工截图主运行统一为20261030T070819Z-7779c942：7140→7000训练、3000测试，Accuracy0.8523333333、Macro-F1 0.7888456818。完整main smoke会生成自己的唯一运行ID，见新增摘要，不覆盖材料主运行。缺失5815、重复140、异常70、格式1218在训练复查清零；各计数可重叠。
+
+实际浏览器打开127.0.0.1:8503，执行一次正式rules；13下载控件可见，CSV/events/summary下载内容与主运行文件逐字节一致。选择llm保留rules旧结果及run_id、不新增运行；缺输入时清除旧指标。evidence/D/formal_browser_stage2_20261030.json记录范围，路径穿越由既有D自测覆盖，不谎称在浏览器做过恶意输入测试。
+
+A清单问题在隔离检出真实prepare_data后复现：tracked准备摘要generated_at变化触发归属门禁2。只为A补三个精确manifest路径，真实A门禁变0；12项工作流回归验证其他路径/角色仍拒绝。冻结契约及哈希不变，其他业务/账本未修改。
+
+真实模型缺LLM_API_URL/LLM_API_KEY/LLM_MODEL，用户明确要求先完成规则和材料；一次LLM预检返回2，无实际请求，未执行新的main LLM完整验收。outputs/final_delivery/controlled_fault.json为真实agent配明确TEST_DOUBLE的受控失败，假调用2次，不写项目运行账。
+
+规则阶段包outputs/final_delivery/data_agent_course_rules_stage_20261030.zip含源码、正式/处理后数据、主运行、受控错误证据、材料与四人AI账本/汇总。package_check.json记录解压和哈希检查；包不是全部课程终验。PDF6页/PPT7页逐页渲染并重新打开解析通过，原生PowerPoint交互仍not_run。真实模型成功/备份录屏、跨机真人复现、全员实际排练、姓名和口头分工未确认；见acceptance/demo_script。
+
+## 历史记录（以下保留原时间点状态）
+
 ## 2026-10-30 初版合并联调（当前状态）
 
 完整结论、提交来源、修复、真实指标和验证限制见 [本次联调报告](integration_20261030.md)。

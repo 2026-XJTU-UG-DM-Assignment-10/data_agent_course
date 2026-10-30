@@ -40,7 +40,7 @@ def build():
         if file.is_file() and file.suffix in ('.md','.json'):add(file,'AI使用记录/'+file.relative_to(ROOT/'ai_usage').as_posix())
     for name in ('summary.json','summary.md'):
         add(ROOT/'outputs/ai_usage'/name,'AI使用记录/'+name)
-    evidence_files=[OUT/'browser_check.json',OUT/'rules.json',OUT/'controlled_fault.json',ROOT/'outputs/presentation_build/validation.json',ROOT/'outputs/workflow_qa/latest.json',ROOT/'outputs/manifest_repro/before.json',ROOT/'outputs/manifest_repro/after.json']
+    evidence_files=[OUT/'browser_check.json',OUT/'rules.json',OUT/'controlled_fault.json',OUT/'llm_not_configured.json',ROOT/'outputs/integration/integration_rules.json',ROOT/'outputs/presentation_build/validation.json',ROOT/'outputs/workflow_qa/latest.json',ROOT/'outputs/manifest_repro/before.json',ROOT/'outputs/manifest_repro/after.json']
     for file in evidence_files:add(file,'本轮验证/'+file.parent.name+'_'+file.name)
     manifest={'status':'rules_stage_only','revision':subprocess.check_output(['git','rev-parse','HEAD'],cwd=ROOT).decode().strip(),'primary_run_id':RUN_ID,'mode':'rules','missing':['real_llm_success_and_backup','human_cross_machine_reproduction','human_rehearsal','member_names_and_oral_roles'],'files':[{'path':name,'bytes':len(data),'sha256':sha(data)} for name,data in sorted(selected.items())]}
     selected['交付清单.json']=json.dumps(manifest,ensure_ascii=False,indent=2).encode('utf-8')

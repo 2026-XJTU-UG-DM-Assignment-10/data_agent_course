@@ -4,6 +4,8 @@
 
 本轮已实际通过正式rules smoke、真实依赖D自测、人工浏览器检查。数据7140→7000训练、3000测试；Accuracy85.23%、Macro-F1 0.7888456818。人工核对质量/策略/指标/13下载入口，下载CSV、日志、摘要与输出逐字节一致；选择器不新运行，失败清旧指标。
 
+D submit实际退出0；正常合入main后，check_integration --mode rules实际退出0，四角色复验均passed。证据evidence/D/main_rules_stage2_20261030.json；没有用修改旧哈希绕过成员复验。LLM只做缺配置预检（退出2，无请求），按用户要求不执行真实模型完整验收。
+
 报告docs/report.md/PDF共6页、PPT共7页及讲者备注/提纲已生成并逐页渲染检查；PPT结构、字体、3个原生表格、重新导入均通过，未宣称原生PowerPoint已验收。A三个生成清单归属风险已用真实prepare_data在隔离检出复现（门禁2），精确修复后实际A门禁0，12项协作回归通过。
 
 规则阶段包与校验输出位于outputs/final_delivery/，解压清单有SHA-256。最终交付门禁、main接收复验结果以同目录输出及integration_log新增记录为准。早前联调快照如下保留，不覆盖其证据。
