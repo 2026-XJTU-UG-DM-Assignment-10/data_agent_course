@@ -1,11 +1,54 @@
 {
-  "workflow_version": "2.0", "contract_version": "1.0", "role": "C", "branch": "member-c-agent",
-  "status": "not_started", "based_on_commit": null, "completed": [], "changed_files": [],
+  "workflow_version": "2.0",
+  "contract_version": "1.0",
+  "role": "C",
+  "branch": "member-c-agent",
+  "status": "working",
+  "based_on_commit": null,
+  "completed": [
+    "OpenAI-compatible LLM client with environment configuration and no hidden retries",
+    "Rule/LLM plan selection with strict allowlist and two-attempt correction budget",
+    "Pipeline orchestration, run IDs, event logging and artifact export",
+    "Offline checks and C handoff documentation",
+    "AI development usage record and sanitized prompt transcript"
+  ],
+  "changed_files": [
+    "src/llm_client.py",
+    "src/agent.py",
+    "src/pipeline.py",
+    "checks/check_C.py",
+    "docs/agent.md",
+    "docs/handoff_C.md",
+    "handoffs/C.json",
+    "evidence/C/fixtures_check.json",
+    "ai_usage/C/usage.json",
+    "ai_usage/C/prompts/C-20261029-session.md"
+  ],
   "verification": {
-    "fixtures": {"status": "not_run", "evidence": []},
-    "formal_data": {"status": "not_run", "evidence": []},
-    "real_llm": {"status": "not_run", "evidence": []},
-    "end_to_end": {"status": "not_run", "evidence": []}
+    "fixtures": {
+      "status": "passed",
+      "evidence": [
+        "evidence/C/fixtures_check.json"
+      ]
+    },
+    "formal_data": {
+      "status": "not_run",
+      "evidence": []
+    },
+    "real_llm": {
+      "status": "not_run",
+      "evidence": []
+    },
+    "end_to_end": {
+      "status": "not_run",
+      "evidence": []
+    }
   },
-  "blockers": [], "next_action": "Read prompts/C.md; rules mode does not need credentials.", "last_gate": null
+  "blockers": [],
+  "next_action": "Keep unrelated pre-existing B files untouched; have D validate this C module on a clean role-specific branch baseline, then configure provider credentials and collect real LLM/end-to-end evidence.",
+  "last_gate": {
+    "command": "python scripts/check_delivery.py --role C --submit",
+    "status": "blocked_by_unrelated_branch_changes",
+    "reason": "Gate found pre-existing non-C changes in the current branch/worktree; no unrelated files were overwritten or discarded."
+  }
 }

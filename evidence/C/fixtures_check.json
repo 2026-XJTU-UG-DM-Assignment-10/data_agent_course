@@ -1,0 +1,18 @@
+{
+  "workflow_version": "2.0",
+  "contract_version": "1.0",
+  "role": "C",
+  "scope": "fixtures",
+  "status": "passed",
+  "checked_at": "2026-10-28T21:44:17.625427+00:00",
+  "command": "python checks/check_C.py",
+  "summary": {
+    "unit_tests": 7,
+    "rules_mode": "passed",
+    "plan_validation": "passed",
+    "retry_budget": "at_most_two",
+    "pipeline": "passed_with_A_and_D_test_doubles"
+  },
+  "uses_test_doubles": true,
+  "artifacts": []
+}

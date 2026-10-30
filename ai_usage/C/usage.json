@@ -1,6 +1,32 @@
 {
   "schema_version": "1.0",
   "role": "C",
-  "coverage_note": "尚未录入。启用后记录本人开发及项目真实请求；此前历史未覆盖，不能由空账本推断未使用 AI。",
-  "records": []
+  "coverage_note": "从 2026-10-29 开始登记本会话；此前历史未覆盖，不能由空账本推断未使用 AI。",
+  "records": [
+    {
+      "id": "C-20261029-01",
+      "scope": "development",
+      "time": "2026-10-29T05:38:00+08:00",
+      "tool": "ChatGPT 网页端",
+      "model": "GPT-6",
+      "parameters": {},
+      "parameters_note": "界面未暴露本会话的 temperature、top_p、max_tokens、reasoning_effort 等实际参数；未猜测。",
+      "prompt_files": [
+        "ai_usage/C/prompts/C-20261029-session.md"
+      ],
+      "calls": null,
+      "interactions": 1,
+      "input_tokens": null,
+      "output_tokens": null,
+      "cost": {
+        "kind": "unknown",
+        "amount": null,
+        "currency": null,
+        "basis": "网页端未提供本会话逐次计费或可核实用量；订阅费用不按单次 0 元登记。"
+      },
+      "result": "partial",
+      "source_id": "C-local-session-20261029-01",
+      "notes": "实现 C 的模型适配器、计划校验、pipeline 和离线自测；7 项自测通过。没有发起真实项目模型请求。真实 API、正式数据及端到端验收尚未验证。"
+    }
+  ]
 }
