@@ -1,6 +1,32 @@
 {
   "schema_version": "1.0",
   "role": "A",
-  "coverage_note": "尚未录入。启用后记录本人实际会话；此前历史未覆盖，不能由空账本推断未使用 AI。",
-  "records": []
+  "coverage_note": "自 2026-10-28 本次可确认的开发会话开始登记；此前历史会话与工具使用未完整覆盖，不能由空账本推断未使用 AI。",
+  "records": [
+    {
+      "id": "A-20261028-session",
+      "scope": "development",
+      "time": "2026-10-28T15:58:53+08:00",
+      "tool": "DClaw 客户端（DCLaw 龙虾智能助手）",
+      "model": null,
+      "parameters": {},
+      "parameters_note": "界面未提供模型标识、temperature、top_p、max_tokens 等参数，未推断默认值；平台名称见 tool。",
+      "prompt_files": [
+        "ai_usage/A/prompts/A-20261028-session.md"
+      ],
+      "calls": null,
+      "interactions": 2,
+      "input_tokens": null,
+      "output_tokens": null,
+      "cost": {
+        "kind": "unknown",
+        "amount": null,
+        "currency": null,
+        "basis": "客户端未提供本会话可核实的模型请求数、token 用量或计费数据；不将订阅或体验金记为本次 0 元。"
+      },
+      "result": "succeeded",
+      "source_id": "A-local-session-20261028-01",
+      "notes": "完成成员 A 数据准备脚本、profiler、自测、数据说明、交接与证据；本地 check_A 与 --integration 均通过 54 项断言。check_delivery --submit 因本机无 Git 未执行。calls 与 token 未知，interactions 为可确认的成员输入轮次。"
+    }
+  ]
 }

@@ -1,0 +1,91 @@
+{
+  "status": "ready",
+  "workflow_version": "2.0",
+  "contract_version": "1.0",
+  "role": "A",
+  "generated_at": "2026-10-28T09:55:45.862756+00:00",
+  "generator": "scripts/prepare_data.py",
+  "command": "python scripts/prepare_data.py --seed 42 --sample-size 10000",
+  "source": {
+    "name": "UCI Adult (Census Income)",
+    "page": "https://archive.ics.uci.edu/dataset/2/adult",
+    "download_url": "https://archive.ics.uci.edu/static/public/2/adult.zip",
+    "license": "CC BY 4.0",
+    "citation": "Becker, B. and Kohavi, R. (1996). Adult. UCI Machine Learning Repository. https://doi.org/10.24432/C5XW20",
+    "provenance": "downloaded from https://archive.ics.uci.edu/static/public/2/adult.zip",
+    "raw_path": "data/raw/adult.data",
+    "raw_sha256": "5b00264637dbfec36bdeaab5676b0b309ff9eb788d63554ca0a249491c86603d",
+    "raw_bytes": 3974305
+  },
+  "parse": {
+    "raw_records": 32561,
+    "excluded_invalid_label": 0,
+    "excluded_malformed": 0,
+    "reference_pool": 32561
+  },
+  "sample": {
+    "seed": 42,
+    "sample_size": 10000,
+    "sampled_records": 10000
+  },
+  "split": {
+    "method": "sha256 over normalized 14-feature signature, whole groups assigned to one split",
+    "train_share_target": 0.7,
+    "train_rows": 7000,
+    "test_rows": 3000,
+    "train_groups": 6997,
+    "test_groups": 3000,
+    "group_overlap": 0
+  },
+  "injection": {
+    "parameters": {
+      "missing_rate_of_non_missing_cells": 0.05,
+      "duplicate_rate_of_train_rows": 0.02,
+      "outlier_rate_of_train_rows": 0.01,
+      "format_rate_of_non_missing_numeric_cells": 0.03
+    },
+    "actual": {
+      "outlier_rows": 70,
+      "missing_cells": 4857,
+      "format_cells": 1198,
+      "duplicate_rows": 140
+    },
+    "train_dirty_rows": 7140,
+    "test_rows_injected": 0
+  },
+  "outputs": {
+    "data/reference/train_reference.csv": {
+      "rows": 7000,
+      "sha256": "289d09f69ee44ceb234f85ffa0a438313ccaec5bf859d207177da2803782118e"
+    },
+    "data/reference/test_reference.csv": {
+      "rows": 3000,
+      "sha256": "7a6d1ec21d93d6a633e81dcde7fb59ce189c77c648153d39e5eb14ac661365bf"
+    },
+    "data/dirty/train_dirty.csv": {
+      "rows": 7140,
+      "sha256": "d20733c943a5b9b1c98f5551ccff47bc288d8ed9c4e0617dc5c50250382bdc07"
+    },
+    "data/manifests/split_manifest.csv": {
+      "rows": 10000,
+      "sha256": "5dfa4cd550f59cf8564b55dc35372260d187a9789777683e30322a14c3c98f56"
+    },
+    "data/manifests/injection_manifest.csv": {
+      "rows": 6265,
+      "sha256": "19af365b00c7e517dc8dc42d7b4783757dfa3d793cb0b59f2f05b3603acc5f2c"
+    }
+  },
+  "checks": {
+    "reference_records": 10000,
+    "train_rows_gt_5000": true,
+    "train_test_group_ids_disjoint": true,
+    "duplicates_keep_source_id": true,
+    "test_reference_has_no_injection": true,
+    "raw_file_preserved": true
+  },
+  "notes": [
+    "Reference data may still contain native missing values; it is not a fully clean ground truth.",
+    "Manifests are construction audits only; they must not be fed to the model or classifier.",
+    "Injected problems touch feature cells only; income and metadata are never modified."
+  ]
+}

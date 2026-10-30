@@ -1,0 +1,45 @@
+{
+  "workflow_version": "2.0",
+  "contract_version": "1.0",
+  "role": "A",
+  "scope": "fixtures",
+  "status": "passed",
+  "checked_at": "2026-10-28T09:57:43.380195+00:00",
+  "command": "python checks/check_A.py",
+  "uses_test_doubles": false,
+  "summary": {
+    "checks_passed": 26,
+    "checks": [
+      "fixture_input_unmodified",
+      "report_metadata",
+      "dtypes_cover_all_features",
+      "missing_covers_all_features",
+      "numeric_summary_covers_six",
+      "numeric_summary_fields_age",
+      "numeric_summary_fields_fnlwgt",
+      "numeric_summary_fields_education_num",
+      "numeric_summary_fields_capital_gain",
+      "numeric_summary_fields_capital_loss",
+      "numeric_summary_fields_hours_per_week",
+      "fixture_counts_match_independent_recount",
+      "fixture_has_problems",
+      "fixture_parse_errors_zero",
+      "normalized_sample_no_format_issues",
+      "normalized_sample_outliers_retained",
+      "normalized_sample_duplicates_preserved",
+      "normalized_sample_raw_missing_preserved",
+      "clean_sample_is_clean",
+      "stage_after_recorded",
+      "test_dataset_recorded",
+      "shared_normalizer_used",
+      "synthetic_counts_match_independent_recount",
+      "synthetic_parse_failures_counted",
+      "synthetic_unit_outlier_counted",
+      "synthetic_missing_excludes_parse_failures"
+    ],
+    "fixture_rows": 8
+  },
+  "artifacts": [
+    "outputs/member_A/check.json"
+  ]
+}
