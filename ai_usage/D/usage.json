@@ -1,7 +1,7 @@
 {
   "schema_version": "1.0",
   "role": "D",
-  "coverage_note": "仅覆盖 2026-10-26 本轮新增 AI 使用记录规则的协作会话，不覆盖此前开发和仓库配置；本轮内部模型次数、用量、实际模型标识及单次费用不可获知。 本次另覆盖成员 D 分类、页面、CLI 与集成开发会话；保留原记录，不补造历史。 本次另覆盖 2026-10-30 初版合并与真实模块联调。",
+  "coverage_note": "仅覆盖 2026-10-26 本轮新增 AI 使用记录规则的协作会话，不覆盖此前开发和仓库配置；本轮内部模型次数、用量、实际模型标识及单次费用不可获知。 本次另覆盖成员 D 分类、页面、CLI 与集成开发会话；保留原记录，不补造历史。 本次另覆盖 2026-10-30 初版合并与真实模块联调。 本次另覆盖2026-10-30第二阶段收尾会话，与早前合并联调会话分开。",
   "records": [
     {
       "id": "D-20261026-ai-usage-rules",
@@ -77,6 +77,31 @@
       "result": "succeeded",
       "source_id": "D-local-session-20261030-integration",
       "notes": "合并四个成员分支，修复上传遗漏、Windows 编码、流程导出与测试依赖边界；规则模式真实数据已通过。真实模型未配置，未发出实际项目请求。 四角色 main 门禁与完整 rules 门禁通过；正式页面 AppTest 通过，工作流 11 项、账本回归 9 项通过。原始交接与证据保留，新增带 D 来源的集成复验记录；真实模型因配置缺失仍待验证。"
+    },
+    {
+      "id": "D-20261030-final-delivery",
+      "scope": "development",
+      "time": "2026-10-30T07:05:11.737202+00:00",
+      "tool": "Codex Desktop",
+      "model": null,
+      "parameters": {},
+      "parameters_note": "未取得可核实模型版本和推理/采样参数。",
+      "prompt_files": [
+        "ai_usage/D/prompts/D-20261030-final-delivery.md"
+      ],
+      "calls": null,
+      "interactions": 2,
+      "input_tokens": null,
+      "output_tokens": null,
+      "cost": {
+        "kind": "unknown",
+        "amount": null,
+        "currency": null,
+        "basis": "无会话实际用量/费用，未知不计零。"
+      },
+      "result": "succeeded",
+      "source_id": "D-local-session-20261030-final-delivery",
+      "notes": "本轮独立范围完成：真实rules及人工页面、三份下载逐字节核对；A清单门禁实质复现2→0，12项回归通过；6页PDF/7页PPT渲染、重导入与检查完成；贡献/演示/阶段包材料。真实模型按用户确认未配置，真人复现和排练仍待；未改其他成员业务/账本。"
     }
   ]
 }
