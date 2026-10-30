@@ -1,5 +1,28 @@
 # 成员 D 交接记录
 
+## 当前交付（2026-10-30第二阶段，基于main fc7103c）
+
+四模块已在main集成，旧的缺上游描述仅为2026-10-26历史。本轮在干净member-d-ui检出同步origin/main继续，未改原D:/iot/data_agent_course和D:/iot/integration_20261030的未提交工作。
+
+本次新增：A三个被跟踪生成清单的精确归属修复及12项工作流回归；正式数据规则复验；真实浏览器执行、策略/质量/指标/13下载控件及三类文件内容核对；6页报告MD/PDF、7页PPTX/提纲/讲者备注、贡献/演示/跨机排练步骤和规则阶段包。分类、清洗、检测、总流程复用main有效实现，未改冻结契约或其他成员业务/账本。
+
+主运行20261030T070819Z-7779c942（rules），7140→7000训练/3000测试，Accuracy85.23%、Macro-F1 0.7888456818。质量缺失5815、重复140、异常70、格式1218均归零。报告截图与日志同run_id；补充正式smoke输出outputs/final_delivery/rules.json。
+
+实际命令（python为D:/iot/data_agent_course/.venv/Scripts/python.exe）：
+
+- scripts/check_delivery.py --foundation：0。
+- scripts/smoke_check.py --mode rules --report outputs/final_delivery/rules.json：0，真实模块和正式数据。
+- checks/check_workflow.py：0，12项；隔离真实prepare_data复现A门禁修复前2、修复后0。
+- checks/check_D.py --integration和最终--role D --submit：以最终outputs/delivery/D.json及last_gate为准，定稿后实际执行。
+- 浏览器streamlit run app.py --server.address 127.0.0.1 --server.port 8503：实际执行一次正式rules，三份下载与输出逐字节相同，关闭服务；outputs/final_delivery/browser_check.json。
+- PDF6页逐页渲染检查；PPT7页导出/重导入/结构/字体/原生表格与逐页渲染检查通过。原生PowerPoint交互未做，Codex打开请求为queued，不称为已在PowerPoint验收。
+
+本轮开发记录D-20261030-final-delivery，提示词ai_usage/D/prompts/D-20261030-final-delivery.md；用户明确回复“尚未配置，先完成规则验证和材料”。内部模型版本/次数/token/费用未知。未发送真实项目模型请求，未改C账本。
+
+真实模型、真实模型成功备份/录屏、另一位真人跨机复现、姓名/口头分工确认和实际全员排练仍待补。docs/acceptance.md列明缺项；规则阶段包不称为课程全部最终包。集成接收与复验在main正常合并后记录到docs/integration_log.md，具体执行结果以新增证据为准，保留早前快照。
+
+## 初版历史记录（2026-10-26，原文保留）
+
 协作协议：2.0；业务契约：1.0；基线：2325930；分支：member-d-ui。
 
 交付范围为D独立模块；最终ready_for_review以handoffs/D.json的实际门禁为准。main尚未集成，整体课程验收未通过。

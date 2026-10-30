@@ -65,7 +65,7 @@ python -m venv .venv
 
 ## Git 协作
 
-- `main` 保存共享基础和经过集成人评审的代码，完整应用需等待四模块实际集成。
+- `main` 保存已集成的四人初版与实际复验证据；规则完整流程已通过，真实模型和真人验收仍待补。
 - 每位成员切到自己的分支，只主要修改本人负责文件。
 - 交付时更新本人 `docs/handoff_X.md` 与 `handoffs/X.json`，运行固定自测及交付检查；声明真实数据、真实模型、完整流程各自的实际验证范围。
 - 通过 PR 或交给集成人合并；公共接口变更统一记录到 [interface_changes.md](docs/interface_changes.md)。
@@ -119,6 +119,16 @@ git push -u origin member-b-clean
 - [接口检查记录](docs/公共文件检查记录.md)
 
 正式提交需包含报告、源码、原始及处理后数据、PPT、贡献说明和真实运行日志。生成数据和日志虽不进入 Git，最终仍需另行打包提交。
+
+## 第二阶段材料（2026-10-30）
+
+报告源稿与6页PDF：`docs/report.md`、`docs/report.pdf`。7页可编辑演示稿与讲者备注：`docs/presentation.pptx`，提纲与演示流程见`docs/presentation_outline.md`和`docs/demo_script.md`。材料统一使用规则运行`20261030T070819Z-7779c942`，不能称为真实模型成绩。PDF/PPT已渲染检查，原生PowerPoint兼容和另一台真人机器验收仍待补。
+
+阶段包：`outputs/final_delivery/data_agent_course_rules_stage_20261030.zip`，包含源码、正式数据、处理后数据、规则日志、材料及AI记录。解压校验见同目录`package_check.json`。它明确列出真实模型、跨机真人复现、排练和姓名确认缺项，不是课程全部验收通过声明。
+
+材料构建源为`docs/report_build.py`和`docs/presentation_build.mjs`；前者需reportlab，后者需Artifact Tool、演示文稿技能运行时和Node模块解析路径。本轮将后者复制到outputs/presentation_build，接入运行时node_modules并指定RUNTIME_NODE_MODULES后实际执行，不能在缺依赖的普通环境直接运行。源码、PDF/PPT和打包证据一起交付，不要求队友重建材料。`python docs/report_package.py`可在具备pypdf的材料环境中重新打规则阶段包。
+
+跟踪的三个`data/manifests/`清单由A的准备脚本生成并维护，已列入A精确归属。修改它们仍需实际准备/验证；其他角色不因此获得任意data目录写权限。
 
 ## AI 使用记录
 
