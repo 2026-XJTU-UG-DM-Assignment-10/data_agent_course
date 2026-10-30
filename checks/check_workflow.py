@@ -48,6 +48,14 @@ def main() -> None:
                 target.parent.mkdir(parents=True, exist_ok=True)
                 shutil.copy2(source, target)
 
+        # The control fixture must not depend on whether real B code/logs have
+        # already been delivered in the source repo. Only mutate the temp copy.
+        (project / "src/normalization.py").unlink(missing_ok=True)
+        usage_path = project / "ai_usage/B/usage.json"
+        usage = json.loads(usage_path.read_text(encoding="utf-8"))
+        usage["records"] = []
+        usage_path.write_text(json.dumps(usage), encoding="utf-8")
+
         def command(*args: str) -> str:
             result = subprocess.run(args, cwd=project, capture_output=True, text=True, encoding="utf-8", errors="replace")
             if result.returncode:

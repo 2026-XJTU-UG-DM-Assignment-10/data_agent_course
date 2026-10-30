@@ -1,7 +1,7 @@
 {
   "schema_version": "1.0",
   "role": "D",
-  "coverage_note": "仅覆盖 2026-10-26 本轮新增 AI 使用记录规则的协作会话，不覆盖此前开发和仓库配置；本轮内部模型次数、用量、实际模型标识及单次费用不可获知。 本次另覆盖成员 D 分类、页面、CLI 与集成开发会话；保留原记录，不补造历史。",
+  "coverage_note": "仅覆盖 2026-10-26 本轮新增 AI 使用记录规则的协作会话，不覆盖此前开发和仓库配置；本轮内部模型次数、用量、实际模型标识及单次费用不可获知。 本次另覆盖成员 D 分类、页面、CLI 与集成开发会话；保留原记录，不补造历史。 本次另覆盖 2026-10-30 初版合并与真实模块联调。",
   "records": [
     {
       "id": "D-20261026-ai-usage-rules",
@@ -52,6 +52,31 @@
       "result": "succeeded",
       "source_id": "D-local-session-20261026-ui-development",
       "notes": "本轮D独立范围完成：真实7/3样例训练Accuracy=0、Macro-F1=0，15类无效输入、页面/CLI自测通过；浏览器检查合成预览/实际下载和缺C错误。仅缺C接线用明确替身；正式数据、真实模型、完整集成和正式材料待验证。保留旧账，不推算内部请求/费用，不登记项目运行请求。"
+    },
+    {
+      "id": "D-20261030-integration",
+      "scope": "development",
+      "time": "2026-10-30T06:12:21.504256+00:00",
+      "tool": "Codex Desktop",
+      "model": null,
+      "parameters": {},
+      "parameters_note": "未提供可核实的具体模型版本和采样/推理参数。",
+      "prompt_files": [
+        "ai_usage/D/prompts/D-20261030-integration.md"
+      ],
+      "calls": null,
+      "interactions": 1,
+      "input_tokens": null,
+      "output_tokens": null,
+      "cost": {
+        "kind": "unknown",
+        "amount": null,
+        "currency": null,
+        "basis": "本次会话无可核实的请求用量或单次费用，不按零费用登记。"
+      },
+      "result": "partial",
+      "source_id": "D-local-session-20261030-integration",
+      "notes": "合并四个成员分支，修复上传遗漏、Windows 编码、流程导出与测试依赖边界；规则模式真实数据已通过。真实模型未配置，未发出实际项目请求。"
     }
   ]
 }

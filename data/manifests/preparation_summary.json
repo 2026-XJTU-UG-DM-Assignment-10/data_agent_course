@@ -3,7 +3,7 @@
   "workflow_version": "2.0",
   "contract_version": "1.0",
   "role": "A",
-  "generated_at": "2026-10-28T09:55:45.862756+00:00",
+  "generated_at": "2026-10-30T06:05:20.985041+00:00",
   "generator": "scripts/prepare_data.py",
   "command": "python scripts/prepare_data.py --seed 42 --sample-size 10000",
   "source": {

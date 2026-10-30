@@ -53,7 +53,7 @@ def run_pipeline(
     if mode not in ("rules", "llm"):
         raise DataValidationError("mode must be 'rules' or 'llm'")
     run_id = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%SZ") + "-" + uuid.uuid4().hex[:8]
-    base = Path(output_dir)
+    base = Path(output_dir).resolve()
     run_dir = base / run_id
     run_dir.mkdir(parents=True, exist_ok=False)
     events_path = run_dir / "events.jsonl"
@@ -62,13 +62,25 @@ def run_pipeline(
     request_counter = 0
     runtime_record_ids: dict[int, str] = {}
 
+    def redact(value: Any) -> Any:
+        if isinstance(value, dict):
+            return {key: redact(item) for key, item in value.items()}
+        if isinstance(value, list):
+            return [redact(item) for item in value]
+        if isinstance(value, str):
+            secrets = [os.environ.get("LLM_API_KEY"), getattr(llm_client, "api_key", None)]
+            for secret in secrets:
+                if secret:
+                    value = value.replace(secret, "[REDACTED]")
+        return value
+
     def emit(name: str, data: dict[str, Any] | None = None, status: str = "info") -> None:
         nonlocal sequence
         sequence += 1
         event = RunEvent(
             run_id=run_id, sequence=sequence, mode=mode, name=name, status=status,
             duration_ms=round((time.monotonic() - start) * 1000, 3),
-            data=data or {},
+            data=redact(data or {}),
         )
         with events_path.open("a", encoding="utf-8") as stream:
             stream.write(event.model_dump_json() + "\n")
@@ -78,7 +90,9 @@ def run_pipeline(
         if name == "llm_request_started":
             request_counter += 1
             # Original prompt summary/feedback is retained in local event logs for traceability.
-            emit(name, {"request_no": request_counter, **data}, "started")
+            emit("llm_request", {"request_no": request_counter, "prompt": {
+                "system": data.get("system_prompt"), "user": data.get("user_payload")
+            }, **data}, "started")
             # Only the production client creates runtime ledger entries; fake clients never do.
             from .llm_client import LLMClient
             if isinstance(llm_client, LLMClient):
@@ -88,7 +102,9 @@ def run_pipeline(
                 )
                 runtime_record_ids[request_counter] = f"{run_id}:{request_counter}"
         else:
-            emit(name, data, "failed" if "failed" in name or "rejected" in name else "succeeded")
+            event_name = "llm_request" if name in ("llm_response", "llm_request_failed") else "plan_validation"
+            status = "failed" if "failed" in name or "rejected" in name else "succeeded"
+            emit(event_name, data, status)
             if name == "llm_response" and data.get("attempt") in runtime_record_ids:
                 _finish_runtime_request(runtime_record_ids[data["attempt"]], data, failed=False)
             elif name == "llm_request_failed" and data.get("attempt") in runtime_record_ids:
@@ -98,20 +114,20 @@ def run_pipeline(
     try:
         train = _read_table(train_path)
         test = _read_table(test_path)
+        if train.empty or test.empty:
+            raise DataValidationError("Training and test data must be nonempty")
+        if set(train["_group_id"]) & set(test["_group_id"]):
+            raise DataValidationError("Train/test source groups overlap")
         emit("input_loaded", {"train_rows": len(train), "test_rows": len(test)})
         # Import collaborators at execution time so a missing implementation is explicit.
         from .profiler import profile_data
         from .cleaner import clean_training_data, transform_test_data
         from .classifier import train_and_evaluate
 
+        emit("profile", {"stage": "before"}, "started")
         train_report = profile_data(train, dataset="train", stage="before")
-        test_report = profile_data(test, dataset="test", stage="before")
-        _write_json(run_dir / "quality_report_train_before.json", train_report)
-        _write_json(run_dir / "quality_report_test_before.json", test_report)
-        emit("quality_reports_created", {
-            "train_report": train_report.model_dump(mode="json"),
-            "test_report": test_report.model_dump(mode="json"),
-        })
+        _write_json(run_dir / "quality_before.json", train_report)
+        emit("profile", {"stage": "before", "report": train_report.model_dump(mode="json")}, "succeeded")
         if mode == "llm" and llm_client is None:
             llm_client = create_llm_client()
         if mode == "llm" and hasattr(llm_client, "configured") and not llm_client.configured:
@@ -119,48 +135,69 @@ def run_pipeline(
             raise ModelCallError("LLM is not configured; set LLM_API_URL, LLM_API_KEY, and LLM_MODEL")
         plan = get_cleaning_plan(train_report, mode=mode, llm_client=llm_client, event_sink=agent_sink)
         _write_json(run_dir / "cleaning_plan.json", plan)
+        emit("clean_train", {}, "started")
         clean_train, state, train_audit = clean_training_data(train, plan)
+        emit("clean_train", train_audit.model_dump(mode="json"), "succeeded")
+        emit("transform_test", {}, "started")
         clean_test, test_audit = transform_test_data(test, state)
+        emit("transform_test", test_audit.model_dump(mode="json"), "succeeded")
+        after = profile_data(clean_train, dataset="train", stage="after")
+        if any((sum(after.missing_by_column.values()), after.duplicate_rows,
+                after.outlier_cells, after.format_issue_cells, after.parse_error_cells)):
+            raise DataValidationError("Quality issues remain after training cleanup")
+        _write_json(run_dir / "quality_after.json", after)
+        emit("profile", {"stage": "after", "report": after.model_dump(mode="json")}, "succeeded")
         _write_json(run_dir / "cleaning_state.json", state)
-        _write_json(run_dir / "cleaning_audit_train.json", train_audit)
-        _write_json(run_dir / "cleaning_audit_test.json", test_audit)
-        clean_train.to_csv(run_dir / "clean_train.csv", index=False, encoding="utf-8")
-        clean_test.to_csv(run_dir / "clean_test.csv", index=False, encoding="utf-8")
+        _write_json(run_dir / "audit_train.json", train_audit)
+        _write_json(run_dir / "audit_test.json", test_audit)
+        clean_train.to_csv(run_dir / "train_processed.csv", index=False, encoding="utf-8")
+        clean_test.to_csv(run_dir / "test_processed.csv", index=False, encoding="utf-8")
         emit("cleaning_completed", {
             "train_audit": train_audit.model_dump(mode="json"),
             "test_audit": test_audit.model_dump(mode="json"),
             "clean_train_rows": len(clean_train), "clean_test_rows": len(clean_test),
         }, "succeeded")
+        emit("train_evaluate", {}, "started")
         metrics = train_and_evaluate(clean_train, clean_test, output_dir=run_dir, seed=seed)
+        emit("train_evaluate", metrics.model_dump(mode="json"), "succeeded")
+        _write_json(run_dir / "metrics.json", metrics)
+        (run_dir / "summary.md").write_text(
+            f"# Actual run {run_id}\n\nMode: {mode}\n\n"
+            f"Training rows: {len(train)} -> {len(clean_train)}; test rows: {len(clean_test)}.\n\n"
+            f"Accuracy: {metrics.accuracy:.6f}; Macro-F1: {metrics.macro_f1:.6f}.\n\n"
+            + ("Fixed rule plan; no model requests.\n" if mode == "rules" else "Model plan; see request events.\n"),
+            encoding="utf-8",
+        )
+        emit("export", {}, "started")
         result = RunResult(
             contract_version=CONTRACT_VERSION, run_id=run_id, status="succeeded", mode=mode,
             output_dir=str(run_dir),
             artifacts={
-                "events": str(events_path),
-                "plan": str(run_dir / "cleaning_plan.json"),
-                "clean_train": str(run_dir / "clean_train.csv"),
-                "clean_test": str(run_dir / "clean_test.csv"),
-                "cleaning_state": str(run_dir / "cleaning_state.json"),
-                "train_audit": str(run_dir / "cleaning_audit_train.json"),
-                "test_audit": str(run_dir / "cleaning_audit_test.json"),
-                "confusion_matrix": metrics.confusion_matrix_path,
+                "events": "events.jsonl", "quality_before": "quality_before.json",
+                "quality_after": "quality_after.json", "cleaning_plan": "cleaning_plan.json",
+                "train_processed": "train_processed.csv", "test_processed": "test_processed.csv",
+                "cleaning_state": "cleaning_state.json", "audit_train": "audit_train.json",
+                "audit_test": "audit_test.json", "metrics": "metrics.json",
+                "summary": "summary.md", "run_result": "run_result.json",
+                "confusion_matrix": Path(metrics.confusion_matrix_path).resolve().relative_to(run_dir).as_posix(),
             },
             metrics=metrics,
         )
         _write_json(run_dir / "run_result.json", result)
+        emit("export", {"files": list(result.artifacts.values())}, "succeeded")
         emit("pipeline_completed", {"status": "succeeded", "metrics": metrics.model_dump(mode="json")}, "succeeded")
         return result
     except Exception as exc:
         # Avoid dumping request headers or provider bodies, which may contain credentials.
         error_code = getattr(exc, "code", "pipeline_error")
-        message = f"{type(exc).__name__}: {str(exc)[:1000]}"
+        message = redact(f"{type(exc).__name__}: {str(exc)[:1000]}")
         try:
             emit("pipeline_failed", {"error_code": error_code, "error_type": type(exc).__name__, "message": message}, "failed")
         except Exception:
             pass
         result = RunResult(
             contract_version=CONTRACT_VERSION, run_id=run_id, status="failed", mode=mode,
-            output_dir=str(run_dir), artifacts={"events": str(events_path)},
+            output_dir=str(run_dir), artifacts={"events": "events.jsonl", "run_result": "run_result.json"},
             error_code=str(error_code), error_message=message,
         )
         _write_json(run_dir / "run_result.json", result)
@@ -207,7 +244,7 @@ def _record_runtime_request(*, run_id: str, request_no: int, client: Any,
         "tool": "OpenAI-compatible API via requests", "model": client.model or None,
         "parameters": {"temperature": 0, "endpoint_kind": "chat_completions"},
         "parameters_note": "The client sends temperature=0; provider-specific hidden parameters are not assumed.",
-        "prompt_files": [str(prompt_path).replace("\\", "/")],
+        "prompt_files": [prompt_path.relative_to(project_root).as_posix()],
         "calls": 1, "interactions": None, "input_tokens": None, "output_tokens": None,
         "cost": {"kind": "unknown", "amount": None, "currency": None,
                  "basis": "Provider did not expose a verifiable per-request cost."},

@@ -399,7 +399,7 @@ def main() -> int:
     }
     PREPARATION_SUMMARY.parent.mkdir(parents=True, exist_ok=True)
     PREPARATION_SUMMARY.write_text(
-        json.dumps(summary, ensure_ascii=False, indent=2) + "\n", encoding="utf-8"
+        json.dumps(summary, ensure_ascii=False, indent=2) + "\n", encoding="utf-8", newline="\n"
     )
 
     print(json.dumps({

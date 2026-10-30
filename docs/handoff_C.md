@@ -36,3 +36,8 @@
 2. pipeline 已接入预期 A/B/D 函数签名，但完整真实流程依赖其业务模块实际存在并通过检查。
 3. pipeline 在真实 `LLMClient` 每次发起请求时自动登记 C 的 `project_runtime` 账本并保存对应请求提示词，HTTP 返回后更新结果；仍需核查 `outputs/<run_id>/events.jsonl` 与 `ai_usage/C/usage.json` 一致。成功、失败及修正请求都各记一条，`source_id` 使用 `run_id:请求序号`。离线假客户端不会计入运行账本。
 4. 真实模型证据和端到端证据由后续实跑生成；不以本地假模型自测替代。
+
+
+## 2026-10-30 main 集成复验补记（D）
+
+保留上述成员原始记录；本次用户授权合并初版，由 D 在 main 使用真实依赖复验。具体改动、提交来源、验证边界和证据见 `docs/integration_20261030.md`。新的 handoffs JSON 复验标记由集成人登记，不代表成员此前执行过缺失的 submit 命令。真实模型凭据缺失，LLM 验收仍待完成。

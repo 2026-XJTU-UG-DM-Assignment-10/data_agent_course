@@ -23,7 +23,7 @@ def check():
     train = pd.read_csv(ROOT / "examples/train_small.csv", dtype=str, keep_default_na=False)
     test = pd.read_csv(ROOT / "examples/test_small.csv", dtype=str, keep_default_na=False)
     train_original, test_original = train.copy(deep=True), test.copy(deep=True)
-    plan = CleaningPlan.model_validate_json((ROOT / "examples/plan_rules.json").read_text())
+    plan = CleaningPlan.model_validate_json((ROOT / "examples/plan_rules.json").read_text(encoding="utf-8"))
     norm, na = normalize_frame(train)
     norm2, na2 = normalize_frame(norm)
     assert_frame_equal(norm, norm2)
@@ -42,7 +42,7 @@ def check():
             verify("reference_"+col, clean[col].reset_index(drop=True).round(7).equals(reference[col].round(7)))
         else:
             verify("reference_"+col, clean[col].reset_index(drop=True).equals(reference[col]))
-    expected_state = json.loads((ROOT / "examples/cleaning_state_example.json").read_text())
+    expected_state = json.loads((ROOT / "examples/cleaning_state_example.json").read_text(encoding="utf-8"))
     verify("state_reference", state.model_dump(mode="json") == expected_state)
     snapshot = state.model_dump_json()
     test_clean, test_audit = transform_test_data(test, state)

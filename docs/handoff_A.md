@@ -71,3 +71,8 @@ python scripts/check_delivery.py --role A --submit
 5. `capital_gain`/`capital_loss` 中位数为 0，均值受长尾影响，可作为报告里“为什么需要模型选择填补策略”的论据。
 
 本记录在最后一次交付检查前定稿；`ready_for_review` 状态与 `last_gate` 由 `check_delivery.py --role A --submit` 实际写入，未手工填写。
+
+
+## 2026-10-30 main 集成复验补记（D）
+
+保留上述成员原始记录；本次用户授权合并初版，由 D 在 main 使用真实依赖复验。具体改动、提交来源、验证边界和证据见 `docs/integration_20261030.md`。新的 handoffs JSON 复验标记由集成人登记，不代表成员此前执行过缺失的 submit 命令。真实模型凭据缺失，LLM 验收仍待完成。

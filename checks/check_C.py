@@ -114,8 +114,8 @@ class AgentChecks(unittest.TestCase):
 
 
 class PipelineChecks(unittest.TestCase):
-    def test_pipeline_wires_real_C_and_B_with_collaborator_doubles(self):
-        # Only the missing A profiler and D classifier are replaced; C pipeline/agent and B cleaner are real.
+    def test_pipeline_wires_available_real_collaborators(self):
+        # Doubles are permitted only for collaborators whose files do not exist.
         import pandas as pd
         from src import pipeline
         from src.schema import CleaningAudit, CleaningState, CONTRACT_VERSION
@@ -147,8 +147,10 @@ class PipelineChecks(unittest.TestCase):
         fake_classifier.train_and_evaluate = train_and_evaluate
         old_profiler = sys.modules.get("src.profiler")
         old_classifier = sys.modules.get("src.classifier")
-        sys.modules["src.profiler"] = fake_profiler
-        sys.modules["src.classifier"] = fake_classifier
+        if not (ROOT / "src/profiler.py").is_file():
+            sys.modules["src.profiler"] = fake_profiler
+        if not (ROOT / "src/classifier.py").is_file():
+            sys.modules["src.classifier"] = fake_classifier
         try:
             with tempfile.TemporaryDirectory(prefix="check-c-") as tmp:
                 train_path, test_path = Path(tmp)/"train.csv", Path(tmp)/"test.csv"
@@ -159,9 +161,14 @@ class PipelineChecks(unittest.TestCase):
                 run_dir = Path(result.output_dir)
                 self.assertTrue((run_dir/"events.jsonl").is_file())
                 self.assertTrue((run_dir/"cleaning_plan.json").is_file())
-                self.assertTrue((run_dir/"clean_train.csv").is_file())
-                self.assertTrue((run_dir/"clean_test.csv").is_file())
-                self.assertEqual(len(pd.read_csv(run_dir/"clean_test.csv")), 4)
+                self.assertTrue((run_dir/"train_processed.csv").is_file())
+                self.assertTrue((run_dir/"test_processed.csv").is_file())
+                self.assertEqual(len(pd.read_csv(run_dir/"test_processed.csv")), 4)
+                self.assertTrue(run_dir.is_absolute())
+                for relative in result.artifacts.values():
+                    self.assertFalse(Path(relative).is_absolute())
+                    self.assertTrue((run_dir / relative).is_file())
+                self.assertEqual(json.loads((run_dir / "quality_after.json").read_text(encoding="utf-8"))["stage"], "after")
         finally:
             if old_profiler is None:
                 sys.modules.pop("src.profiler", None)
@@ -171,6 +178,42 @@ class PipelineChecks(unittest.TestCase):
                 sys.modules.pop("src.classifier", None)
             else:
                 sys.modules["src.classifier"] = old_classifier
+
+    def test_overlapping_groups_are_rejected_before_model_call(self):
+        import pandas as pd
+        from src.pipeline import run_pipeline
+
+        class MustNotCall:
+            def generate_plan(self, *args, **kwargs):
+                raise AssertionError("A leaking split must not reach the model")
+
+        with tempfile.TemporaryDirectory(prefix="check-c-overlap-") as tmp:
+            train, test = Path(tmp) / "train.csv", Path(tmp) / "test.csv"
+            pd.DataFrame([row(i, CLASS_LABELS[i % 2]) for i in range(8)]).to_csv(train, index=False)
+            pd.DataFrame([row(0)]).to_csv(test, index=False)
+            result = run_pipeline(train, test, mode="llm", llm_client=MustNotCall(), output_dir=Path(tmp) / "runs")
+            self.assertEqual(result.status, "failed")
+            self.assertEqual(result.error_code, "invalid_data")
+            events = (Path(result.output_dir) / result.artifacts["events"]).read_text(encoding="utf-8")
+            self.assertNotIn('"name":"llm_request"', events)
+
+    def test_runtime_prompt_reference_is_project_relative(self):
+        from unittest.mock import patch
+        from src import pipeline
+        with tempfile.TemporaryDirectory(prefix="check-c-ledger-") as tmp:
+            root = Path(tmp)
+            ledger = root / "ai_usage/C/usage.json"
+            ledger.parent.mkdir(parents=True)
+            ledger.write_text(json.dumps({"records": []}), encoding="utf-8")
+            client = types.SimpleNamespace(model="TEST_DOUBLE_NOT_REAL")
+            # Isolated synthetic ledger; no HTTP call and no public runtime evidence.
+            with patch.object(pipeline, "__file__", str(root / "src/pipeline.py")):
+                pipeline._record_runtime_request(run_id="fixture-test", request_no=1, client=client,
+                                                prompt_data={}, outcome="partial")
+            record = json.loads(ledger.read_text(encoding="utf-8"))["records"][0]
+            reference = record["prompt_files"][0]
+            self.assertTrue(reference.startswith("ai_usage/C/prompts/"))
+            self.assertTrue((root / reference).is_file())
 
 
 def main():
@@ -213,7 +256,7 @@ def main():
         evidence_path.write_text(json.dumps({
             "checked_at": datetime.now(timezone.utc).isoformat(),
             "mode": "llm", "real_request": True, "provider": "openai_compatible",
-            "model": plan.mode, "plan": plan.model_dump(mode="json"),
+            "model": client.model, "plan": plan.model_dump(mode="json"),
             "events": raw_events, "calls_made": client.calls_made,
         }, ensure_ascii=False, indent=2), encoding="utf-8")
         print(f"Real LLM evidence written: {evidence_path}")
