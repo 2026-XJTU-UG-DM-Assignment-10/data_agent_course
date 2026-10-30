@@ -3,8 +3,8 @@
   "contract_version": "1.0",
   "role": "C",
   "branch": "member-c-agent",
-  "status": "working",
-  "based_on_commit": null,
+  "status": "ready_for_review",
+  "based_on_commit": "1597bfafb2eba8fd5c59e5b263ca5577974f9cd2",
   "completed": [
     "OpenAI-compatible LLM client with environment configuration and no hidden retries",
     "Rule/LLM plan selection with strict allowlist and two-attempt correction budget",
@@ -28,7 +28,7 @@
     "fixtures": {
       "status": "passed",
       "evidence": [
-        "evidence/C/fixtures_check.json"
+        "evidence/C/integration_fixtures_20261030.json"
       ]
     },
     "formal_data": {
@@ -37,18 +37,45 @@
     },
     "real_llm": {
       "status": "not_run",
-      "evidence": []
+      "evidence": [],
+      "reason": "LLM_API_URL / LLM_API_KEY / LLM_MODEL 未配置；没有真实模型请求。"
     },
     "end_to_end": {
-      "status": "not_run",
-      "evidence": []
+      "status": "passed",
+      "evidence": [
+        "evidence/C/integration_end_to_end_20261030.json"
+      ],
+      "mode": "rules"
     }
   },
   "blockers": [],
-  "next_action": "Keep unrelated pre-existing B files untouched; have D validate this C module on a clean role-specific branch baseline, then configure provider credentials and collect real LLM/end-to-end evidence.",
+  "next_action": "Maintainer-revalidated on main; collect real LLM evidence after configuring provider and continue integration maintenance.",
   "last_gate": {
-    "command": "python scripts/check_delivery.py --role C --submit",
-    "status": "blocked_by_unrelated_branch_changes",
-    "reason": "Gate found pre-existing non-C changes in the current branch/worktree; no unrelated files were overwritten or discarded."
+    "checked_at": "2026-10-30T06:16:18.586697+00:00",
+    "verified_revision": "1597bfafb2eba8fd5c59e5b263ca5577974f9cd2",
+    "tested_files_sha256": {
+      "src/llm_client.py": "4780fa63810b058620b1202fa2f1d391227c397eb0029623bf02157223513c33",
+      "src/agent.py": "4b514b503dfd41acb4627c4018dbcc79cee9671595cb79a5c7e9aee6af30d3db",
+      "src/pipeline.py": "7d9c21870ae23e92198778ca980ad82b89238c2e4673ba9b6daec2ada6d83cc9",
+      "checks/check_C.py": "3e095a6c6074fda39b37f28c6a757753b9d3da162005a078a35dc44fcc73ec27",
+      "docs/agent.md": "711f5f1250e79cdd8fd134328f7f1bd5928f16045445a3b1ca6bb0bb1cf1e6f3",
+      "docs/handoff_C.md": "ddead2ca435fa7ab028950f6c15ff07b0f1701970c1dfa852f32a551ed87298e"
+    },
+    "verified_by": "D maintainer revalidation"
+  },
+  "integration_review": {
+    "reviewer": "D",
+    "kind": "maintainer_revalidation_after_user_requested_merge",
+    "submitted_status": "working",
+    "submitted_last_gate": {
+      "command": "python scripts/check_delivery.py --role C --submit",
+      "status": "blocked_by_unrelated_branch_changes",
+      "reason": "Gate found pre-existing non-C changes in the current branch/worktree; no unrelated files were overwritten or discarded."
+    },
+    "submitted_based_on_commit": null,
+    "checked_at": "2026-10-30T06:16:18.586697+00:00",
+    "verified_revision": "1597bfafb2eba8fd5c59e5b263ca5577974f9cd2",
+    "command": "python checks/check_C.py --integration",
+    "explanation": "New integration attestations; not a claim that the member ran an earlier missing submit command."
   }
 }

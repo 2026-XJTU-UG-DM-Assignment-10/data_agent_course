@@ -4,7 +4,7 @@
   "role": "A",
   "branch": "member-a-data",
   "status": "ready_for_review",
-  "based_on_commit": "bd8ae7daa5f27065c05cccbb31ede548e44f0243",
+  "based_on_commit": "1597bfafb2eba8fd5c59e5b263ca5577974f9cd2",
   "changed_files": [
     "ai_usage/A/prompts/A-20261028-session.md",
     "ai_usage/A/usage.json",
@@ -32,13 +32,13 @@
     "fixtures": {
       "status": "passed",
       "evidence": [
-        "evidence/A/fixtures.json"
+        "evidence/A/integration_fixtures_20261030.json"
       ]
     },
     "formal_data": {
       "status": "passed",
       "evidence": [
-        "evidence/A/formal_data.json"
+        "evidence/A/integration_formal_data_20261030.json"
       ]
     },
     "real_llm": {
@@ -51,21 +51,43 @@
     }
   },
   "blockers": [],
-  "next_action": "等待 D 合并并执行 check_delivery.py --role A --integration 复验；real_llm 与 end_to_end 属于 C/D 范围",
+  "next_action": "Maintainer-revalidated on main; collect real LLM evidence after configuring provider and continue integration maintenance.",
   "last_gate": {
-    "checked_at": "2026-10-28T09:57:44.002024+00:00",
-    "verified_revision": "bd8ae7daa5f27065c05cccbb31ede548e44f0243",
+    "checked_at": "2026-10-30T06:16:18.540305+00:00",
+    "verified_revision": "1597bfafb2eba8fd5c59e5b263ca5577974f9cd2",
     "tested_files_sha256": {
-      "scripts/prepare_data.py": "a82e1dfa8fa226956dbe74c53bf65bf16f793a979f39765f4df97888815fb28a",
+      "scripts/prepare_data.py": "9664205a1f8fc88f0724199f1ea4dc2ac3526500d51bb4305fe6c82cce0035af",
       "src/profiler.py": "4c728d416277853b10fa631158f2a1733956870993a2f324837722e7944b5d6a",
       "checks/check_A.py": "2c1762fd4d73937e7ca81013908151fc9706b2b39a76ccfe18b83dea9cc2b810",
-      "docs/data.md": "fd8c61f6cea17b57096b689cee24f72acd2fe5f58e2591ff6e78deb172e1520a",
-      "docs/handoff_A.md": "9d18b57e2c38eabd14f5d18e2ade0854a0a139bf51191e04f839ebb0a31d873f"
-    }
+      "docs/data.md": "b155a2bc4428a08fc4a06a6e49fe0881aa2fceee45cf1ead7c5c581c6cc8ad42",
+      "docs/handoff_A.md": "b6f88646898342071576554ef8977e49de1c9c756b1348ba0321ec0c65596e79"
+    },
+    "verified_by": "D maintainer revalidation"
   },
   "notes": [
     "formal_data 验证只在真实获取 UCI adult.data 并运行准备脚本后标记 passed",
     "real_llm 与 end_to_end 分别由 C 的真实模型调用和完整流程验收负责，A 不声称已验证",
     "本机未安装 Git，未执行分支提交；提交与推送需成员在有 Git 的环境完成"
-  ]
+  ],
+  "integration_review": {
+    "reviewer": "D",
+    "kind": "maintainer_revalidation_after_user_requested_merge",
+    "submitted_status": "ready_for_review",
+    "submitted_last_gate": {
+      "checked_at": "2026-10-28T09:57:44.002024+00:00",
+      "verified_revision": "bd8ae7daa5f27065c05cccbb31ede548e44f0243",
+      "tested_files_sha256": {
+        "scripts/prepare_data.py": "a82e1dfa8fa226956dbe74c53bf65bf16f793a979f39765f4df97888815fb28a",
+        "src/profiler.py": "4c728d416277853b10fa631158f2a1733956870993a2f324837722e7944b5d6a",
+        "checks/check_A.py": "2c1762fd4d73937e7ca81013908151fc9706b2b39a76ccfe18b83dea9cc2b810",
+        "docs/data.md": "fd8c61f6cea17b57096b689cee24f72acd2fe5f58e2591ff6e78deb172e1520a",
+        "docs/handoff_A.md": "9d18b57e2c38eabd14f5d18e2ade0854a0a139bf51191e04f839ebb0a31d873f"
+      }
+    },
+    "submitted_based_on_commit": "bd8ae7daa5f27065c05cccbb31ede548e44f0243",
+    "checked_at": "2026-10-30T06:16:18.540305+00:00",
+    "verified_revision": "1597bfafb2eba8fd5c59e5b263ca5577974f9cd2",
+    "command": "python checks/check_A.py --integration",
+    "explanation": "New integration attestations; not a claim that the member ran an earlier missing submit command."
+  }
 }

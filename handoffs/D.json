@@ -4,7 +4,7 @@
   "role": "D",
   "branch": "member-d-ui",
   "status": "ready_for_review",
-  "based_on_commit": "2325930285f34b05f105f0cd4258ae199de6fe22",
+  "based_on_commit": "1597bfafb2eba8fd5c59e5b263ca5577974f9cd2",
   "completed": [
     "Real 14-feature LogisticRegression classifier with train-only transforms, fixed metrics/matrix and PNG",
     "Streamlit and CLI call only C pipeline; explicit execution, persistent state, quality/plan/audit/download UI",
@@ -35,31 +35,34 @@
     "fixtures": {
       "status": "passed",
       "evidence": [
-        "evidence/D/fixtures.json",
-        "evidence/D/browser.json"
+        "evidence/D/integration_fixtures_20261030.json"
       ]
     },
     "formal_data": {
-      "status": "blocked",
-      "evidence": [],
-      "reason": "A/B/C implementation and formal data not delivered; no successful end-to-end or real model run"
+      "status": "passed",
+      "evidence": [
+        "evidence/D/integration_formal_data_20261030.json"
+      ],
+      "mode": "rules"
     },
     "real_llm": {
-      "status": "blocked",
+      "status": "not_run",
       "evidence": [],
-      "reason": "A/B/C implementation and formal data not delivered; no successful end-to-end or real model run"
+      "reason": "LLM_API_URL / LLM_API_KEY / LLM_MODEL 未配置；没有真实模型请求。"
     },
     "end_to_end": {
-      "status": "blocked",
-      "evidence": [],
-      "reason": "A/B/C implementation and formal data not delivered; no successful end-to-end or real model run"
+      "status": "passed",
+      "evidence": [
+        "evidence/D/integration_end_to_end_20261030.json"
+      ],
+      "mode": "rules"
     }
   },
   "blockers": [],
-  "next_action": "Submit D independent fixture scope. Await A/B/C; merge normally and review on main, rebuild formal data, then rules/llm integration and formal materials/rehearsal.",
+  "next_action": "Maintainer-revalidated on main; collect real LLM evidence after configuring provider and continue integration maintenance.",
   "last_gate": {
-    "checked_at": "2026-10-26T15:43:10.662146+00:00",
-    "verified_revision": "2325930285f34b05f105f0cd4258ae199de6fe22",
+    "checked_at": "2026-10-30T06:16:18.600645+00:00",
+    "verified_revision": "1597bfafb2eba8fd5c59e5b263ca5577974f9cd2",
     "tested_files_sha256": {
       "src/classifier.py": "d482d152e848fa899e9a49ee658e0ab010dcf5f4774f95df057dd50bea69bc24",
       "src/cli.py": "f68d041555f7ca13784e54d69f05b1168c086efc63b1945dccd9ba8981da740d",
@@ -67,7 +70,31 @@
       "scripts/smoke_check.py": "22d035de8ba79828ab8779eac462c8a5d17882acaeaeb41b9c7ce21c7397fa18",
       "checks/check_D.py": "757c5880ebca5f9b696fd4a00be3d1951aea8a536d557037c9c9dc8868f3b0c1",
       "docs/classification.md": "7bf726717274672c40da54c6a93c88cce83f72c8c55aa9febf1c4c3ba2059651",
-      "docs/handoff_D.md": "54c0aa7dceeaca73e82f1ce898a379510c718875d6cb88201e860b42c1dbbb4b"
-    }
+      "docs/handoff_D.md": "fa3769cbf1172a0008005777c6eb66ce6587f87834d784685e1e423ee44d0c86"
+    },
+    "verified_by": "D maintainer revalidation"
+  },
+  "integration_review": {
+    "reviewer": "D",
+    "kind": "maintainer_revalidation_after_user_requested_merge",
+    "submitted_status": "ready_for_review",
+    "submitted_last_gate": {
+      "checked_at": "2026-10-26T15:43:10.662146+00:00",
+      "verified_revision": "2325930285f34b05f105f0cd4258ae199de6fe22",
+      "tested_files_sha256": {
+        "src/classifier.py": "d482d152e848fa899e9a49ee658e0ab010dcf5f4774f95df057dd50bea69bc24",
+        "src/cli.py": "f68d041555f7ca13784e54d69f05b1168c086efc63b1945dccd9ba8981da740d",
+        "app.py": "592442f57ca3c9224c50c85d6767af00e04325c04aa38ebe8f042d147af0afe3",
+        "scripts/smoke_check.py": "22d035de8ba79828ab8779eac462c8a5d17882acaeaeb41b9c7ce21c7397fa18",
+        "checks/check_D.py": "757c5880ebca5f9b696fd4a00be3d1951aea8a536d557037c9c9dc8868f3b0c1",
+        "docs/classification.md": "7bf726717274672c40da54c6a93c88cce83f72c8c55aa9febf1c4c3ba2059651",
+        "docs/handoff_D.md": "54c0aa7dceeaca73e82f1ce898a379510c718875d6cb88201e860b42c1dbbb4b"
+      }
+    },
+    "submitted_based_on_commit": "2325930285f34b05f105f0cd4258ae199de6fe22",
+    "checked_at": "2026-10-30T06:16:18.600645+00:00",
+    "verified_revision": "1597bfafb2eba8fd5c59e5b263ca5577974f9cd2",
+    "command": "python checks/check_D.py --integration",
+    "explanation": "New integration attestations; not a claim that the member ran an earlier missing submit command."
   }
 }

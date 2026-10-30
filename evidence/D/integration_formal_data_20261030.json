@@ -1,0 +1,50 @@
+{
+  "workflow_version": "2.0",
+  "contract_version": "1.0",
+  "role": "D",
+  "scope": "formal_data",
+  "status": "passed",
+  "checked_at": "2026-10-30T06:20:51.414236+00:00",
+  "command": "python scripts/check_integration.py --mode rules",
+  "verified_by": "D maintainer integration",
+  "verified_revision": "1597bfafb2eba8fd5c59e5b263ca5577974f9cd2",
+  "uses_test_doubles": false,
+  "mode": "rules",
+  "real_llm_verified": false,
+  "summary": {
+    "train_before": 7140,
+    "train_after": 7000,
+    "test_rows": 3000,
+    "accuracy": 0.8523333333333334,
+    "macro_f1": 0.788845681782975,
+    "input_sha256": {
+      "data/raw/adult.data": "5b00264637dbfec36bdeaab5676b0b309ff9eb788d63554ca0a249491c86603d",
+      "data/reference/train_reference.csv": "289d09f69ee44ceb234f85ffa0a438313ccaec5bf859d207177da2803782118e",
+      "data/reference/test_reference.csv": "7a6d1ec21d93d6a633e81dcde7fb59ce189c77c648153d39e5eb14ac661365bf",
+      "data/dirty/train_dirty.csv": "d20733c943a5b9b1c98f5551ccff47bc288d8ed9c4e0617dc5c50250382bdc07",
+      "data/manifests/split_manifest.csv": "5dfa4cd550f59cf8564b55dc35372260d187a9789777683e30322a14c3c98f56",
+      "data/manifests/injection_manifest.csv": "19af365b00c7e517dc8dc42d7b4783757dfa3d793cb0b59f2f05b3603acc5f2c",
+      "data/manifests/preparation_summary.json": "db763f2bedbb828bc6b51795118d5d495b33dcd5886e421914b512879ca53858"
+    }
+  },
+  "artifacts": [
+    "outputs/integration/integration_rules.json",
+    "outputs/integration/formal_ui.json",
+    "outputs/smoke_runs/20261030T061637Z-eedd8cfd/audit_test.json",
+    "outputs/smoke_runs/20261030T061637Z-eedd8cfd/audit_train.json",
+    "outputs/smoke_runs/20261030T061637Z-eedd8cfd/cleaning_plan.json",
+    "outputs/smoke_runs/20261030T061637Z-eedd8cfd/cleaning_state.json",
+    "outputs/smoke_runs/20261030T061637Z-eedd8cfd/confusion_matrix.png",
+    "outputs/smoke_runs/20261030T061637Z-eedd8cfd/events.jsonl",
+    "outputs/smoke_runs/20261030T061637Z-eedd8cfd/metrics.json",
+    "outputs/smoke_runs/20261030T061637Z-eedd8cfd/quality_after.json",
+    "outputs/smoke_runs/20261030T061637Z-eedd8cfd/quality_before.json",
+    "outputs/smoke_runs/20261030T061637Z-eedd8cfd/run_result.json",
+    "outputs/smoke_runs/20261030T061637Z-eedd8cfd/summary.md",
+    "outputs/smoke_runs/20261030T061637Z-eedd8cfd/test_processed.csv",
+    "outputs/smoke_runs/20261030T061637Z-eedd8cfd/train_processed.csv",
+    "data/manifests/split_manifest.csv",
+    "data/manifests/injection_manifest.csv",
+    "data/manifests/preparation_summary.json"
+  ]
+}
