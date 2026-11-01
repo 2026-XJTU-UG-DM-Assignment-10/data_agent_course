@@ -75,3 +75,74 @@ python scripts/check_delivery.py --role A --submit
 ## 2026-10-30 main 集成复验补记（D）
 
 保留上述成员原始记录；本次用户授权合并初版，由 D 在 main 使用真实依赖复验。具体改动、提交来源、验证边界和证据见 `docs/integration_20261030.md`。新的 handoffs JSON 复验标记由集成人登记，不代表成员此前执行过缺失的 submit 命令。真实模型凭据缺失，LLM 验收仍待完成。
+
+---
+
+# 第二阶段交接（2026-11-01）
+
+本段覆盖第二阶段任务 A1–A4 的实际执行，与上方初版记录并列保留。
+
+## 本次完成项
+
+| 任务 | 结果 |
+| --- | --- |
+| A1 同步 main | `member-a-data` 落后 main 23 个提交，已 `fetch` + `merge`；解决 6 处冲突 |
+| A1 正式数据复现 | 本机执行固定命令，规模与注入计数与基线完全一致 |
+| A1 可复现性核验 | 5 个产物 SHA-256 与 `preparation_summary.json` 逐项匹配 |
+| A1 自测 | `check_A.py` 与 `--integration` 均退出码 0，54 项 |
+| A2 审核 data.md | 逐条核对 D 补写的 10 条，发现 1 处遗漏、2 处未解释差值，已补 |
+| A3 报告素材 | `docs/data.md` 重写为 9 节，含规模表、四类问题表、5 张图表建议、3 个必答问题 |
+| A4 交接与账本 | 更新本文件、`handoffs/A.json`、新增 `ai_usage/A/prompts/A-20261101-session.md` |
+
+## 合并冲突处理（逐项）
+
+| 文件 | 处理方式 | 理由 |
+| --- | --- | --- |
+| `scripts/prepare_data.py` | 取 main 版 | main 加了 `newline="\n"`，修复 Windows 下 `write_text` 把 `\n` 转 `\r\n` 导致产物哈希漂移 |
+| `docs/data.md` | 以 main 版为底稿后重写 | 保留 D 补写来源与历史，再补全为报告素材 |
+| `docs/handoff_A.md` | 手工合并 | 保留成员记录与 D 的 2026-10-30 补记，追加本段 |
+| `handoffs/A.json` | 手工合并 | 证据列表合并两侧，保留 `last_gate` 与 `integration_review` |
+| `evidence/A/fixtures.json` | 取 main 版 | 两版内容相同，仅行尾差异 |
+| `evidence/A/formal_data.json` | 取 main 版 | 同上 |
+
+没有一律选 ours/theirs，也没有丢弃任何一侧的有效记录。
+
+## 本次实际运行结果
+
+| 命令 | 退出码 | 结果 |
+| --- | --- | --- |
+| `python scripts/prepare_data.py --seed 42 --sample-size 10000` | 0 | 参考 10,000 / 训练 7,000 / 测试 3,000 / dirty 7,140；组交集 0 |
+| `python checks/check_A.py` | 0 | fixtures + formal_data passed，54 项 |
+| `python checks/check_A.py --integration` | 0 | 强制真实 `normalize_frame`，54 项 |
+
+产物 SHA-256 全部匹配：`train_reference.csv`(7,000)、`test_reference.csv`(3,000)、`train_dirty.csv`(7,140)、`split_manifest.csv`(10,000)、`injection_manifest.csv`(6,265)。
+
+清洗复算（真实 `clean_training_data` + `plan_rules.json`）：7,140 → 7,000，填补前删 140 行、填补后删 0 行、格式修改 1,218、非法置空 70、填补 5,780，清洗后四类问题均为 0。
+
+## A2 发现并修正的事实问题
+
+1. D 补写文档只说“参考数据保留原生缺失”，**漏了 `train_reference.csv` 的 3 行原生完全重复**。这解释了训练组数 6,997 比行数 7,000 少 3。
+2. 检测值 `format_issue_cells` 1,218 比注入 1,198 多 20，`missing` 5,815 比“原生 853 + 注入 4,857”多 105——都是 140 条复制行带入的。原文未说明，容易被误判为计数错误，已在 `docs/data.md` 第 4.3 节写明。
+3. 原文未区分“原生问题 / 人工注入 / 最终检测”三种口径，已拆成第 4.1–4.4 节。
+
+## 环境限制（如实记录，未绕过）
+
+本机 `.venv` 为 Python 3.14.5，`requirements.txt` 基线是 3.13.9。`scikit-learn` 依赖的 `scipy` 在 3.14 无预编译包，**无法安装**。
+
+- 不影响 A：`prepare_data.py`、`src/profiler.py`、`checks/check_A.py` 仅依赖 pandas / numpy / pydantic，均可用。
+- 影响面仅在 D 的分类与页面（需 sklearn / streamlit）。本机未尝试安装、也未声称安装成功。
+
+## 未执行项
+
+- `check_delivery.py --role A --integration` 与 `check_integration.py`：按任务划分由 D 在 main 执行，A 不执行。
+- `real_llm` / `end_to_end`：属 C/D 范围，A 未配置凭据，保持 `not_run`。
+
+## AI 使用记录
+
+账本 `ai_usage/A/usage.json` 新增 `A-20261101-session`；提示词 `ai_usage/A/prompts/A-20261101-session.md`。模型、token、费用均未知，按规范留 `null`，未记为 0。
+
+## 下一步
+
+1. 本人在 `member-a-data` 执行 `summarize_ai_usage.py --role A --check --require-records` 与 `check_delivery.py --role A --submit`，通过后推送本人分支。
+2. 由 D 合并并在 main 复验。
+3. D 可直接使用 `docs/data.md` 第 8 节的幻灯片要点、图表建议与三个必答问题。
