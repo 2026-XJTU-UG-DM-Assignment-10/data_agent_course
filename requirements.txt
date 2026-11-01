@@ -1,5 +1,5 @@
-# Versions available in the initial local environment.
-# Shared contracts are verified; verify the full application after implementation.
+# A/B/C/D rules integration checked on Windows, Python 3.13.9 (2026-10-30).
+# Real-model execution still requires local provider configuration and verification.
 pydantic==2.12.4
 pandas==2.3.3
 numpy==2.3.5

@@ -3,8 +3,8 @@
   "contract_version": "1.0",
   "role": "B",
   "branch": "member-b-clean",
-  "status": "working",
-  "based_on_commit": null,
+  "status": "ready_for_review",
+  "based_on_commit": "1597bfafb2eba8fd5c59e5b263ca5577974f9cd2",
   "completed": [
     "Implemented and verified normalization and cleaning using shared fixture and independent synthetic cases",
     "Added member B self check, methodology, evidence and handoff"
@@ -22,7 +22,7 @@
     "fixtures": {
       "status": "passed",
       "evidence": [
-        "evidence/B/fixtures.json"
+        "evidence/B/integration_fixtures_20261030.json"
       ]
     },
     "formal_data": {
@@ -39,6 +39,28 @@
     }
   },
   "blockers": [],
-  "next_action": "Apply to actual member-b-clean branch, rerun delivery gate and open PR; D will integrate.",
-  "last_gate": null
+  "next_action": "Maintainer-revalidated on main; collect real LLM evidence after configuring provider and continue integration maintenance.",
+  "last_gate": {
+    "checked_at": "2026-10-30T06:16:18.570849+00:00",
+    "verified_revision": "1597bfafb2eba8fd5c59e5b263ca5577974f9cd2",
+    "tested_files_sha256": {
+      "src/normalization.py": "0be89db6eeb685cace54c524ddfd046548a6d5a3f4f61081ff5f9ed6287a6dd9",
+      "src/cleaner.py": "bbcd98541c71d24faccb1a50d1aefad37eaf648032456d74651591ce5676fb0f",
+      "checks/check_B.py": "b5d7fe99ef1432cd9de67791aa265985f89eee67c372dc3f7b0abaa716c80bd4",
+      "docs/cleaning.md": "b31b783a4145dbef55dbc1d686c06f6346dfa7662905be5a0797b1bdbe5241c1",
+      "docs/handoff_B.md": "44b9a7e6236da4cff6190068e88acb75231716204305ba4c929d407ca711bdb1"
+    },
+    "verified_by": "D maintainer revalidation"
+  },
+  "integration_review": {
+    "reviewer": "D",
+    "kind": "maintainer_revalidation_after_user_requested_merge",
+    "submitted_status": "working",
+    "submitted_last_gate": null,
+    "submitted_based_on_commit": null,
+    "checked_at": "2026-10-30T06:16:18.570849+00:00",
+    "verified_revision": "1597bfafb2eba8fd5c59e5b263ca5577974f9cd2",
+    "command": "python checks/check_B.py --integration",
+    "explanation": "New integration attestations; not a claim that the member ran an earlier missing submit command."
+  }
 }

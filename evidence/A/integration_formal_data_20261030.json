@@ -1,0 +1,21 @@
+{
+  "workflow_version": "2.0",
+  "contract_version": "1.0",
+  "role": "A",
+  "scope": "formal_data",
+  "status": "passed",
+  "checked_at": "2026-10-30T06:16:18.540305+00:00",
+  "command": "python checks/check_A.py --integration",
+  "verified_by": "D maintainer integration",
+  "verified_revision": "1597bfafb2eba8fd5c59e5b263ca5577974f9cd2",
+  "summary": {
+    "check_count": 54,
+    "real_collaborator_modules": true,
+    "LLM_fault_cases_use_fakes_only": false,
+    "real_llm_verified": false
+  },
+  "uses_test_doubles": false,
+  "artifacts": [
+    "outputs/integration/revalidation_A.txt"
+  ]
+}

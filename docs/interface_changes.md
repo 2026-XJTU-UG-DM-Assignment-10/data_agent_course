@@ -27,3 +27,8 @@
 实际验证结果：
 发布版本：
 ```
+# 2026-10-30 第二阶段公共工作流修正
+
+业务契约1.0及两个冻结文件、哈希均不变。在隔离检出用真实prepare_data重建后，A门禁返回2，明确拒绝data/manifests/preparation_summary.json（generated_at变化）。该清单已被main跟踪但未列A归属。
+
+只为A补入三个精确路径：split_manifest.csv、injection_manifest.csv、preparation_summary.json。不放开raw目录、任意data路径或其他业务文件。保留清单跟踪及审计。隔离A门禁修复后实际返回0；12项协作控制回归通过，验证B仍不能修改清单，A不能修改任意额外数据文件。证据见evidence/D/manifest_scope_stage2_20261030.json。

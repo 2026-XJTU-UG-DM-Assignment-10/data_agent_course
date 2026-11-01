@@ -1,0 +1,33 @@
+{
+  "workflow_version": "2.0",
+  "contract_version": "1.0",
+  "role": "D",
+  "scope": "end_to_end",
+  "status": "passed",
+  "checked_at": "2026-10-30T07:25:57.835513+00:00",
+  "command": "python scripts/check_integration.py --mode rules (on main)",
+  "uses_test_doubles": false,
+  "summary": {
+    "mode": "rules",
+    "role_checks": {
+      "A": "passed",
+      "B": "passed",
+      "C": "passed",
+      "D": "passed"
+    },
+    "secondary_smoke_run_id": "20261030T072430Z-33ccdc9f",
+    "primary_material_run_id": "20261030T070819Z-7779c942",
+    "accuracy": 0.8523333333333334,
+    "macro_f1": 0.788845681782975,
+    "train_before": 7140,
+    "train_after": 7000,
+    "test_rows": 3000,
+    "real_llm_checked": false,
+    "revision": "f723c36764f500bd0ba4ff727e13dc9fa6c3f45e"
+  },
+  "artifacts": [
+    "outputs/integration/integration_rules.json",
+    "outputs/integration/smoke_rules.json",
+    "outputs/final_delivery/main_rules_gate.log"
+  ]
+}

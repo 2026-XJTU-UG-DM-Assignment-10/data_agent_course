@@ -2,7 +2,7 @@
 
 四人协作、两周展示版。目标是完成固定 Adult 表格数据的质量检测、模型制定清洗计划、工具执行、分类和结果展示。
 
-当前仓库提供公共接口、独立开发样例、AI 角色指令、机器可读交接记录和交付检查工具。数据准备、清洗业务、真实模型调用、分类和页面由四位成员按分工实现，当前没有可运行的完整应用。
+四个成员的初版已在 main 合并，2026-10-30 使用真实 Adult 数据完成规则模式端到端联调。训练记录 7,140 → 7,000，测试 3,000；Accuracy 85.23%，Macro-F1 0.7888。真实模型模式尚未配置凭据，保持待验证。合并来源、修复及实际证据见 [本次集成记录](docs/integration_20261030.md)。
 
 ## 从哪里开始
 
@@ -20,11 +20,11 @@
 | C：智能体与流程 | `src/llm_client.py`、`src/agent.py`、`src/pipeline.py` | [成员 C](docs/成员C_AI任务.md) | `member-c-agent` |
 | D：分类与界面 | `src/classifier.py`、`app.py`、`src/cli.py` | [成员 D](docs/成员D_AI任务.md) | `member-d-ui` |
 
-表中业务文件为待实现文件，未用空实现冒充已完成功能。公共文件和依赖由 D 统一维护，C 维护总流程，其他模块按文件归属修复。
+表中业务模块已合并；后续仍按成员文件归属维护，公共契约保持 1.0。
 
 ## 环境与当前可运行检查
 
-完整依赖要求 Python 3.11+（固定的 NumPy 2.3.5 要求至少 3.11）。公共接口已在 Python 3.13.9、Pydantic 2.12.4 下验证；业务流程完成后还需验证完整依赖组合。
+完整依赖要求 Python 3.11+（固定的 NumPy 2.3.5 要求至少 3.11）。本次集成使用 Windows / Python 3.13.9，规则流程、真实模块自测及 Streamlit AppTest 已验证。
 
 在项目根目录的 PowerShell 中执行：
 
@@ -39,7 +39,25 @@ python -m venv .venv
 
 `examples/` 包含脏/已规范化/干净小样本，以及模拟摘要、指标、运行结果和模型返回，便于独立开发。它们均非正式实验，见 [fixtures_manifest.json](examples/fixtures_manifest.json)。正式数据由 A 的准备脚本生成，详见 [data/README.md](data/README.md)。
 
-成员实现业务和自测后，用 `python scripts/check_delivery.py --role B --submit`（B 替换为本人角色）生成待评审交付。当前角色代码尚未实现时返回 not_ready/退出码 2 是预期结果。D 的最终检查入口为 `python scripts/check_integration.py --mode rules` 和 `--mode llm`。
+成员实现业务和自测后，用 `python scripts/check_delivery.py --role B --submit`（B 替换为本人角色）生成待评审交付。角色代码尚未实现时返回 not_ready/退出码 2 是预期结果。D 的最终检查入口为 `python scripts/check_integration.py --mode rules` 和 `--mode llm`。
+
+### 准备正式数据并运行
+
+在项目根目录执行；虚拟环境初始化及依赖安装见上面的命令：
+
+```powershell
+.venv\Scripts\python.exe scripts/prepare_data.py --seed 42 --sample-size 10000
+.venv\Scripts\python.exe -m src.cli --mode rules
+.venv\Scripts\python.exe scripts/check_integration.py --mode rules
+.venv\Scripts\python.exe -m streamlit run app.py
+```
+
+页面默认使用正式训练/测试路径；“查看合成页面示例”仍是单独标记的展示样例。只有点击“开始处理”才创建新运行，重绘和切换模式不会自动请求模型。
+
+真实模型需先设置 `LLM_API_URL`、`LLM_API_KEY`、`LLM_MODEL` 环境变量，再运行 `python scripts/check_integration.py --mode llm`。缺少配置时返回待验证，不降级为规则成功。密钥只在本地设置，不提交或发到聊天中。
+
+集成检查在 main 运行。正式输出为 `outputs/<run_id>/`（smoke 验证使用 `outputs/smoke_runs/<run_id>/`），包括前后质量报告、计划、审计、处理后 CSV、指标、混淆矩阵、摘要和事件日志。`RunResult.artifacts` 的路径均相对于该次运行目录。
+
 
 模型配置字段见 `.env.example`，默认值为空；实际密钥放入本地环境变量。当前尚未实现 `.env` 文件自动加载。密钥、虚拟环境、生成数据和运行输出均由 `.gitignore` 排除。
 
@@ -47,7 +65,7 @@ python -m venv .venv
 
 ## Git 协作
 
-- `main` 保存共享基础和经过集成人评审的代码，完整应用需等待四模块实际集成。
+- `main` 保存已集成的四人初版与实际复验证据；规则完整流程已通过，真实模型和真人验收仍待补。
 - 每位成员切到自己的分支，只主要修改本人负责文件。
 - 交付时更新本人 `docs/handoff_X.md` 与 `handoffs/X.json`，运行固定自测及交付检查；声明真实数据、真实模型、完整流程各自的实际验证范围。
 - 通过 PR 或交给集成人合并；公共接口变更统一记录到 [interface_changes.md](docs/interface_changes.md)。
@@ -60,7 +78,7 @@ git switch member-a-data
 git status
 ```
 
-远程仓库：<https://github.com/2026-XJTU-UG-DM-Assignment-10/data_agent_course>，当前为公开仓库。本地 `origin` 已关联该地址，主分支和四个成员分支使用共同起点。
+远程仓库：<https://github.com/2026-XJTU-UG-DM-Assignment-10/data_agent_course>，当前为公开仓库。四个成员初版已合入 main，继续开发前先保存并提交个人工作，再执行 git fetch origin 和 git merge origin/main。
 
 项目归属于组织 [2026-XJTU-UG-DM-Assignment-10](https://github.com/2026-XJTU-UG-DM-Assignment-10)，组织显示名称为 `2026_XJTU_Undergraduate_Data_Mining_Course_Assignment_10`。迁移保留原有 Git 提交历史，具体见[仓库迁移说明](docs/仓库迁移说明.md)。
 
@@ -101,6 +119,16 @@ git push -u origin member-b-clean
 - [接口检查记录](docs/公共文件检查记录.md)
 
 正式提交需包含报告、源码、原始及处理后数据、PPT、贡献说明和真实运行日志。生成数据和日志虽不进入 Git，最终仍需另行打包提交。
+
+## 第二阶段材料（2026-10-30）
+
+报告源稿与6页PDF：`docs/report.md`、`docs/report.pdf`。7页可编辑演示稿与讲者备注：`docs/presentation.pptx`，提纲与演示流程见`docs/presentation_outline.md`和`docs/demo_script.md`。材料统一使用规则运行`20261030T070819Z-7779c942`，不能称为真实模型成绩。PDF/PPT已渲染检查，原生PowerPoint兼容和另一台真人机器验收仍待补。
+
+阶段包：`outputs/final_delivery/data_agent_course_rules_stage_20261030.zip`，包含源码、正式数据、处理后数据、规则日志、材料及AI记录。解压校验见同目录`package_check.json`。它明确列出真实模型、跨机真人复现、排练和姓名确认缺项，不是课程全部验收通过声明。
+
+材料构建源为`docs/report_build.py`和`docs/presentation_build.mjs`；前者需reportlab，后者需Artifact Tool、演示文稿技能运行时和Node模块解析路径。本轮将后者复制到outputs/presentation_build，接入运行时node_modules并指定RUNTIME_NODE_MODULES后实际执行，不能在缺依赖的普通环境直接运行。源码、PDF/PPT和打包证据一起交付，不要求队友重建材料。`python docs/report_package.py`可在具备pypdf的材料环境中重新打规则阶段包。
+
+跟踪的三个`data/manifests/`清单由A的准备脚本生成并维护，已列入A精确归属。修改它们仍需实际准备/验证；其他角色不因此获得任意data目录写权限。
 
 ## AI 使用记录
 

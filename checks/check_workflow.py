@@ -48,6 +48,14 @@ def main() -> None:
                 target.parent.mkdir(parents=True, exist_ok=True)
                 shutil.copy2(source, target)
 
+        # The control fixture must not depend on whether real B code/logs have
+        # already been delivered in the source repo. Only mutate the temp copy.
+        (project / "src/normalization.py").unlink(missing_ok=True)
+        usage_path = project / "ai_usage/B/usage.json"
+        usage = json.loads(usage_path.read_text(encoding="utf-8"))
+        usage["records"] = []
+        usage_path.write_text(json.dumps(usage), encoding="utf-8")
+
         def command(*args: str) -> str:
             result = subprocess.run(args, cwd=project, capture_output=True, text=True, encoding="utf-8", errors="replace")
             if result.returncode:
@@ -64,6 +72,8 @@ def main() -> None:
         command("git", "config", "user.name", "Workflow Control Test")
         command("git", "config", "user.email", "workflow-test@example.invalid")
         command("git", "add", ".")
+        command("git", "add", "-f", "data/manifests/split_manifest.csv",
+                "data/manifests/injection_manifest.csv", "data/manifests/preparation_summary.json")
         command("git", "-c", "commit.gpgsign=false", "commit", "-m", "temporary workflow test baseline")
         command("git", "update-ref", "refs/remotes/origin/main", "HEAD")
         assert gate(0, "--foundation")["business_acceptance"] == "not_evaluated"
@@ -107,6 +117,25 @@ print(json.dumps({'workflow_control_only':True,'integration':'--integration' in 
         assert any("outside role" in error for error in gate(2, "--role", "B", "--submit")["errors"])
         readme.write_bytes(original)
         passed.append("cross_role_edits_rejected")
+
+        # Three tracked, A-generated manifests are A-owned; arbitrary data paths
+        # and edits by other roles remain outside that permission.
+        import fnmatch
+        ownership = json.loads((project / "collaboration/roles.json").read_text(encoding="utf-8"))["roles"]
+        manifests = ("split_manifest.csv", "injection_manifest.csv", "preparation_summary.json")
+        for name in manifests:
+            relative = "data/manifests/" + name
+            assert any(fnmatch.fnmatchcase(relative, pattern) for pattern in ownership["A"]["owned_paths"])
+            assert not any(fnmatch.fnmatchcase(relative, pattern) for pattern in ownership["B"]["owned_paths"])
+        for relative in ("data/raw/adult.data", "data/manifests/unrelated.json", "src/cleaner.py"):
+            assert not any(fnmatch.fnmatchcase(relative, pattern) for pattern in ownership["A"]["owned_paths"])
+        manifest_path = project / "data/manifests/preparation_summary.json"
+        original_manifest = manifest_path.read_bytes()
+        manifest_path.write_bytes(original_manifest + b"\n")
+        assert any("outside role B ownership: data/manifests/preparation_summary.json" in error
+                   for error in gate(2, "--role", "B", "--submit")["errors"])
+        manifest_path.write_bytes(original_manifest)
+        passed.append("a_generated_manifests_scoped_and_other_roles_rejected")
 
         frozen = project / "src/schema.py"
         original = frozen.read_bytes()

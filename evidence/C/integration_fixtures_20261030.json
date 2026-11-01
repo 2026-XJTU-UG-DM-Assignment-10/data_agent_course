@@ -1,0 +1,21 @@
+{
+  "workflow_version": "2.0",
+  "contract_version": "1.0",
+  "role": "C",
+  "scope": "fixtures",
+  "status": "passed",
+  "checked_at": "2026-10-30T06:16:18.586697+00:00",
+  "command": "python checks/check_C.py --integration",
+  "verified_by": "D maintainer integration",
+  "verified_revision": "1597bfafb2eba8fd5c59e5b263ca5577974f9cd2",
+  "summary": {
+    "check_count": 9,
+    "real_collaborator_modules": true,
+    "LLM_fault_cases_use_fakes_only": true,
+    "real_llm_verified": false
+  },
+  "uses_test_doubles": true,
+  "artifacts": [
+    "outputs/integration/revalidation_C.txt"
+  ]
+}

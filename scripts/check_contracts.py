@@ -82,7 +82,7 @@ def main() -> None:
 
     print(json.dumps({
         "status": "passed",
-        "scope": "shared contracts and fixtures only; application is not implemented yet",
+        "scope": "shared contracts and fixtures only; business acceptance is checked separately",
         "rejected_invalid_cases": rejected,
         "fixture_rows": {name: len(value) for name, value in rows.items()},
         "fixture_columns": len(CSV_COLUMNS),

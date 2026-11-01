@@ -1,0 +1,23 @@
+{
+  "workflow_version": "2.0",
+  "contract_version": "1.0",
+  "role": "D",
+  "scope": "fixtures",
+  "status": "passed",
+  "checked_at": "2026-10-30T07:18:57.363994+00:00",
+  "command": "Actual A prepare_data and check_delivery in isolated git checkout; checks/check_workflow.py",
+  "uses_test_doubles": false,
+  "summary": {
+    "before_fix_exit": 2,
+    "after_fix_exit": 0,
+    "scoped_paths": 3,
+    "workflow_regressions": 12,
+    "uses_real_prepare_data": true,
+    "real_model": false
+  },
+  "artifacts": [
+    "outputs/manifest_repro/before.json",
+    "outputs/manifest_repro/after.json",
+    "outputs/workflow_qa/latest.json"
+  ]
+}

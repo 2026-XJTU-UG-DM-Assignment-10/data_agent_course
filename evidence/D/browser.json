@@ -1,0 +1,24 @@
+{
+  "workflow_version": "2.0",
+  "contract_version": "1.0",
+  "role": "D",
+  "scope": "fixtures",
+  "status": "passed",
+  "checked_at": "2026-10-26T15:39:09.337554+00:00",
+  "command": "Streamlit loopback server at 127.0.0.1:8502; CUA browser UI inspection",
+  "uses_test_doubles": false,
+  "summary": {
+    "server_started": true,
+    "synthetic_preview_labeled": true,
+    "synthetic_svg_downloaded": true,
+    "download_kept_visible_page_state": true,
+    "real_entry_missing_C_explicit": true,
+    "limits": "Only page, synthetic preview/download and real missing-dependency path; no successful real pipeline or model call"
+  },
+  "artifacts": [
+    "outputs/member_D/browser_check.json",
+    "outputs/member_D/browser_preview.png",
+    "outputs/member_D/browser_missing_pipeline.png",
+    "outputs/member_D/browser_download.svg"
+  ]
+}

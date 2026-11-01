@@ -33,7 +33,10 @@
         "docs/handoff_A.md",
         "handoffs/A.json",
         "evidence/A/**",
-        "ai_usage/A/**"
+        "ai_usage/A/**",
+        "data/manifests/split_manifest.csv",
+        "data/manifests/injection_manifest.csv",
+        "data/manifests/preparation_summary.json"
       ],
       "entrypoints": [
         {

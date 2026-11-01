@@ -1,0 +1,38 @@
+{
+  "workflow_version": "2.0",
+  "contract_version": "1.0",
+  "role": "D",
+  "scope": "formal_data",
+  "status": "passed",
+  "checked_at": "2026-10-30T07:18:57.363994+00:00",
+  "command": "Manual CUA browser interaction with Streamlit at 127.0.0.1:8503; production rules pipeline",
+  "uses_test_doubles": false,
+  "summary": {
+    "initial_mode_rules": true,
+    "one_click_formal_rules_run": true,
+    "quality_and_strategy_visible": true,
+    "metrics_and_matrix_visible": true,
+    "download_controls": 13,
+    "downloaded_files_match": {
+      "train_processed.csv": true,
+      "events.jsonl": true,
+      "summary.md": true
+    },
+    "selector_llm_keeps_rules_result": true,
+    "selector_and_download_no_new_run": true,
+    "missing_input_clears_old_metrics": true,
+    "path_containment": "covered by check_D/AppTest, not by malicious browser input",
+    "uses_test_doubles": false,
+    "checked_at": "2026-10-30T07:18:57.363994+00:00",
+    "mode": "rules",
+    "run_id": "20261030T070819Z-7779c942",
+    "status": "passed",
+    "real_llm_checked": false
+  },
+  "artifacts": [
+    "outputs/final_delivery/browser_check.json",
+    "docs/report_assets/page_quality_rules.png",
+    "docs/report_assets/page_results_rules.png",
+    "outputs/20261030T070819Z-7779c942/run_result.json"
+  ]
+}
