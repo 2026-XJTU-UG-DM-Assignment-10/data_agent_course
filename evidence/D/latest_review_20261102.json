@@ -1,0 +1,55 @@
+{
+  "workflow_version": "2.0",
+  "contract_version": "1.0",
+  "role": "D",
+  "scope": "formal_data",
+  "status": "passed",
+  "checked_at": "2026-11-02T02:42:25.067902+00:00",
+  "command": "python scripts/smoke_check.py --mode rules --report outputs/review_20261102/rules.json",
+  "uses_test_doubles": false,
+  "summary": {
+    "mode": "rules",
+    "run_id": "20261102T024227Z-478068af",
+    "real_llm_checked": false,
+    "train_before": 7140,
+    "train_after": 7000,
+    "test_rows": 3000,
+    "accuracy": 0.8523333333333334,
+    "macro_f1": 0.788845681782975,
+    "input_sha256": {
+      "data/raw/adult.data": "5b00264637dbfec36bdeaab5676b0b309ff9eb788d63554ca0a249491c86603d",
+      "data/reference/train_reference.csv": "289d09f69ee44ceb234f85ffa0a438313ccaec5bf859d207177da2803782118e",
+      "data/reference/test_reference.csv": "7a6d1ec21d93d6a633e81dcde7fb59ce189c77c648153d39e5eb14ac661365bf",
+      "data/dirty/train_dirty.csv": "d20733c943a5b9b1c98f5551ccff47bc288d8ed9c4e0617dc5c50250382bdc07",
+      "data/manifests/split_manifest.csv": "5dfa4cd550f59cf8564b55dc35372260d187a9789777683e30322a14c3c98f56",
+      "data/manifests/injection_manifest.csv": "19af365b00c7e517dc8dc42d7b4783757dfa3d793cb0b59f2f05b3603acc5f2c",
+      "data/manifests/preparation_summary.json": "9d9e4e09440b4ef8845b988c77fb4136cc29068278830936f4eb95df666c8f0a"
+    },
+    "A_independent_count_review": [
+      853,
+      3,
+      105,
+      20
+    ]
+  },
+  "artifacts": [
+    "outputs/review_20261102/rules.json",
+    "outputs/review_20261102/A_count_review.json",
+    "outputs/smoke_runs/20261102T024227Z-478068af/audit_test.json",
+    "outputs/smoke_runs/20261102T024227Z-478068af/audit_train.json",
+    "outputs/smoke_runs/20261102T024227Z-478068af/cleaning_plan.json",
+    "outputs/smoke_runs/20261102T024227Z-478068af/cleaning_state.json",
+    "outputs/smoke_runs/20261102T024227Z-478068af/confusion_matrix.png",
+    "outputs/smoke_runs/20261102T024227Z-478068af/events.jsonl",
+    "outputs/smoke_runs/20261102T024227Z-478068af/metrics.json",
+    "outputs/smoke_runs/20261102T024227Z-478068af/quality_after.json",
+    "outputs/smoke_runs/20261102T024227Z-478068af/quality_before.json",
+    "outputs/smoke_runs/20261102T024227Z-478068af/run_result.json",
+    "outputs/smoke_runs/20261102T024227Z-478068af/summary.md",
+    "outputs/smoke_runs/20261102T024227Z-478068af/test_processed.csv",
+    "outputs/smoke_runs/20261102T024227Z-478068af/train_processed.csv",
+    "data/manifests/split_manifest.csv",
+    "data/manifests/injection_manifest.csv",
+    "data/manifests/preparation_summary.json"
+  ]
+}
