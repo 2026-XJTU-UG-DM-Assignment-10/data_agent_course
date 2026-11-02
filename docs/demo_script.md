@@ -6,7 +6,7 @@
 
 1. 已有rules成功证据与13项导出；本轮主LLM运行20261102T043037Z-b0fc7c1a，7140→7000/3000，Accuracy85.23%，Macro-F1 0.788846。
 2. 真实模型与D复验已通过，成功目录和完整技术包已有备份。新终端需本地加载API环境变量；录屏仍待。
-3. 另一位成员从安装、数据准备开始复现，记录操作者、环境、命令、退出码和问题。本机新检出不能替代。
+3. 完成异机运行：操作者不限，可由周锦晨在另一台电脑或独立云服务器从环境安装、数据准备开始执行。记录操作者、环境、提交号、命令、退出码、run_id和问题；同机新检出不能替代。当前仍待实际执行，验收口径见acceptance.md。
 4. 姓名已确认：宋艳婷(A)、杨陈紫逸(B)、胡宇轩(C)、周锦晨(D)；仍需确认讲述安排和时间；本次未发送消息或创建日历安排，未填造参与人。
 
 ## 7 分钟流程
@@ -21,16 +21,26 @@
 
 网络/服务故障时明确切换为先前真实成功运行的回放；只有明确选择时用 rules，并说明它没有请求模型。合成预览只能用于 UI 开发说明。排练结束后在 integration_log.md 登记实际日期、参与人、命令、问题及修复状态；当前均未发生。
 
-## 跨机复现与排练登记（空表不是完成证明）
+## 网页端课堂展示
 
-在另一位成员项目目录执行：python -m venv .venv；.venv/Scripts/python.exe -m pip install -r requirements.txt；python scripts/prepare_data.py --seed 42 --sample-size 10000；python -m src.cli --mode rules；python -m streamlit run app.py。python应替换为项目解释器。角色与集成门禁仍按个人分支/main分别执行。
+现有app.py即为Streamlit网页入口，可以作为课堂成果演示的主体。PPT用于说明目标、方法和分工，随后切到浏览器展示模型策略、列级质量、审计、分类矩阵及下载；PDF/PPT仍随正式包提交。
+
+本机展示：在项目目录执行`python -m streamlit run app.py`，用启动信息中的本地地址打开浏览器并投影，不需要公网部署。
+
+服务器展示：服务器执行`python -m streamlit run app.py --server.address 127.0.0.1 --server.port 8501 --server.headless true`；演示电脑执行`ssh -N -L 8501:127.0.0.1:8501 用户名@服务器`，浏览器打开`http://localhost:8501`。主机信息由实际操作者本地填写，不提交密钥。此为操作方案，当前未部署或验证服务器。
+
+课前确认课堂网络、SSH连接、API配置及文件下载；保留本地成功运行备份。现场点击“开始处理”才是新运行；网络故障时可明确选择历史成功回放，并展示原始时间/模式，不装作现场新请求。
+
+## 异机运行与排练登记（空表不是完成证明）
+
+在异机项目目录新建虚拟环境并安装requirements.txt，执行`python scripts/prepare_data.py --seed 42 --sample-size 10000`、`python scripts/check_integration.py --mode rules`；加载本地API配置后执行`python scripts/check_integration.py --mode llm`，再检查网页和导出。Windows解释器为`.venv/Scripts/python.exe`，Linux为`.venv/bin/python`；命令中的python使用该解释器。角色与集成门禁仍按个人分支/main分别执行。
 
 | 项目 | 实际值 |
 | --- | --- |
-| 复现操作者、机器与环境 | 待真人填写 |
+| 异机操作者、机器/服务器、系统及Python版本 | 待实际记录，操作者不限 |
 | 日期、命令、退出码、run_id | 待真人填写 |
 | 排练参与人、开始/结束、耗时 | 待真人填写 |
 | 模型/网络故障及处理 | 待实际记录 |
 | 改进项、负责人、关闭证据 | 待实际记录 |
 
-答辩要点：模型只在白名单内选填补策略；人工注入用于覆盖四类要求；测试不重新拟合、不删行；填补后复查重复；缺失/异常/格式计数可重叠。真实模型已验证，当前同选median/Unknown，不能解释为准确率提升；原生PowerPoint打开、真人跨机与排练、录屏仍待实际补验。
+答辩要点：模型只在白名单内选填补策略；人工注入用于覆盖四类要求；测试不重新拟合、不删行；填补后复查重复；缺失/异常/格式计数可重叠。真实模型已验证，当前同选median/Unknown，不能解释为准确率提升；原生PowerPoint打开、异机运行、排练和录屏仍待实际补验。

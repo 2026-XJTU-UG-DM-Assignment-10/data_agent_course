@@ -126,7 +126,7 @@ git push -u origin member-b-clean
 
 6页报告：docs/report.md、docs/report.pdf。7页可编辑演示稿：docs/presentation.pptx；提纲及7分钟建议流程见docs/presentation_outline.md、docs/demo_script.md。姓名和实际贡献已确认入稿，D代完成的A/C增量单列，不推断比例。
 
-材料主要采用真实LLM运行20261102T043037Z-b0fc7c1a，规则对照20261102T042950Z-969fddba；新截图明确为已验证成功运行的历史回放，不称本次新请求。PDF6页/PPT7页全部渲染检查，三张原生表格、字体、重新导入与两张证据图片的实际嵌入哈希核对通过。PowerPoint应用访问授权超时，原生打开未验；真人跨机、全员排练和录屏仍待。
+材料主要采用真实LLM运行20261102T043037Z-b0fc7c1a，规则对照20261102T042950Z-969fddba；新截图明确为已验证成功运行的历史回放，不称本次新请求。PDF6页/PPT7页全部渲染检查，三张原生表格、字体、重新导入与两张证据图片的实际嵌入哈希核对通过。PowerPoint应用访问授权超时，原生打开未验；异机运行、全员排练和录屏仍待。复现改为操作者不限的异机运行，D本人可在独立服务器完成；当前尚未实跑，最新口径见[验收清单](docs/acceptance.md)。课堂网页展示方案见[演示脚本](docs/demo_script.md)，旧稿对操作者的限定不再适用。
 
 本轮完整技术包：outputs/real_llm_check/data_agent_course_materials_20261102.zip；解压与SHA-256校验见同目录materials_package_check.json。此前规则、真实LLM和功能包保留，各自代表原时间点。新包仍不等于真人事项已完成。
 
