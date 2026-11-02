@@ -4,7 +4,7 @@
   "role": "C",
   "branch": "member-c-agent",
   "status": "ready_for_review",
-  "based_on_commit": "0f86d573227f4e0a6f6a794f546bbbdcc6e12422",
+  "based_on_commit": "1128a52da6ee54928cc9bfa7ac8d9a9ad6ec1520",
   "completed": [
     "OpenAI-compatible LLM client with environment configuration and no hidden retries",
     "Rule/LLM plan selection with strict allowlist and two-attempt correction budget",
@@ -13,16 +13,15 @@
     "AI development usage record and sanitized prompt transcript",
     "2026-11-02 D delegated by user: production-pipeline real verification entry point with per-attempt runtime accounting",
     "15 offline checks including real HTTP client behavior with controlled remote transport, malformed response and finite timeout validation",
-    "Real DeepSeek formal pipeline verification passed with one actual request and complete C runtime accounting; secrets not persisted"
+    "Real DeepSeek formal pipeline verification passed with one actual request and complete C runtime accounting; secrets not persisted",
+    "Main real LLM integration passed after D event parser fix; third actual request succeeded and was recorded"
   ],
   "changed_files": [
-    "ai_usage/C/prompts/runtime-20261102T031150Z-ef13473e-1.md",
-    "ai_usage/C/prompts/runtime-20261102T031210Z-102c7ebc-1.md",
+    "ai_usage/C/prompts/runtime-20261102T031942Z-8d6dc4ee-1.md",
     "ai_usage/C/usage.json",
-    "docs/agent.md",
     "docs/handoff_C.md",
     "evidence/C/fixtures_check.json",
-    "evidence/C/real_llm_deepseek_20261102.json",
+    "evidence/C/main_llm_20261102.json",
     "handoffs/C.json"
   ],
   "verification": {
@@ -44,24 +43,24 @@
     },
     "end_to_end": {
       "status": "passed",
+      "mode": "llm",
       "evidence": [
-        "evidence/C/integration_end_to_end_20261030.json"
-      ],
-      "mode": "rules"
+        "evidence/C/main_llm_20261102.json"
+      ]
     }
   },
   "blockers": [],
-  "next_action": "D fixes its event-envelope smoke parsing and reruns main LLM integration. API setup is verified; new processes still require local environment loading. Final human checks/materials remain separate.",
+  "next_action": "API/model and main real LLM integration verified. New terminal still needs local environment loading. Runtime backup and technical validation supplement are maintained by D; human presentation checks remain pending.",
   "last_gate": {
-    "checked_at": "2026-11-02T03:16:02.408966+00:00",
-    "verified_revision": "0f86d573227f4e0a6f6a794f546bbbdcc6e12422",
+    "checked_at": "2026-11-02T03:23:17.366628+00:00",
+    "verified_revision": "1128a52da6ee54928cc9bfa7ac8d9a9ad6ec1520",
     "tested_files_sha256": {
       "src/llm_client.py": "41bf683531c9c894fe6bf38f359c5ab44ec96d7f93f11f5e356e8f45d1d5da3b",
       "src/agent.py": "4b514b503dfd41acb4627c4018dbcc79cee9671595cb79a5c7e9aee6af30d3db",
       "src/pipeline.py": "7d9c21870ae23e92198778ca980ad82b89238c2e4673ba9b6daec2ada6d83cc9",
       "checks/check_C.py": "5358368ac86dc523b63bd43ce8ba36ca31be2382eb003d581c26f9deaec601ea",
       "docs/agent.md": "05ab1d2bdd2e2536dcf84e20961a98095811ca2d4ed7fd6595a9eb93a6f298e4",
-      "docs/handoff_C.md": "0364595642d63571c0df5e5cb5065444fd8ace97f602ead8e9ccfac18d50ae79"
+      "docs/handoff_C.md": "212211eda776f6654829d42b30f8b9d6c9e4d91eb2480cb7eb8633a51b399e81"
     }
   },
   "integration_review": {
