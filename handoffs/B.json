@@ -4,30 +4,41 @@
   "role": "B",
   "branch": "member-b-clean",
   "status": "ready_for_review",
-  "based_on_commit": "1597bfafb2eba8fd5c59e5b263ca5577974f9cd2",
+  "based_on_commit": "65e7b651e068e628c969603278dfaf7993982464",
   "completed": [
     "Implemented and verified normalization and cleaning using shared fixture and independent synthetic cases",
-    "Added member B self check, methodology, evidence and handoff"
+    "Added member B self check, methodology, evidence and handoff",
+    "B stage 2: pinned-environment real-module revalidation and formal A data four-case review",
+    "Minimal B boundary fix after reproduced invalid plan/state acceptance; 44 fixture checks",
+    "All four allowed strategies, independently checked train-only fills, docs/flowchart/Q&A and historical package review"
   ],
   "changed_files": [
+    "ai_usage/B/prompts/B-20261102-codex-delivery.md",
+    "ai_usage/B/prompts/B-20261102-session.md",
+    "ai_usage/B/usage.json",
     "checks/check_B.py",
     "docs/cleaning.md",
     "docs/handoff_B.md",
+    "evidence/B/archive_review_codex_20261102.json",
+    "evidence/B/fixtures_codex_20261102.json",
+    "evidence/B/formal_codex_20261102.json",
+    "evidence/B/historical_offline_case_review_20261102.json",
+    "evidence/B/verify_stage2.py",
     "handoffs/B.json",
-    "evidence/B/fixtures.json",
-    "ai_usage/B/usage.json",
-    "ai_usage/B/prompts/B-20261027-session.md"
+    "src/cleaner.py"
   ],
   "verification": {
     "fixtures": {
       "status": "passed",
       "evidence": [
-        "evidence/B/integration_fixtures_20261030.json"
+        "evidence/B/fixtures_codex_20261102.json"
       ]
     },
     "formal_data": {
-      "status": "not_run",
-      "evidence": []
+      "status": "passed",
+      "evidence": [
+        "evidence/B/formal_codex_20261102.json"
+      ]
     },
     "real_llm": {
       "status": "not_run",
@@ -39,18 +50,17 @@
     }
   },
   "blockers": [],
-  "next_action": "Maintainer-revalidated on main; collect real LLM evidence after configuring provider and continue integration maintenance.",
+  "next_action": "After B submit passes, commit/push only member-b-clean. D reviews and performs main integration. B confirms four rules-data report cases; no fresh real-model or classifier claim.",
   "last_gate": {
-    "checked_at": "2026-10-30T06:16:18.570849+00:00",
-    "verified_revision": "1597bfafb2eba8fd5c59e5b263ca5577974f9cd2",
+    "checked_at": "2026-11-02T12:13:15.222547+00:00",
+    "verified_revision": "65e7b651e068e628c969603278dfaf7993982464",
     "tested_files_sha256": {
       "src/normalization.py": "0be89db6eeb685cace54c524ddfd046548a6d5a3f4f61081ff5f9ed6287a6dd9",
-      "src/cleaner.py": "bbcd98541c71d24faccb1a50d1aefad37eaf648032456d74651591ce5676fb0f",
-      "checks/check_B.py": "b5d7fe99ef1432cd9de67791aa265985f89eee67c372dc3f7b0abaa716c80bd4",
-      "docs/cleaning.md": "b31b783a4145dbef55dbc1d686c06f6346dfa7662905be5a0797b1bdbe5241c1",
-      "docs/handoff_B.md": "44b9a7e6236da4cff6190068e88acb75231716204305ba4c929d407ca711bdb1"
-    },
-    "verified_by": "D maintainer revalidation"
+      "src/cleaner.py": "f769a0433e64052f4a60d1af9695efc22d1a4b853c18953213fd763fda283cf1",
+      "checks/check_B.py": "e70dea35c96ed5b99255a17433ceb2bfa1146eb5fcc7a1c6a1f13e372d6474e1",
+      "docs/cleaning.md": "70826227af94cfcbcca5796bd5d34a47afbedadc7e86961b8bf038d7dc7bf790",
+      "docs/handoff_B.md": "ea573b2925dac4c6c0c83e8e30f95af47d7de3fdcfee67a8d0979bf314504177"
+    }
   },
   "integration_review": {
     "reviewer": "D",
@@ -62,5 +72,6 @@
     "verified_revision": "1597bfafb2eba8fd5c59e5b263ca5577974f9cd2",
     "command": "python checks/check_B.py --integration",
     "explanation": "New integration attestations; not a claim that the member ran an earlier missing submit command."
-  }
+  },
+  "historical_review_note": "integration_review retained verbatim as D's 2026-10-30 historical attestation, not acceptance of this new B change."
 }

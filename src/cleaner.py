@@ -5,12 +5,13 @@ from __future__ import annotations
 import math
 
 import pandas as pd
+from pydantic import ValidationError
 
 from .normalization import normalize_frame
 from .schema import (
     CATEGORY_FILL_VALUE, CATEGORICAL_COLUMNS, CleaningAudit, CleaningPlan,
     CleaningState, DataValidationError, FEATURE_COLUMNS, NUMERIC_BOUNDS,
-    NUMERIC_COLUMNS, TARGET_COLUMN,
+    MISSING_TOKENS, NUMERIC_COLUMNS, TARGET_COLUMN,
 )
 
 _DUPLICATE_KEY = list(FEATURE_COLUMNS) + [TARGET_COLUMN]
@@ -66,16 +67,33 @@ def _fit_state(frame: pd.DataFrame, plan: CleaningPlan) -> tuple[CleaningState, 
     ), warnings
 
 
-def _validate_state(state: CleaningState) -> None:
+def _validate_plan(plan: CleaningPlan) -> CleaningPlan:
+    if not isinstance(plan, CleaningPlan):
+        raise DataValidationError("plan must be a validated CleaningPlan object")
+    try:
+        # model_copy(update=...) and later assignment bypass Pydantic validation.
+        return CleaningPlan.model_validate(plan.model_dump(warnings=False))
+    except (ValidationError, TypeError, ValueError) as exc:
+        raise DataValidationError("Invalid cleaning plan") from exc
+
+
+def _validate_state(state: CleaningState) -> CleaningState:
     if not isinstance(state, CleaningState):
         raise DataValidationError("cleaning_state must be a CleaningState object")
+    try:
+        state = CleaningState.model_validate(state.model_dump(warnings=False))
+    except (ValidationError, TypeError, ValueError) as exc:
+        raise DataValidationError("Invalid cleaning state") from exc
     for column, value in state.numeric_fill_values.items():
         lower, upper = NUMERIC_BOUNDS[column]
         if not math.isfinite(value) or (value <= lower if column == "fnlwgt" else value < lower) or (upper is not None and value > upper):
             raise DataValidationError(f"Invalid training fill value for {column}: {value}")
     for column, value in state.categorical_fill_values.items():
-        if not isinstance(value, str) or not value or value.strip() != value:
+        if not isinstance(value, str) or not value or value.strip() != value or value.casefold() in MISSING_TOKENS:
             raise DataValidationError(f"Invalid category fill for {column}")
+        if state.plan.categorical_imputation == "constant" and value != CATEGORY_FILL_VALUE:
+            raise DataValidationError(f"Constant category fill must be Unknown for {column}")
+    return state
 
 
 def _fill(frame: pd.DataFrame, state: CleaningState) -> int:
@@ -100,8 +118,7 @@ def clean_training_data(
     Duplicate comparisons use exactly 14 normalized features and the label,
     never metadata IDs. Rows are only removed for duplicates, never for nulls.
     """
-    if not isinstance(plan, CleaningPlan):
-        raise DataValidationError("plan must be a validated CleaningPlan object")
+    plan = _validate_plan(plan)
     frame, normalization = normalize_frame(train_df)
     input_rows = len(frame)
     before = int(frame.duplicated(subset=_DUPLICATE_KEY, keep="first").sum())
@@ -127,7 +144,7 @@ def transform_test_data(
     test_df: pd.DataFrame, cleaning_state: CleaningState,
 ) -> tuple[pd.DataFrame, CleaningAudit]:
     """Apply *only* trained fill values; do not fit, drop, reorder, or mutate."""
-    _validate_state(cleaning_state)
+    cleaning_state = _validate_state(cleaning_state)
     frame, normalization = normalize_frame(test_df)
     input_rows = len(frame)
     invalid = _mask_invalid(frame)

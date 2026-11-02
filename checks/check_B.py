@@ -100,6 +100,40 @@ def check():
     repeated_test = pd.concat([test.iloc[[0]], test.iloc[[0]]], ignore_index=True)
     repeated_clean, repeated_audit = transform_test_data(repeated_test, state)
     verify("test_duplicates_retained", len(repeated_clean) == 2 and repeated_audit.input_rows == repeated_audit.output_rows)
+    # Pydantic model_copy/assignment bypasses validation. The public cleaner
+    # boundary must reject these objects rather than silently choosing a fallback.
+    def reject(name, callback):
+        try:
+            callback()
+        except DataValidationError:
+            verify(name, True)
+        else:
+            raise AssertionError(name + " must raise DataValidationError")
+
+    for field, value in [
+        ("numeric_imputation", "not_allowed"),
+        ("categorical_imputation", "not_allowed"),
+        ("steps", ("impute_missing",)),
+        ("categorical_fill_value", "N/A"),
+    ]:
+        broken = plan.model_copy(update={field: value})
+        reject("invalid_plan_" + field,
+               lambda: clean_training_data(train, broken))
+
+    broken_states = {
+        "feature_columns": state.model_copy(update={"feature_columns": ("age",)}),
+        "missing_numeric_key": state.model_copy(update={"numeric_fill_values": {}}),
+        "nested_plan": state.model_copy(update={"plan": plan.model_copy(update={"numeric_imputation": "bad"})}),
+        "numeric_range": state.model_copy(update={"numeric_fill_values": {**state.numeric_fill_values, "age": -5.0}}),
+        "missing_category_token": state.model_copy(update={"categorical_fill_values": {**state.categorical_fill_values, "workclass": "?"}}),
+        "constant_mismatch": state.model_copy(update={"categorical_fill_values": {**state.categorical_fill_values, "workclass": "Private"}}),
+    }
+    for name, broken_state in broken_states.items():
+        reject("invalid_state_" + name,
+               lambda: transform_test_data(test, broken_state))
+    assert_frame_equal(train, train_original)
+    assert_frame_equal(test, test_original)
+    verify("invalid_objects_leave_inputs_untouched", True)
     return {"checks_passed": len(checks), "checks": checks,
             "train_audit": audit.model_dump(mode="json"),
             "test_audit": test_audit.model_dump(mode="json"),

@@ -1,7 +1,7 @@
 {
   "schema_version": "1.0",
   "role": "B",
-  "coverage_note": "从 2026-10-27 本次可确认的开发会话开始登记；此前历史对话或工具使用未完整覆盖。",
+  "coverage_note": "从 2026-10-27 本次可确认的开发会话开始登记；此前历史对话或工具使用未完整覆盖。 2026-11-02 导入用户提供成果包中可追溯的历史会话，逐条保留原值；另列本次 Codex 会话。",
   "records": [
     {
       "id": "B-20261027-session",
@@ -27,6 +27,56 @@
       "result": "succeeded",
       "source_id": "B-chat-session-20261027",
       "notes": "可确认当前开发请求一轮；未推断平台内部实际调用次数、历史聊天轮数或费用；核心模块在上传仓库中已有实现，此次验证并补全交付材料。"
+    },
+    {
+      "id": "B-20261102-stage2",
+      "scope": "development",
+      "time": "2026-11-02T11:21:55.035503+00:00",
+      "tool": "ChatGPT",
+      "model": "GPT-6",
+      "parameters": {},
+      "parameters_note": "平台未提供精确的 API 采样参数，不推断内部参数",
+      "prompt_files": [
+        "ai_usage/B/prompts/B-20261102-session.md"
+      ],
+      "calls": null,
+      "interactions": 2,
+      "input_tokens": null,
+      "output_tokens": null,
+      "cost": {
+        "kind": "unknown",
+        "amount": null,
+        "currency": null,
+        "basis": "平台未提供本次对话内部模型请求及计费明细"
+      },
+      "result": "partial",
+      "source_id": "B-chat-session-20261102-stage2",
+      "notes": "本次可确认的两个成员输入：新任务请求及 A 数据包来源说明。已在上传 ZIP 的离线工作副本中完成规则 B 验证及文档证据；远程 Git 分支提交门禁与推送未执行。没有将离线规则测试或 D/C 历史真实模型请求算成本次开发模型调用。"
+    },
+    {
+      "id": "B-20261102-codex-delivery",
+      "scope": "development",
+      "time": "2026-11-02T20:00:26.285126+08:00",
+      "tool": "Codex desktop",
+      "model": "GPT-6",
+      "parameters": {},
+      "parameters_note": "运行上下文仅能确认基于 GPT-6；精确模型后缀和采样/推理配置不可核实，未猜测。",
+      "prompt_files": [
+        "ai_usage/B/prompts/B-20261102-codex-delivery.md"
+      ],
+      "calls": null,
+      "interactions": 1,
+      "input_tokens": null,
+      "output_tokens": null,
+      "cost": {
+        "kind": "unknown",
+        "amount": null,
+        "currency": null,
+        "basis": "没有本会话实际 token、内部模型请求数或费用明细；工具调用不当作模型调用。"
+      },
+      "result": "succeeded",
+      "source_id": "B-codex-stage2-delivery-20261102",
+      "notes": "本次可核实为一条成员 B 第二阶段执行请求；含 Git 同步、代码边界修复、正式数据核对、案例/材料和交付。验收范围与 Git 成败以实际命令记录为准；没有新发项目 LLM 请求。历史成果包会话独立保留。"
     }
   ]
 }
