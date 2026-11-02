@@ -3,11 +3,13 @@ from __future__ import annotations
 
 import argparse
 import json
+import io
 import os
 import sys
 import tempfile
 import types
 import unittest
+from unittest.mock import patch
 from datetime import datetime, timezone
 from pathlib import Path
 
@@ -216,6 +218,155 @@ class PipelineChecks(unittest.TestCase):
             self.assertTrue((root / reference).is_file())
 
 
+def verify_real_pipeline(client, report_path=None, *, project_root=ROOT):
+    """Use formal paths and the production pipeline, including its request ledger.
+
+    Configuration/missing inputs never produce a real-request claim. A successful
+    report requires one ledger entry per attempt; standalone agent calls cannot
+    satisfy this entry point.
+    """
+    from src.pipeline import run_pipeline
+    project_root = Path(project_root)
+    output = project_root / "outputs/real_llm_check"
+    target = Path(report_path) if report_path else output / "real_llm_evidence.json"
+    report = {"status": "not_ready", "mode": "llm", "real_request": False,
+              "real_llm_checked": False, "checked_at": datetime.now(timezone.utc).isoformat()}
+    train = project_root / "data/dirty/train_dirty.csv"
+    test = project_root / "data/reference/test_reference.csv"
+    code = 2
+    if not client.configured:
+        report["reason"] = "Set LLM_API_URL, LLM_API_KEY and LLM_MODEL in the local environment."
+    elif not train.is_file() or not test.is_file():
+        report["reason"] = "Prepare formal data with scripts/prepare_data.py --seed 42 --sample-size 10000."
+    else:
+        result = run_pipeline(train, test, mode="llm", output_dir=output, llm_client=client)
+        expected = {f"{result.run_id}:{number}" for number in range(1, client.calls_made + 1)}
+        ledger = json.loads((project_root / "ai_usage/C/usage.json").read_text(encoding="utf-8"))
+        requests = [item for item in ledger["records"] if item.get("source_id") in expected]
+        accounting_ok = (bool(expected) and len(requests) == len(expected)
+                         and {item["source_id"] for item in requests} == expected
+                         and all(item["calls"] == 1 and item["result"] in ("succeeded", "failed") for item in requests))
+        passed = result.status == "succeeded" and accounting_ok
+        report.update(status="passed" if passed else "failed", real_request=client.calls_made > 0,
+                      real_llm_checked=passed, run_id=result.run_id, output_dir=result.output_dir,
+                      artifacts=result.artifacts, calls_made=client.calls_made,
+                      accounting_checked=accounting_ok, request_source_ids=sorted(expected),
+                      model_evidence="Actual response model/parameters/usage are in events and C runtime records.",
+                      error_code=result.error_code)
+        code = 0 if passed else 1
+    target.parent.mkdir(parents=True, exist_ok=True)
+    target.write_text(json.dumps(report, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    print(json.dumps(report, ensure_ascii=True))
+    return code
+
+
+class TransportChecks(unittest.TestCase):
+    """Real client/agent/pipeline; only the remote HTTP boundary is controlled."""
+    @staticmethod
+    def body(text=None):
+        return {"model": "CONTROLLED_PROVIDER_MODEL", "choices": [{"message": {"content": valid_text() if text is None else text}}],
+                "usage": {"prompt_tokens": 105, "completion_tokens": 12}}
+
+    @staticmethod
+    def session(outcomes):
+        class SessionDouble:
+            def __init__(self): self.posts = []; self.outcomes = list(outcomes)
+            def post(self, url, **kwargs):
+                self.posts.append((url, kwargs))
+                outcome = self.outcomes.pop(0)
+                if isinstance(outcome, Exception): raise outcome
+                return types.SimpleNamespace(raise_for_status=lambda: None, json=lambda: outcome)
+        return SessionDouble()
+
+    def client(self, session, **kwargs):
+        from src.llm_client import LLMClient
+        return LLMClient(api_url="https://controlled.invalid/v1", api_key="CONTROLLED_KEY", model="configured-model",
+                         session=session, **kwargs)
+
+    def test_request_body_endpoint_usage_and_budget(self):
+        from src.schema import ModelCallError
+        session = self.session([self.body()]); client = self.client(session, max_calls=1)
+        result = client.generate_plan({"row_count": 7}, feedback="controlled feedback")
+        url, request = session.posts[0]
+        self.assertEqual(url, "https://controlled.invalid/v1/chat/completions")
+        self.assertEqual(request["json"]["temperature"], 0)
+        user = json.loads(request["json"]["messages"][1]["content"])
+        self.assertEqual(user, {"training_quality_summary": {"row_count": 7}, "correction_feedback": "controlled feedback"})
+        self.assertEqual((result.model, result.input_tokens, result.output_tokens), ("CONTROLLED_PROVIDER_MODEL", 105, 12))
+        self.assertIsNone(result.cost)
+        with self.assertRaises(ModelCallError): client.generate_plan({})
+        self.assertEqual(len(session.posts), 1)
+
+    def test_timeout_is_one_attempt_and_does_not_expose_body(self):
+        import requests
+        from src.schema import ModelCallError
+        session = self.session([requests.Timeout("CONTROLLED_KEY private provider body")])
+        client = self.client(session)
+        with self.assertRaises(ModelCallError) as context: client.generate_plan({})
+        self.assertNotIn("CONTROLLED_KEY", str(context.exception))
+        self.assertEqual((client.calls_made, len(session.posts)), (1, 1))
+
+    def test_malformed_usage_is_public_model_error(self):
+        from src.schema import ModelCallError
+        body = self.body(); body["usage"] = "malformed-provider-usage"
+        with self.assertRaises(ModelCallError): self.client(self.session([body])).generate_plan({})
+
+    def test_nonfinite_timeout_rejected_before_http(self):
+        from src.schema import ModelCallError
+        for timeout in (float("nan"), float("inf"), -1):
+            with self.subTest(timeout=timeout), self.assertRaises(ModelCallError):
+                self.client(self.session([]), timeout=timeout)
+
+    @staticmethod
+    def prepare(root):
+        import pandas as pd
+        ledger = root / "ai_usage/C/usage.json"
+        ledger.parent.mkdir(parents=True)
+        ledger.write_text(json.dumps({"records": []}), encoding="utf-8")
+        train = root / "data/dirty/train_dirty.csv"; train.parent.mkdir(parents=True)
+        test = root / "data/reference/test_reference.csv"; test.parent.mkdir(parents=True)
+        pd.DataFrame([row(0), row(1, ">50K"), row(2), row(3, ">50K")]).to_csv(train, index=False)
+        pd.DataFrame([row(10), row(11, ">50K")]).to_csv(test, index=False)
+        return ledger, train, test
+
+    def test_real_pipeline_correction_and_entrypoint_account_for_every_attempt(self):
+        from src import pipeline
+        # Private temporary ledger only. This is NOT a real model invocation.
+        with tempfile.TemporaryDirectory(prefix="check-c-http-double-") as directory:
+            root = Path(directory); ledger, _, _ = self.prepare(root)
+            client = self.client(self.session([self.body("bad JSON CONTROLLED_KEY"), self.body()]))
+            with patch.object(pipeline, "__file__", str(root / "src/pipeline.py")), patch("sys.stdout", new=io.StringIO()):
+                code = verify_real_pipeline(client, root / "controlled-entrypoint.json", project_root=root)
+            self.assertEqual(code, 0)
+            evidence = json.loads((root / "controlled-entrypoint.json").read_text(encoding="utf-8"))
+            records = json.loads(ledger.read_text(encoding="utf-8"))["records"]
+            self.assertEqual(len(records), 2)
+            self.assertTrue(all(item["calls"] == 1 and item["result"] == "succeeded" for item in records))
+            self.assertEqual({item["source_id"] for item in records}, set(evidence["request_source_ids"]))
+            self.assertTrue(all((root / item["prompt_files"][0]).is_file() for item in records))
+            self.assertTrue(all(item["input_tokens"] == 105 and item["cost"]["amount"] is None for item in records))
+            events = (Path(evidence["output_dir"]) / "events.jsonl").read_text(encoding="utf-8")
+            self.assertNotIn("CONTROLLED_KEY", events)
+
+    def test_transport_failure_ledger_and_missing_configuration(self):
+        import requests
+        from src import pipeline
+        from src.llm_client import LLMClient
+        with tempfile.TemporaryDirectory(prefix="check-c-http-failure-") as directory:
+            root = Path(directory); ledger, train, test = self.prepare(root)
+            client = self.client(self.session([requests.Timeout("CONTROLLED_KEY")]))
+            with patch.object(pipeline, "__file__", str(root / "src/pipeline.py")):
+                result = pipeline.run_pipeline(train, test, mode="llm", llm_client=client, output_dir=root / "runs")
+            self.assertEqual(result.status, "failed")
+            record = json.loads(ledger.read_text(encoding="utf-8"))["records"][0]
+            self.assertEqual((record["calls"], record["result"]), (1, "failed"))
+            self.assertNotIn("CONTROLLED_KEY", (Path(result.output_dir) / "events.jsonl").read_text(encoding="utf-8"))
+            missing = LLMClient(api_url="", api_key="", model="", session=self.session([]))
+            with patch.object(pipeline, "__file__", str(root / "src/pipeline.py")), patch("sys.stdout", new=io.StringIO()):
+                self.assertEqual(verify_real_pipeline(missing, root / "not-configured.json", project_root=root), 2)
+            self.assertEqual(len(json.loads(ledger.read_text(encoding="utf-8"))["records"]), 1)
+
+
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--integration", action="store_true")
@@ -240,26 +391,7 @@ def main():
 
     if args.real_llm:
         from src.llm_client import create_llm_client
-        from src.agent import get_cleaning_plan
-        report = load_report()
-        client = create_llm_client()
-        if not client.configured:
-            print("Real LLM verification blocked: set LLM_API_URL, LLM_API_KEY, LLM_MODEL.", file=sys.stderr)
-            return 2
-        out_dir = args.report.parent if args.report else ROOT / "outputs" / "real_llm_check"
-        out_dir.mkdir(parents=True, exist_ok=True)
-        raw_events = []
-        plan = get_cleaning_plan(report, mode="llm", llm_client=client,
-                                 event_sink=lambda name, data: raw_events.append({"name": name, "data": data}))
-        evidence_path = args.report or out_dir / "real_llm_evidence.json"
-        evidence_path.parent.mkdir(parents=True, exist_ok=True)
-        evidence_path.write_text(json.dumps({
-            "checked_at": datetime.now(timezone.utc).isoformat(),
-            "mode": "llm", "real_request": True, "provider": "openai_compatible",
-            "model": client.model, "plan": plan.model_dump(mode="json"),
-            "events": raw_events, "calls_made": client.calls_made,
-        }, ensure_ascii=False, indent=2), encoding="utf-8")
-        print(f"Real LLM evidence written: {evidence_path}")
+        return verify_real_pipeline(create_llm_client(), args.report)
     elif args.report:
         args.report.parent.mkdir(parents=True, exist_ok=True)
         args.report.write_text(json.dumps({"status": "passed", "fixture_only": True}, indent=2), encoding="utf-8")
@@ -273,7 +405,8 @@ def main():
             "command": "python checks/check_C.py",
             "summary": {"unit_tests": result.testsRun, "rules_mode": "passed",
                         "plan_validation": "passed", "retry_budget": "at_most_two",
-                        "pipeline": "passed_with_A_and_D_test_doubles"},
+                        "pipeline": "passed_with_available_real_collaborators",
+                        "transport_tests": "controlled_HTTP_session_only_no_external_requests"},
             "uses_test_doubles": True,
             "artifacts": [],
         }

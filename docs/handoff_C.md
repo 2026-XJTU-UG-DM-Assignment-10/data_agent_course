@@ -1,5 +1,13 @@
 # 成员 C 交接记录
 
+## 当前增量（2026-11-02，D按用户授权代完成）
+
+用户授权D代完成C未尽部分。本次使用member-c-agent、基于main 13d35de，只改C归属文件；开发AI使用记录随后并入D账本，保留原C账本与历史交接。
+
+修复真实验收入口绕过pipeline逐次记账的问题：--real-llm改用正式路径/生产pipeline，验证每次HTTP尝试对应C账本；未配置时写not_ready并退出2，real_request=false。客户端拒绝非有限超时和非法usage/model响应。15项真实client/agent/pipeline测试通过，远程HTTP为明确替身，账本在临时目录，无外部请求。原A/B/D模块存在时均实际使用。
+
+用户本轮确认尚无API配置，先完成代码、测试和材料；真实LLM尚未验收。最终--role C --submit由脚本实际写入last_gate，不手填成功哈希；原成员历史记录如下保留。
+
 协作协议：2.0；业务契约：1.0。
 
 ## 完成内容和修改文件
