@@ -3,13 +3,15 @@ import path from 'node:path';
 import { pathToFileURL } from 'node:url';
 import { Presentation, PresentationFile } from '@oai/artifact-tool';
 
-const root=process.cwd(), out=path.join(root,'outputs/presentation_build');
-const skill='C:/Users/zhouj/.codex/plugins/cache/openai-primary-runtime/presentations/26.1025.11240/skills/presentations';
+const root=process.cwd(), out=path.join(root,'outputs/presentation_build_20261102');
+const skill='C:/Users/zhouj/.codex/plugins/cache/openai-primary-runtime/presentations/26.1026.10807/skills/presentations';
 const runtime='C:/Users/zhouj/.cache/codex-runtimes/codex-primary-runtime/dependencies';
-const data=JSON.parse(await fs.readFile(path.join(root,'outputs/final_delivery/report_data.json'),'utf8'));
+const data=JSON.parse(await fs.readFile(path.join(root,'outputs/review_20261102/report_data.json'),'utf8'));
 const p=Presentation.create({slideSize:{width:1280,height:720}});
 const font='Microsoft YaHei', ink='#19384D', muted='#526978', accent='#137C84';
 await fs.mkdir(out,{recursive:true});
+const finalPath=path.join(root,'outputs/presentation_final_20261102/presentation.pptx');
+await fs.mkdir(path.dirname(finalPath),{recursive:true});
 function text(slide, value, x,y,w,h,size=28,color=ink,bold=false){
   const s=slide.shapes.add({geometry:'textbox',position:{left:x,top:y,width:w,height:h},fill:'none',line:{fill:'none',width:0}});
   s.text=value;s.text.style={typeface:font,fontSize:size,color,bold};return s;
@@ -37,11 +39,11 @@ let s=base('数据自动清洗与分类智能体','Adult 课程项目');
 text(s,'规则流程与真实数据验证',64,205,1130,90,60,ink,true);
 text(s,'7,140 行脏训练数据，处理后保留 7,000 行',64,330,1100,60,32);
 text(s,'3,000 行固定测试集，Accuracy 85.23%',64,405,1100,60,32,accent,true);
-text(s,'2026-10-30 · 真实模型尚未配置',64,560,1100,50,26,muted);
+text(s,'2026-11-02更新 · 真实模型尚未配置',64,560,1100,50,26,muted);
 s.speakerNotes.text='背景1分钟。当前四人初版已合入main，展示数据来自真实rules运行。真实大模型没有配置，不声称模型验收通过。姓名和讲述分工待成员确认。主证据 outputs/'+data.run_id+'/。';
 s=base('数据来源与分组划分','固定抽样 10,000 条参考记录，先分组划分再注入问题');
 table(s,[['阶段','规模','说明'],['原始 adult.data','32,561','保留原件与哈希'],['参考训练','7,000','14特征签名分组'],['固定测试','3,000','不额外注入问题'],['问题训练','7,140','复制保留来源关联'],['处理后训练','7,000','仅去重删行']],64,194,1152,354,[340,220,592]);
-text(s,'参考数据仍可含原生缺失。两个来源 ID 与 income 不作为特征。',64,580,1150,70,27,muted);
+text(s,'训练参考有 3 行原生重复，7,000 行对应 6,997 组，来源组不交叉',64,580,1150,70,27,muted);
 s.speakerNotes.text='数据与流程合计1分钟。官方完整Adult为48,842条，本项目仅使用adult.data的32,561条。UCI Adult, Becker & Kohavi (1996), DOI10.24432/C5XW20, CC BY4.0, https://archive.ics.uci.edu/dataset/2/adult。本次data/manifests/preparation_summary.json及正式运行输出。';
 s=base('计划与工具的职责边界','规则模式固定策略；模型模式的实际调用仍待配置');
 table(s,[['职责','实现','输入与限制'],['检测','A profiler','B的共享规范化视图'],['计划与校验','C agent','仅训练摘要，白名单策略，最多两次请求'],['训练清洗','B cleaner','先去重，仅训练拟合填补，再去重'],['测试转换','B cleaner','只应用训练状态，不删测试行'],['分类与展示','D classifier / UI','14特征，训练拟合编码与标准化']],64,194,1152,354,[220,330,602]);
@@ -50,7 +52,7 @@ s.speakerNotes.text='现场演示前说明：实际大模型可以选择mean/med
 s=base('四类质量问题的处理结果','本次正式规则运行，问题可重叠，不能相加当作问题总行数');
 table(s,data.quality_table,64,190,1152,354,[650,251,251]);
 text(s,'首轮去重 140 行，最终去重 0 行，训练填补 5,780 格',64,580,1150,42,28,accent,true);
-text(s,'测试填补 431 格，行数、标签、来源 ID 与顺序保持',64,630,1150,40,25,muted);
+text(s,'复制另带入缺失 105 格、格式 20 格；测试保留全部 3,000 行',64,630,1150,40,25,muted);
 s.speakerNotes.text='结果部分。缺失检测5815在去重前，填补5780在去重和非法置空之后，两种统计阶段不同。注入缺失4857、格式1198、异常70行、复制140行为构造审计。不能把构造数、检测数、执行修改数混为一谈。来源本次quality_before/after.json、audit_train/test.json。';
 s=base('固定测试集的分类评估','LogisticRegression，StandardScaler 与 OneHotEncoder 只在训练集拟合');
 text(s,'85.23%',64,245,520,95,82,accent,true);
@@ -65,11 +67,11 @@ text(s,'13 个导出入口',900,210,310,70,31,accent,true);
 text(s,'已下载 CSV、日志、摘要\n与本次输出逐字节一致',900,315,310,110,27);
 text(s,'选择器切换不新增运行\n旧结果仍明确标为 rules',900,470,310,110,27,muted);
 s.speakerNotes.text='现场演示2分钟：选择正式演示数据，明确rules，开始处理一次，展示质量、策略、指标和下载。真实模型演示需补验后再替换模式。截图为本机人工浏览器检查，不是合成预览。来源 docs/report_assets/page_results_rules.png，outputs/final_delivery/browser_check.json。';
-s=base('当前交付与尚缺验收','四人初版已经合入 main，姓名和口头分工待成员确认');
+s=base('当前交付与尚缺验收','A已核对数据说明，C验收增量由D代完成；姓名和口头分工待确认');
 text(s,'A 数据与检测    B 规范化与清洗\nC 计划、客户端、流程与日志\nD 分类、页面、集成与材料',64,205,1150,175,34);
 text(s,'当前可核实：正式 rules 流程、人工页面、下载与阶段材料',64,420,1140,72,29,accent,true);
 text(s,'待补：真实模型成功链条、另一位成员跨机复现、全员排练\n未知模型用量和费用保留 null，不记作 0 元',64,535,1140,105,27,muted);
-s.speakerNotes.text='总结分工1分钟，另备3分钟问答。A原数据说明为集成人补齐待A确认，B正式案例本轮由D从日志提取待B复核。真实模型备份/录屏须在真实成功后制作。本机检出或自动测试不能替代真人跨机与排练。来源docs/contributions.md、docs/acceptance.md、AI账本和summary.json。';
+s.speakerNotes.text='总结分工1分钟，另备3分钟问答。A已于2026-11-01核对数据说明，D复算853原生缺失、3原生重复、复制带入105缺失/20格式一致。C真实验收入口改走记账pipeline并通过15项受控检查，尚无真实API。B正式案例由D从日志提取待B复核。截图/主规则结果仍来自注明的2026-10-30真实运行，本次更新不冒充新的模型结果。来源docs/data.md、docs/contributions.md、docs/acceptance.md、AI账本。';
 for (const [i,slide] of p.slides.items.entries()){
   const png=await p.export({slide,format:'png',scale:1});
   await fs.writeFile(path.join(out,`slide-${i+1}.png`),new Uint8Array(await png.arrayBuffer()));
@@ -77,7 +79,7 @@ for (const [i,slide] of p.slides.items.entries()){
 const candidate=path.join(out,'candidate.pptx');
 await (await PresentationFile.exportPptx(p)).save(candidate);
 const {finalizePresentation}=await import(pathToFileURL(path.join(skill,'container_tools/artifact_tool_utils.mjs')).href);
-const result=await finalizePresentation({workspaceDir:root,candidatePath:candidate,finalPath:path.join(root,'docs/presentation.pptx'),
+const result=await finalizePresentation({workspaceDir:root,candidatePath:candidate,finalPath,
  pythonExecutable:path.join(runtime,'python/python.exe'),
  integrityValidatorPath:path.join(skill,'container_tools/inspect_presentation_package_integrity.py'),
  layoutValidatorPath:path.join(skill,'container_tools/inspect_presentation_layout_geometry.py'),
@@ -87,3 +89,4 @@ const result=await finalizePresentation({workspaceDir:root,candidatePath:candida
  fontPolicy:{basis:'design',families:[font]},verifyArtifactToolImport:true,
  receiptPath:path.join(out,'validation.json')});
 console.log(JSON.stringify(result));
+await fs.copyFile(finalPath,path.join(root,'docs/presentation.pptx'));

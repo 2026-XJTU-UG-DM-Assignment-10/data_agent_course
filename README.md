@@ -120,13 +120,17 @@ git push -u origin member-b-clean
 
 正式提交需包含报告、源码、原始及处理后数据、PPT、贡献说明和真实运行日志。生成数据和日志虽不进入 Git，最终仍需另行打包提交。
 
-## 第二阶段材料（2026-10-30）
+## 最新增量与材料（2026-11-02）
+
+已接收 A 最新推送 `d7cc1da`：54项复验通过，A已确认数据说明；D独立重算原生缺失853格、原生重复3行、复制额外缺失105格及格式20格。C未有新推送，按用户授权由D在C分支补齐真实验证入口与HTTP边界检查，提交`18c1d68`；15项受控测试通过。开发AI记录属于D，C运行账本未新增真实请求。
+
+配置后可先执行 `python checks/check_C.py --integration --real-llm --report outputs/real_llm_check/real_llm_evidence.json`；该入口使用正式数据和生产pipeline，核对每次请求对应C账本，再在main执行完整llm集成。当前缺配置预检实际退出2，未发出请求。
 
 报告源稿与6页PDF：`docs/report.md`、`docs/report.pdf`。7页可编辑演示稿与讲者备注：`docs/presentation.pptx`，提纲与演示流程见`docs/presentation_outline.md`和`docs/demo_script.md`。材料统一使用规则运行`20261030T070819Z-7779c942`，不能称为真实模型成绩。PDF/PPT已渲染检查，原生PowerPoint兼容和另一台真人机器验收仍待补。
 
-阶段包：`outputs/final_delivery/data_agent_course_rules_stage_20261030.zip`，包含源码、正式数据、处理后数据、规则日志、材料及AI记录。解压校验见同目录`package_check.json`。它明确列出真实模型、跨机真人复现、排练和姓名确认缺项，不是课程全部验收通过声明。
+本轮规则阶段包：`outputs/review_20261102/data_agent_course_rules_stage_20261102.zip`，包含源码、正式数据、处理后数据、规则日志、更新材料及AI记录。解压校验见同目录`package_check.json`。10月30日旧包保留在`outputs/final_delivery/`。真实模型、跨机真人复现、排练和姓名确认仍待补。
 
-材料构建源为`docs/report_build.py`和`docs/presentation_build.mjs`；前者需reportlab，后者需Artifact Tool、演示文稿技能运行时和Node模块解析路径。本轮将后者复制到outputs/presentation_build，接入运行时node_modules并指定RUNTIME_NODE_MODULES后实际执行，不能在缺依赖的普通环境直接运行。源码、PDF/PPT和打包证据一起交付，不要求队友重建材料。`python docs/report_package.py`可在具备pypdf的材料环境中重新打规则阶段包。
+材料构建源为`docs/report_build.py`和`docs/presentation_build.mjs`；前者需reportlab，后者需Artifact Tool、演示文稿技能运行时和Node模块解析路径。本轮在outputs/presentation_build_20261102接入运行时node_modules并指定RUNTIME_NODE_MODULES后实际执行；校验receipt在同目录。PDF6页和PPT7页已逐页检查；源码、PDF/PPT和打包证据一起交付，不要求队友重建材料。`python docs/report_package.py`可在具备pypdf且上述运行证据齐全的材料环境中重新打包。
 
 跟踪的三个`data/manifests/`清单由A的准备脚本生成并维护，已列入A精确归属。修改它们仍需实际准备/验证；其他角色不因此获得任意data目录写权限。
 

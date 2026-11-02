@@ -1,5 +1,17 @@
 # 成员 D 交接记录
 
+## 当前增量（2026-11-02）
+
+在D:/iot/member_d_delivery_20261026继续，原两个工作区的未提交修改原样保留。接收A最新推送d7cc1da并正常合入main，A实际复验54项通过；独立重算A说明的853格原生缺失、3行原生重复、复制额外105格缺失和20格格式问题均一致。A数据说明已确认，B正式案例文字确认仍待。
+
+用户授权D代完成C未尽部分，且明确“尚无配置，先完成代码、测试和材料”。在member-c-agent、main 13d35de基础上补真实验收入口：通过正式数据/生产pipeline逐次记账，拒绝非法HTTP响应usage及非有限超时；15项受控测试和C submit实际退出0，提交18c1d68、正常合入main 2a802c8并推送。真实配置预检实际退出2、real_request=false；受控HTTP账本位于隔离临时目录，未写入C项目账本。开发会话记入D-20261102-review-and-C-delegation，未代填C人工开发记录。
+
+正式rules复测run_id为20261102T024227Z-478068af，7140→7000训练、3000测试，Accuracy0.8523333333、Macro-F1 0.7888456818，与旧主运行一致。outputs/review_20261102/rules.json及evidence/D/latest_review_20261102.json记录实际结果。报告与PPT仍使用20261030T070819Z-7779c942对应的真实浏览器截图，并明确原日期；本轮更新A确认/计数解释和C代完成事实。PDF6页、PPT7页全部渲染检查，PPT结构/字体/3张原生表格/重导入校验通过。
+
+本轮D submit及合并后main规则门禁以实际生成的last_gate、outputs/delivery/D.json、outputs/integration/integration_rules.json和integration_log新增记录为准；本文件定稿后执行，不预填成功。新包位于outputs/review_20261102/，旧包不覆盖。
+
+未验证项：真实模型完整流程及成功备份/录屏；原生PowerPoint人工交互；另一位真人跨机复现、全员实际排练、姓名与口头分工；B对正式案例文字的确认。凭据由外部提供，配置后用checks/check_C.py --integration --real-llm并在main执行llm集成。当前代码/规则/阶段材料范围可独立交付。
+
 ## 当前交付（2026-10-30第二阶段，基于main fc7103c）
 
 四模块已在main集成，旧的缺上游描述仅为2026-10-26历史。本轮在干净member-d-ui检出同步origin/main继续，未改原D:/iot/data_agent_course和D:/iot/integration_20261030的未提交工作。
