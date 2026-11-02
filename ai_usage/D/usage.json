@@ -1,7 +1,7 @@
 {
   "schema_version": "1.0",
   "role": "D",
-  "coverage_note": "仅覆盖 2026-10-26 本轮新增 AI 使用记录规则的协作会话，不覆盖此前开发和仓库配置；本轮内部模型次数、用量、实际模型标识及单次费用不可获知。 本次另覆盖成员 D 分类、页面、CLI 与集成开发会话；保留原记录，不补造历史。 本次另覆盖 2026-10-30 初版合并与真实模块联调。 本次另覆盖2026-10-30第二阶段收尾会话，与早前合并联调会话分开。 新增2026-11-02最新推送审查与D代完成C的独立会话。",
+  "coverage_note": "仅覆盖 2026-10-26 本轮新增 AI 使用记录规则的协作会话，不覆盖此前开发和仓库配置；本轮内部模型次数、用量、实际模型标识及单次费用不可获知。 本次另覆盖成员 D 分类、页面、CLI 与集成开发会话；保留原记录，不补造历史。 本次另覆盖 2026-10-30 初版合并与真实模块联调。 本次另覆盖2026-10-30第二阶段收尾会话，与早前合并联调会话分开。 新增2026-11-02最新推送审查与D代完成C的独立会话。 本次另覆盖2026-11-02四项功能补全授权及开发，之前排除记录的对话不补录。",
   "records": [
     {
       "id": "D-20261026-ai-usage-rules",
@@ -127,6 +127,31 @@
       "result": "succeeded",
       "source_id": "D-local-session-20261102-review-and-C-delegation",
       "notes": "本轮可独立范围已完成：接收A最新推送并通过54项复验、独立重算计数；按用户授权在C分支修复真实验收记账与客户端边界，15项受控测试及C submit通过；正式rules和D真实依赖自测通过，6页PDF/7页PPT更新并逐页检查。随后执行的D提交、main复验和打包结果以交付及集成记录为准。用户确认尚无配置，无外部模型请求；真实模型和真人事项仍待。内部请求/token/费用未知，不计零，不改C开发账本。"
+    },
+    {
+      "id": "D-20261102-adaptive-features",
+      "scope": "development",
+      "time": "2026-11-02T03:50:09.266930+00:00",
+      "tool": "Codex Desktop",
+      "model": null,
+      "parameters": {},
+      "parameters_note": "界面未提供可核实具体模型版本和内部推理/采样参数。",
+      "prompt_files": [
+        "ai_usage/D/prompts/D-20261102-adaptive-features.md"
+      ],
+      "calls": null,
+      "interactions": 1,
+      "input_tokens": null,
+      "output_tokens": null,
+      "cost": {
+        "kind": "unknown",
+        "amount": null,
+        "currency": null,
+        "basis": "无可核实会话用量及单次计费，不计零。"
+      },
+      "result": "partial",
+      "source_id": "D-local-session-20261102-adaptive-features",
+      "notes": "按本次新授权开始记录四项功能补全；不追溯此前排除记录的对话。实现及验证进行中。"
     }
   ]
 }
