@@ -8,6 +8,7 @@ from __future__ import annotations
 
 import argparse
 import contextlib
+import copy
 import importlib.util
 import io
 import json
@@ -40,6 +41,78 @@ from src.schema import (
 def check(condition, message):
     if not condition:
         raise AssertionError(message)
+
+
+def smoke_event_checks(report, metrics):
+    """Synthetic event-envelope regression only; no model request is made."""
+    from scripts.smoke_check import verify_events
+    from src.schema import RunEvent
+
+    result = RunResult(run_id="D-EVENT-REGRESSION", status="succeeded", mode="llm",
+                       output_dir=str(OUTPUT), metrics=metrics)
+    stages = ["profile", "clean_train", "transform_test", "train_evaluate", "export"]
+    events = [RunEvent(run_id=result.run_id, mode="llm", sequence=i + 1,
+                       name=name, status="succeeded").model_dump(mode="json")
+              for i, name in enumerate(stages)]
+    events += [RunEvent(run_id=result.run_id, mode="llm", sequence=6,
+                        name="llm_request", status="started",
+                        data={"attempt": 1, "prompt": {"system": "CONTROLLED EVENT FIXTURE"}}).model_dump(mode="json"),
+               RunEvent(run_id=result.run_id, mode="llm", sequence=7,
+                        name="llm_request", status="succeeded",
+                        data={"attempt": 1, "text": "CONTROLLED EVENT FIXTURE",
+                              "provider": "CONTROLLED EVENT FIXTURE", "model": "fixture-model",
+                              "parameters": {"temperature": 0}, "input_tokens": 1,
+                              "output_tokens": 2, "cost": None, "currency": None,
+                              "cost_source": None}).model_dump(mode="json")]
+    target = OUTPUT / "smoke_event_fixture.jsonl"
+
+    def verify(items, run=result):
+        target.write_text("\n".join(json.dumps(item) for item in items) + "\n", encoding="utf-8")
+        return verify_events(target, run)
+
+    check(verify(events) is True, "Valid C response event with attempt metadata rejected")
+    cases = {}
+    for key, value, name in [("input_tokens", -1, "negative_usage"),
+                             ("model", "TEST_DOUBLE_NOT_REAL", "test_double_reply")]:
+        changed = copy.deepcopy(events)
+        changed[-1]["data"][key] = value
+        cases[name] = changed
+    changed = copy.deepcopy(events)
+    del changed[-1]["data"]["model"]
+    cases["missing_model"] = changed
+    changed = copy.deepcopy(events)
+    changed[-1]["data"]["unexpected_reply_field"] = True
+    cases["unexpected_reply_field"] = changed
+    changed = copy.deepcopy(events)
+    del changed[-2]["data"]["prompt"]
+    cases["missing_payload"] = changed
+    changed = copy.deepcopy(events)
+    changed[-1]["sequence"] += 1
+    cases["sequence_gap"] = changed
+    changed = copy.deepcopy(events)
+    changed[-1]["run_id"] = "OTHER-RUN"
+    cases["wrong_run"] = changed
+    changed = copy.deepcopy(events)
+    for number in (8, 9):
+        extra = copy.deepcopy(events[-2])
+        extra["sequence"] = number
+        changed.append(extra)
+    cases["request_budget"] = changed
+    for name, changed in cases.items():
+        try:
+            verify(changed)
+        except ValueError:
+            pass
+        else:
+            raise AssertionError(f"Smoke accepted malformed event fixture: {name}")
+    rules_events = copy.deepcopy(events[:5])
+    for item in rules_events:
+        item["mode"] = "rules"
+    check(verify(rules_events, result.model_copy(update={"mode": "rules"})) is False,
+          "Rules event verification claimed a model call")
+    report["smoke_event_checks"] = {"valid_C_event_with_attempt_metadata": "passed",
+                                    "rejected_cases": list(cases), "rules_without_request": "passed",
+                                    "scope": "synthetic event fixtures; no external request or runtime ledger entry"}
 
 
 def classifier_checks(report):
@@ -251,6 +324,7 @@ def main():
     code = 1
     try:
         metrics = classifier_checks(report)
+        smoke_event_checks(report, metrics)
         code = ui_and_cli_checks(report, metrics, args.integration)
         report["status"] = "passed" if code == 0 else "not_ready"
     except Exception as exc:
@@ -270,6 +344,7 @@ def main():
                                "classification_checks": report["classification"]["checks"],
                                "invalid_inputs_rejected": len(report["classification"]["invalid_inputs_rejected"]),
                                "ui_cli_checks": report["ui_cli"]["checks"],
+                               "smoke_event_checks": report["smoke_event_checks"],
                                "limitations": "Synthetic 7/3 fixtures; missing C replaced ONLY for UI/CLI; no formal data, real model or end-to-end evidence"},
                    "artifacts": ["outputs/member_D/check.json", "outputs/member_D/classification/confusion_matrix.png"]}
         path = ROOT / "evidence/D/fixtures.json"

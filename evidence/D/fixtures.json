@@ -4,7 +4,7 @@
   "role": "D",
   "scope": "fixtures",
   "status": "passed",
-  "checked_at": "2026-11-02T02:47:37.125899+00:00",
+  "checked_at": "2026-11-02T03:19:00.911697+00:00",
   "command": "python checks/check_D.py",
   "uses_test_doubles": false,
   "summary": {
@@ -46,6 +46,21 @@
       "cli_missing_input_exit_1",
       "cli_invalid_mode_exit_2"
     ],
+    "smoke_event_checks": {
+      "valid_C_event_with_attempt_metadata": "passed",
+      "rejected_cases": [
+        "negative_usage",
+        "test_double_reply",
+        "missing_model",
+        "unexpected_reply_field",
+        "missing_payload",
+        "sequence_gap",
+        "wrong_run",
+        "request_budget"
+      ],
+      "rules_without_request": "passed",
+      "scope": "synthetic event fixtures; no external request or runtime ledger entry"
+    },
     "limitations": "Synthetic 7/3 fixtures; missing C replaced ONLY for UI/CLI; no formal data, real model or end-to-end evidence"
   },
   "artifacts": [
