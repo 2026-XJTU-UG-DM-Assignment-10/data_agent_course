@@ -13,6 +13,7 @@ import re
 import subprocess
 import zipfile
 import shutil
+import os
 
 ROOT = Path(__file__).resolve().parents[1]
 OUT = ROOT / "outputs/final_release_20261102"
@@ -227,7 +228,8 @@ git clone -b main source.bundle reproduced
     for part in ("data", "outputs"):
         shutil.copytree(extracted / PROJECT / part, clone / part, dirs_exist_ok=True)
     process = subprocess.run([str(python), "-m", "src.cli", "--mode", "rules"], cwd=clone,
-                             capture_output=True, text=True, encoding="utf-8", errors="replace", timeout=180)
+                             capture_output=True, text=True, encoding="utf-8", errors="strict", timeout=180,
+                             env={**os.environ, "PYTHONUTF8": "1", "PYTHONIOENCODING": "utf-8"})
     (OUT / "package_rules.log").write_text(process.stdout + process.stderr, encoding="utf-8")
     assert process.returncode == 0, "Extracted bundle rules CLI failed; see package_rules.log"
     result = json.loads(process.stdout)
