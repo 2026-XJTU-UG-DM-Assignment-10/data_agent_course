@@ -2,6 +2,8 @@
 
 ## 真实模型补验（2026-11-02 11:11–11:12，Asia/Shanghai）
 
+后续结果：D解析器修复后，main 1128a52实际LLM门禁退出0，四角色复验passed；成功运行20261102T031942Z-8d6dc4ee见evidence/C/main_llm_20261102.json。共3次真实请求，输入token2142、输出token1146，单次费用均未知；最初误报保留为历史故障证据。
+
 DeepSeek官方接口https://api.deepseek.com、模型deepseek-flash已实际验证。checks/check_C.py --integration --real-llm退出0，正式数据完整pipeline成功，run_id为20261102T031150Z-ef13473e；一次真实请求、逐次记账核对通过。训练7140→7000、测试3000，Accuracy0.8523333333、Macro-F1 0.7888456818。evidence/C/real_llm_deepseek_20261102.json为脱敏证据。
 
 随后main的另一运行20261102T031210Z-102c7ebc也完成模型/清洗/分类，但D的smoke解析器把事件attempt元数据当作LLMReply额外字段，完整门禁退出2；D修复并复验前不称main LLM验收通过。两次实际模型请求均在C账本，各calls=1、result=succeeded，服务未提供单次费用，保持null。没有把离线测试或聊天指导记成真实项目调用。密钥只在临时进程环境使用，未写入文件；新终端仍需重新加载配置。
