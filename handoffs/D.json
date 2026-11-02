@@ -47,14 +47,14 @@
     },
     "end_to_end": {
       "status": "passed",
+      "mode": "llm",
       "evidence": [
-        "evidence/D/integration_end_to_end_20261030.json"
-      ],
-      "mode": "rules"
+        "evidence/D/main_llm_20261102.json"
+      ]
     }
   },
   "blockers": [],
-  "next_action": "Normal main merge and real LLM integration after smoke fix; new terminal needs local API environment loading. Supplement rules-stage materials with actual LLM proof; human cross-machine/rehearsal/native-PowerPoint/names remain pending.",
+  "next_action": "Main real LLM integration passed. Load local environment in new terminal; consult LLM validation supplement and verified backup. Human cross-machine/rehearsal/native-PowerPoint/LLM-UI-recording/names and B prose confirmation remain pending.",
   "last_gate": {
     "checked_at": "2026-11-02T03:19:04.195621+00:00",
     "verified_revision": "ed56b10c677a5653b6befd7678ee42e9154ef523",
@@ -89,6 +89,7 @@
     "checked_at": "2026-10-30T06:16:18.600645+00:00",
     "verified_revision": "1597bfafb2eba8fd5c59e5b263ca5577974f9cd2",
     "command": "python checks/check_D.py --integration",
-    "explanation": "New integration attestations; not a claim that the member ran an earlier missing submit command."
+    "explanation": "New integration attestations; not a claim that the member ran an earlier missing submit command.",
+    "latest_llm_evidence": "evidence/D/main_llm_20261102.json"
   }
 }

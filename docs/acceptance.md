@@ -1,5 +1,11 @@
 # 当前验收清单（2026-11-02）
 
+## 最新：真实模型已补验
+
+DeepSeek官方接口/模型deepseek-flash实际C验证退出0，D修复smoke事件attempt元数据解析后，main 1128a52完整LLM门禁实际退出0、四角色复验passed；最终运行20261102T031942Z-8d6dc4ee，正式数据与模型证据均通过。共3次真实请求、输入token2142/输出token1146，费用未知。第三次之前的main误报及两次真实运行证据均保留。见docs/report_llm_validation_20261102.md及evidence/D/main_llm_20261102.json。
+
+模型配置已验证，但密钥未持久化，新进程仍需本地加载。源码、数据、真实成功运行与AI调用汇总备份见outputs/real_llm_check/data_agent_course_llm_verified_20261102.zip，解压校验以同目录llm_package_check.json为准。现有6页PDF/7页PPT保留规则阶段快照，另附真实模型补验说明，不将旧截图冒充LLM页面截图。真人跨机复现、全员排练、原生PowerPoint人工交互、姓名和口头分工、B案例文字确认仍待；本轮未录屏或人工操作LLM页面，也未触发真实模型纠错，纠错仅有受控测试覆盖。
+
 ## 本轮增量
 
 A最新d7cc1da经54项实际复验接受，数据说明已由A确认；D独立重算853格原生缺失、3行原生重复、复制新增105格缺失/20格格式问题均一致。C由D按用户授权补齐真实验收入口的pipeline逐次记账与HTTP响应边界；15项受控检查、C submit通过。受控HTTP不属于真实模型调用；实际缺配置预检退出2、real_request=false。

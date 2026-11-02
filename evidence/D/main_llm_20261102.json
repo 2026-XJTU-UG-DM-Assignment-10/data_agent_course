@@ -1,0 +1,59 @@
+{
+  "workflow_version": "2.0",
+  "contract_version": "1.0",
+  "role": "D",
+  "scope": "end_to_end",
+  "status": "passed",
+  "checked_at": "2026-11-02T03:22:06.923933+00:00",
+  "command": "python scripts/check_integration.py --mode llm (on main)",
+  "uses_test_doubles": false,
+  "summary": {
+    "mode": "llm",
+    "role_checks": {
+      "A": "passed",
+      "B": "passed",
+      "C": "passed",
+      "D": "passed"
+    },
+    "run_id": "20261102T031942Z-8d6dc4ee",
+    "real_llm_checked": true,
+    "formal_data_checked": true,
+    "verified_revision": "1128a52da6ee54928cc9bfa7ac8d9a9ad6ec1520",
+    "train_before": 7140,
+    "train_after": 7000,
+    "test_rows": 3000,
+    "accuracy": 0.8523333333333334,
+    "macro_f1": 0.788845681782975,
+    "input_sha256": {
+      "data/raw/adult.data": "5b00264637dbfec36bdeaab5676b0b309ff9eb788d63554ca0a249491c86603d",
+      "data/reference/train_reference.csv": "289d09f69ee44ceb234f85ffa0a438313ccaec5bf859d207177da2803782118e",
+      "data/reference/test_reference.csv": "7a6d1ec21d93d6a633e81dcde7fb59ce189c77c648153d39e5eb14ac661365bf",
+      "data/dirty/train_dirty.csv": "d20733c943a5b9b1c98f5551ccff47bc288d8ed9c4e0617dc5c50250382bdc07",
+      "data/manifests/split_manifest.csv": "5dfa4cd550f59cf8564b55dc35372260d187a9789777683e30322a14c3c98f56",
+      "data/manifests/injection_manifest.csv": "19af365b00c7e517dc8dc42d7b4783757dfa3d793cb0b59f2f05b3603acc5f2c",
+      "data/manifests/preparation_summary.json": "9d9e4e09440b4ef8845b988c77fb4136cc29068278830936f4eb95df666c8f0a"
+    },
+    "cross_reference": "Same main invocation as evidence/C/main_llm_20261102.json, not another model call"
+  },
+  "artifacts": [
+    "outputs/integration/integration_llm.json",
+    "outputs/integration/smoke_llm.json",
+    "outputs/real_llm_check/deepseek_main_verified_20261102.log",
+    "outputs/smoke_runs/20261102T031942Z-8d6dc4ee/audit_test.json",
+    "outputs/smoke_runs/20261102T031942Z-8d6dc4ee/audit_train.json",
+    "outputs/smoke_runs/20261102T031942Z-8d6dc4ee/cleaning_plan.json",
+    "outputs/smoke_runs/20261102T031942Z-8d6dc4ee/cleaning_state.json",
+    "outputs/smoke_runs/20261102T031942Z-8d6dc4ee/confusion_matrix.png",
+    "outputs/smoke_runs/20261102T031942Z-8d6dc4ee/events.jsonl",
+    "outputs/smoke_runs/20261102T031942Z-8d6dc4ee/metrics.json",
+    "outputs/smoke_runs/20261102T031942Z-8d6dc4ee/quality_after.json",
+    "outputs/smoke_runs/20261102T031942Z-8d6dc4ee/quality_before.json",
+    "outputs/smoke_runs/20261102T031942Z-8d6dc4ee/run_result.json",
+    "outputs/smoke_runs/20261102T031942Z-8d6dc4ee/summary.md",
+    "outputs/smoke_runs/20261102T031942Z-8d6dc4ee/test_processed.csv",
+    "outputs/smoke_runs/20261102T031942Z-8d6dc4ee/train_processed.csv",
+    "data/manifests/split_manifest.csv",
+    "data/manifests/injection_manifest.csv",
+    "data/manifests/preparation_summary.json"
+  ]
+}

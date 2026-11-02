@@ -1,5 +1,15 @@
 # 集成检查与退回记录
 
+## 最新：2026-11-02 DeepSeek真实模型验收
+
+真实API使用官方地址https://api.deepseek.com，models端点返回200及deepseek-flash/deepseek-v4-pro；实际采用deepseek-flash。C真实入口退出0，运行20261102T031150Z-ef13473e；随后main运行20261102T031210Z-102c7ebc业务pipeline也成功，但D的verify_events把事件attempt元数据传入严格LLMReply，出现extra_forbidden，完整门禁退出2。这一失败不是鉴权/模型/清洗失败，原始失败报告及实际请求账本保留。
+
+D修复c00ea29仅剥离已知attempt事件元数据，未放宽其他响应字段或冻结契约；新增合法事件/8类拒绝边界及rules无请求回归，D submit退出0，既有两份真实日志重放通过。修复正常合入main 1128a52后，完整check_integration.py --mode llm实际退出0，A/B/C/D全部passed，最终run_id为20261102T031942Z-8d6dc4ee，formal_data_checked/real_llm_checked均true。C交接和逐次账本按C分支实际门禁补交，证据evidence/C/main_llm_20261102.json；D接收证据evidence/D/main_llm_20261102.json。后续只更新文档、账本和归档，不把这些变更冒称又发起模型请求。
+
+3次真实请求均在C账本calls=1/result=succeeded，对应输出目录和事件；合计输入token2142、输出token1146。服务未返回可核实费用，保持null；开发账本不追加配置指导对话。两种模式结果相同源于本次模型同选median与Unknown，不能据此声称模型改善指标。主运行训练7140→7000/测试3000，Accuracy0.8523333333、Macro-F1 0.7888456818。
+
+密钥只通过临时进程环境提供，未持久化，已核对源码和运行证据不含该密钥。模型业务prompt由pipeline正常保存；所有真实记录与完整运行备份在新的LLM技术验证包，旧规则包不覆盖。正式PDF/PPT仍为准确标明日期的规则阶段材料，真实模型结果另附docs/report_llm_validation_20261102.md。真人跨机、全员排练、原生PowerPoint、真实LLM页面人工操作/录屏、真实服务纠错和B文字确认未验证，不用自动检查替代。
+
 ## 最新：2026-11-02推送复核与授权代完成
 
 本轮fetch发现A分支新增d7cc1da，B/C/D无新推送。A经差异/交接评审和54项实际复验后，正常合入main（13d35de）。A已确认先前D补写的数据说明；D用实际CSV、profiler和共享规范化独立重算853格原生缺失、3行原生重复、复制额外105格缺失及20格格式问题，均一致。A_count_review.json保留重算结果。
