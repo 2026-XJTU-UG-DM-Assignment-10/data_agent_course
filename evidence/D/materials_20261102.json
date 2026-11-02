@@ -1,0 +1,31 @@
+{
+  "workflow_version": "2.0",
+  "contract_version": "1.0",
+  "role": "D",
+  "scope": "fixtures",
+  "status": "passed",
+  "checked_at": "2026-11-02T05:13:41.232961+00:00",
+  "command": "bundled material Python docs/report_materials_check.py plus visual inspection of all PDF pages and slides",
+  "uses_test_doubles": false,
+  "summary": {
+    "status": "passed",
+    "checked_at": "2026-11-02T05:13:41.232961+00:00",
+    "scope": "local material structure, factual cross-checks and image embedding; separate visual inspection performed",
+    "pdf_pages": 6,
+    "slides": 7,
+    "native_tables": 3,
+    "embedded_evidence_images": 2,
+    "image_bytes_match": true,
+    "primary_run_id": "20261102T043037Z-b0fc7c1a",
+    "native_powerpoint": "not_run; app access approval timed out",
+    "new_model_requests_during_materials": 0,
+    "pdf_sha256": "e58d36fbc5fde48f4706227e87182e1a188bb65211e10d42770d6068b26df045",
+    "pptx_sha256": "7d7a939dc48bcb47094e7c566483e39039bf416964e3b50fba509c4d8f7b56e4"
+  },
+  "artifacts": [
+    "docs/report.pdf",
+    "docs/presentation.pptx",
+    "outputs/materials_20261102/materials_check.json",
+    "outputs/materials_20261102/ppt_build/validation-v3.json"
+  ]
+}

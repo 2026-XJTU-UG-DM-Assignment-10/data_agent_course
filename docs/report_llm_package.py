@@ -58,7 +58,7 @@ def build(tag="baseline"):
         for path in folder.iterdir():
             if path.is_file():
                 add(path, "project/" + path.relative_to(ROOT).as_posix())
-    if tag == "adaptive":
+    if tag in ("adaptive", "materials"):
         rules = json.loads((ROOT / "outputs/integration/integration_rules.json").read_text(encoding="utf-8"))
         assert rules["status"] == "passed"
         folder = ROOT / "outputs/smoke_runs" / rules["smoke"]["run_id"]
@@ -75,6 +75,18 @@ def build(tag="baseline"):
         for path in (ROOT / "outputs/adaptive_20261102").iterdir():
             if path.is_file() and path.suffix in (".json", ".log", ".png"):
                 add(path, "本轮验证/adaptive/" + path.name)
+    if tag == "materials":
+        materials = ROOT / "outputs/materials_20261102"
+        checked = json.loads((materials / "materials_check.json").read_text(encoding="utf-8"))
+        assert checked["status"] == "passed" and checked["pdf_pages"] == 6 and checked["slides"] == 7
+        assert checked["pdf_sha256"] == sha((ROOT / "docs/report.pdf").read_bytes())
+        assert checked["pptx_sha256"] == sha((ROOT / "docs/presentation.pptx").read_bytes())
+        for path in [materials / "materials_check.json", materials / "report_data.json", materials / "ppt_build/validation-v3.json"]:
+            add(path, "本轮验证/materials/" + path.name)
+        data = json.loads((materials / "report_data.json").read_text(encoding="utf-8"))
+        for path in (ROOT / "outputs/smoke_runs" / data["rules_run_id"]).iterdir():
+            if path.is_file():
+                add(path, "project/" + path.relative_to(ROOT).as_posix())
     for name in ("integration_llm.json", "smoke_llm.json", "integration_rules.json"):
         add(ROOT / "outputs/integration" / name, "本轮验证/" + name)
     for name in ("deepseek_C_20261102.json", "deepseek_C_20261102.log",
@@ -93,16 +105,16 @@ def build(tag="baseline"):
         "input_tokens": sum(item["input_tokens"] for item in records) if all(item["input_tokens"] is not None for item in records) else None,
         "output_tokens": sum(item["output_tokens"] for item in records) if all(item["output_tokens"] is not None for item in records) else None,
         "cost": None,
-        "materials": "Existing PDF/PPT are rules-stage snapshots; real LLM supplement is docs/report_llm_validation_20261102.md",
+        "materials": "PDF6/PPT7 updated to actual LLM results, four features and confirmed names" if tag == "materials" else "Existing PDF/PPT are rules-stage snapshots; real LLM supplement is docs/report_llm_validation_20261102.md",
         "not_run": ["human_cross_machine", "human_rehearsal", "native_powerpoint", "manual_llm_ui_and_recording", "real_service_correction"],
         "files": [{"path": name, "bytes": len(data), "sha256": sha(data)} for name, data in sorted(selected.items())],
     }
     selected["交付清单.json"] = json.dumps(manifest, ensure_ascii=False, indent=2).encode("utf-8")
     selected["请先阅读.txt"] = ("真实LLM技术验证已通过，真人验收仍待。进入project，阅读README及docs/report_llm_validation_20261102.md。\n"
-                                  f"本包包含正式数据、旧规则主运行、{len(records)}次真实模型运行、初次门禁误报及修复后通过证据、源码和AI账本。\n"
-                                  "PDF/PPT保持规则阶段快照；业务prompt属于真实项目请求，未新增配置指导对话的开发prompt记录。\n"
-                                  "不包含密钥。新终端仍需本地设置LLM_API_URL、LLM_API_KEY、LLM_MODEL；.env不自动加载。\n").encode("utf-8")
-    target = OUT / ("data_agent_course_adaptive_20261102.zip" if tag == "adaptive" else "data_agent_course_llm_verified_20261102.zip")
+                                  + f"本包包含正式数据、旧规则主运行、{len(records)}次真实模型运行、初次门禁误报及修复后通过证据、源码和AI账本。\n"
+                                  + ("PDF6页/PPT7页已同步真实LLM、四项功能和姓名；截图为明确标识的历史回放，未发起新请求。\n" if tag == "materials" else "PDF/PPT保持规则阶段快照；业务prompt属于真实项目请求。\n")
+                                  + "不包含密钥。新终端仍需本地设置LLM_API_URL、LLM_API_KEY、LLM_MODEL；.env不自动加载。\n").encode("utf-8")
+    target = OUT / ({"materials": "data_agent_course_materials_20261102.zip", "adaptive": "data_agent_course_adaptive_20261102.zip", "baseline": "data_agent_course_llm_verified_20261102.zip"}[tag])
     with zipfile.ZipFile(target, "w", compression=zipfile.ZIP_DEFLATED) as archive:
         for name, data in selected.items():
             archive.writestr(name, data)
@@ -118,12 +130,12 @@ def build(tag="baseline"):
               "file_count": len(selected), "bytes": target.stat().st_size, "zip_sha256": package_sha,
               "all_extracted_hashes_match": True, "real_model_run_id": manifest["real_model_run_id"],
               "runtime_requests": len(records), "not_run": manifest["not_run"]}
-    receipt_name = "adaptive_package_check.json" if tag == "adaptive" else "llm_package_check.json"
+    receipt_name = {"materials": "materials_package_check.json", "adaptive": "adaptive_package_check.json", "baseline": "llm_package_check.json"}[tag]
     (OUT / receipt_name).write_text(json.dumps(report, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     print(json.dumps(report, ensure_ascii=True, indent=2))
 
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument("--tag", choices=["baseline", "adaptive"], default="baseline")
+    parser.add_argument("--tag", choices=["baseline", "adaptive", "materials"], default="baseline")
     build(parser.parse_args().tag)
