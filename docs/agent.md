@@ -32,3 +32,15 @@ python scripts/check_delivery.py --role C --submit
 ```
 
 离线自测中的假客户端和 A/D 测试替身只用于验证 C 的控制逻辑与接线，不构成正式数据、真实模型或端到端验收证据。`--integration` 要求 A/B/D 真实模块存在并导入；缺失时以退出码 2 报告待上游交付。
+
+## 2026-11-02：D获用户授权代完成的C增量
+
+用户明确要求“假如c未完成它的一部分，则由我代替完成”。本次在member-c-agent同步main后修复C范围，开发会话记入D账本，不冒称原C成员新工作。
+
+`checks/check_C.py --real-llm --report PATH`现在通过正式路径调用生产pipeline，统一完成检测、计划、执行、分类、日志和逐次请求记账。旧入口直接用合成QualityReport调用agent，绕过pipeline账本，不再用于正式验收。成功报告要求HTTP尝试数与C项目账本source_id逐条匹配；缺配置/正式输入输出not_ready并返回2，保留real_request=false。配置后运行：
+
+```powershell
+python checks/check_C.py --integration --real-llm --report outputs/real_llm_check/real_llm_evidence.json
+```
+
+客户端增加有限正超时与响应usage/model类型校验。15项离线检查覆盖请求体/端点/用量、一次HTTP尝试、纠错两次、运输失败记账、已知密钥脱敏及缺配置零请求。HTTP边界在测试中由具名替身替代，client/agent/pipeline及A/B/D均真实执行；临时账本不写入本项目C账本。它们证明离线控制行为，真实服务仍待配置，当前未发送真实请求。

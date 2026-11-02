@@ -4,31 +4,29 @@
   "role": "C",
   "branch": "member-c-agent",
   "status": "ready_for_review",
-  "based_on_commit": "1597bfafb2eba8fd5c59e5b263ca5577974f9cd2",
+  "based_on_commit": "13d35de6a42aef631750aefdcb4eec54b6bde7ca",
   "completed": [
     "OpenAI-compatible LLM client with environment configuration and no hidden retries",
     "Rule/LLM plan selection with strict allowlist and two-attempt correction budget",
     "Pipeline orchestration, run IDs, event logging and artifact export",
     "Offline checks and C handoff documentation",
-    "AI development usage record and sanitized prompt transcript"
+    "AI development usage record and sanitized prompt transcript",
+    "2026-11-02 D delegated by user: production-pipeline real verification entry point with per-attempt runtime accounting",
+    "15 offline checks including real HTTP client behavior with controlled remote transport, malformed response and finite timeout validation"
   ],
   "changed_files": [
-    "src/llm_client.py",
-    "src/agent.py",
-    "src/pipeline.py",
     "checks/check_C.py",
     "docs/agent.md",
     "docs/handoff_C.md",
-    "handoffs/C.json",
     "evidence/C/fixtures_check.json",
-    "ai_usage/C/usage.json",
-    "ai_usage/C/prompts/C-20261029-session.md"
+    "handoffs/C.json",
+    "src/llm_client.py"
   ],
   "verification": {
     "fixtures": {
       "status": "passed",
       "evidence": [
-        "evidence/C/integration_fixtures_20261030.json"
+        "evidence/C/fixtures_check.json"
       ]
     },
     "formal_data": {
@@ -36,9 +34,9 @@
       "evidence": []
     },
     "real_llm": {
-      "status": "not_run",
+      "status": "blocked",
       "evidence": [],
-      "reason": "LLM_API_URL / LLM_API_KEY / LLM_MODEL 未配置；没有真实模型请求。"
+      "reason": "User confirmed no provider configuration on 2026-11-02; no external model request."
     },
     "end_to_end": {
       "status": "passed",
@@ -49,19 +47,18 @@
     }
   },
   "blockers": [],
-  "next_action": "Maintainer-revalidated on main; collect real LLM evidence after configuring provider and continue integration maintenance.",
+  "next_action": "D integrates this delegated C delivery on main. Supply local LLM_API_URL/LLM_API_KEY/LLM_MODEL, then run --integration --real-llm and main llm gate; real service remains unverified.",
   "last_gate": {
-    "checked_at": "2026-10-30T06:16:18.586697+00:00",
-    "verified_revision": "1597bfafb2eba8fd5c59e5b263ca5577974f9cd2",
+    "checked_at": "2026-11-02T02:35:25.438639+00:00",
+    "verified_revision": "13d35de6a42aef631750aefdcb4eec54b6bde7ca",
     "tested_files_sha256": {
-      "src/llm_client.py": "4780fa63810b058620b1202fa2f1d391227c397eb0029623bf02157223513c33",
+      "src/llm_client.py": "41bf683531c9c894fe6bf38f359c5ab44ec96d7f93f11f5e356e8f45d1d5da3b",
       "src/agent.py": "4b514b503dfd41acb4627c4018dbcc79cee9671595cb79a5c7e9aee6af30d3db",
       "src/pipeline.py": "7d9c21870ae23e92198778ca980ad82b89238c2e4673ba9b6daec2ada6d83cc9",
-      "checks/check_C.py": "3e095a6c6074fda39b37f28c6a757753b9d3da162005a078a35dc44fcc73ec27",
-      "docs/agent.md": "711f5f1250e79cdd8fd134328f7f1bd5928f16045445a3b1ca6bb0bb1cf1e6f3",
-      "docs/handoff_C.md": "ddead2ca435fa7ab028950f6c15ff07b0f1701970c1dfa852f32a551ed87298e"
-    },
-    "verified_by": "D maintainer revalidation"
+      "checks/check_C.py": "5358368ac86dc523b63bd43ce8ba36ca31be2382eb003d581c26f9deaec601ea",
+      "docs/agent.md": "a0f23cf383ff97eaaad3aa5b8615d672090456b4aa815889c23254c546729cbf",
+      "docs/handoff_C.md": "52169ebb9a1450ae4875b27bc94f4fb6149f3a92dd2158dc16fe65a446eaa043"
+    }
   },
   "integration_review": {
     "reviewer": "D",
@@ -77,5 +74,10 @@
     "verified_revision": "1597bfafb2eba8fd5c59e5b263ca5577974f9cd2",
     "command": "python checks/check_C.py --integration",
     "explanation": "New integration attestations; not a claim that the member ran an earlier missing submit command."
+  },
+  "delegated_implementation": {
+    "implemented_by": "D",
+    "authorization": "User explicitly requested D replace unfinished C work on 2026-11-02",
+    "development_usage": "ai_usage/D/usage.json"
   }
 }

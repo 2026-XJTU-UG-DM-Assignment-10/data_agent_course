@@ -6,6 +6,7 @@ One call to generate_plan performs exactly one HTTP attempt (no hidden retries).
 from __future__ import annotations
 
 import json
+import math
 import os
 from typing import Any
 
@@ -35,7 +36,7 @@ class LLMClient:
             self.max_calls = int(max_calls if max_calls is not None else os.getenv("LLM_MAX_CALLS", "2"))
         except (TypeError, ValueError) as exc:
             raise ModelCallError("Invalid LLM timeout or call budget configuration") from exc
-        if self.timeout <= 0 or self.max_calls < 1:
+        if not math.isfinite(self.timeout) or self.timeout <= 0 or self.max_calls < 1:
             raise ModelCallError("LLM timeout must be positive and max_calls at least 1")
         self._session = session or requests.Session()
         self.calls_made = 0
@@ -79,11 +80,17 @@ class LLMClient:
             )
             response.raise_for_status()
             body = response.json()
+            if not isinstance(body, dict):
+                raise ValueError("chat-completions body must be an object")
             content = body["choices"][0]["message"]["content"]
             if not isinstance(content, str):
                 raise ValueError("choices[0].message.content was not text")
-            usage = body.get("usage") or {}
+            usage = {} if body.get("usage") is None else body["usage"]
+            if not isinstance(usage, dict):
+                raise ValueError("usage must be an object when supplied")
             usage_model = body.get("model") or self.model
+            if not isinstance(usage_model, str) or not usage_model.strip():
+                raise ValueError("model must be a nonempty string")
             return LLMReply(
                 text=content,
                 provider="openai_compatible",
