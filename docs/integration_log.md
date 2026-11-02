@@ -1,5 +1,19 @@
 # 集成检查与退回记录
 
+## 最新：2026-11-02推送复核与授权代完成
+
+本轮fetch发现A分支新增d7cc1da，B/C/D无新推送。A经差异/交接评审和54项实际复验后，正常合入main（13d35de）。A已确认先前D补写的数据说明；D用实际CSV、profiler和共享规范化独立重算853格原生缺失、3行原生重复、复制额外105格缺失及20格格式问题，均一致。A_count_review.json保留重算结果。
+
+C真实验收旧入口直接调用agent，绕过pipeline的逐次运行账本。按用户明确授权“假如c未完成它的一部分，则由我代替完成”，D在member-c-agent完成18c1d68，实际C submit退出0，正常合入main（2a802c8）。新入口使用正式数据和生产pipeline并核对每次尝试的C运行账；客户端补充usage/model响应和超时边界。15项测试通过，远程HTTP是明确替身，账本隔离到临时目录；没有将这些计作外部模型调用。开发使用记入D本轮账本，保留原C开发记录。
+
+D增量提交98de1aa的submit实际退出0，正常合入main 565ab0d。2026-11-02在该main实际运行check_integration.py --mode rules退出0，A/B/C/D复验全部passed；A54项、B33项、C15项，D真实分类/页面/CLI自测和正式smoke通过。新证据evidence/D/main_rules_review_20261102.json，原始日志outputs/review_20261102/main_rules_gate.log。冻结契约及哈希文件未改，其他两个工作区未提交修改保留。
+
+正式新smoke仍为7140→7000训练、3000测试，Accuracy0.8523333333、Macro-F1 0.7888456818。报告/PPT保留原浏览器主运行20261030T070819Z-7779c942的准确日期，本轮只更新A确认、计数解释和C代完成事实；PDF6页/PPT7页已全部渲染检查，PPT结构、字体、3张原生表格和重导入检查零发现。四人AI账本共9条开发记录结构检查通过，未知请求/token/费用保持null，无真实project_runtime记录。
+
+用户确认“尚无配置，先完成代码、测试和材料”。实际checks/check_C.py --integration --real-llm预检退出2，real_request=false；未执行缺配置的main完整llm集成。配置后先运行该真实入口，再在main运行check_integration.py --mode llm，核对C逐次账本和运行证据。规则/受控范围无待退回代码缺陷；B正式案例文字确认仍待。真实模型成功/备份录屏、原生PowerPoint人工交互、另一位真人跨机复现、全员排练、姓名与口头分工仍未验证。
+
+本轮阶段包位于outputs/review_20261102/data_agent_course_rules_stage_20261102.zip，包含源码、正式数据、主运行和新smoke输出、材料、AI记录及本轮检查；实际解压和SHA-256结果以同目录package_check.json为准。旧10月30日包和历史证据不覆盖。
+
 ## 最新：2026-10-30第二阶段规则交付
 
 member-d-ui提交e9718f8已由D正常合入main；本机检出D:/iot/member_d_delivery_20261026，保留其他两个工作区未提交修改。实际执行check_integration.py --mode rules退出0，A/B/C/D复验均passed。新证据evidence/D/main_rules_stage2_20261030.json；原始报告outputs/integration/integration_rules.json。这是规则范围接受，真实模型及真人事项仍待补。
