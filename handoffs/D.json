@@ -17,7 +17,8 @@
     "Nov2: formal rules rerun passed and report/PDF6/PPT7 updated and rendered; original dated browser evidence retained",
     "Real DeepSeek validation passed; fixed D smoke response-event attempt metadata compatibility and added positive/negative offline event regressions",
     "Four authorized features: distribution evidence, column quality, verified historical replay and fixed-schema upload/preflight; actual regression and browser verification",
-    "Updated 6-page PDF/MD and 7-slide editable PPT to actual LLM/four features/confirmed names; all pages visually checked, evidence-image hashes verified; native PowerPoint app access timed out, not claimed passed"
+    "Updated 6-page PDF/MD and 7-slide editable PPT to actual LLM/four features/confirmed names; all pages visually checked, evidence-image hashes verified; native PowerPoint app access timed out, not claimed passed",
+    "Independent Tencent Cloud Windows Server 2022/Python 3.12.10 reproduction at d5d5787: fresh dependency installation and formal data generation, rules and actual DeepSeek integration passed; browser history/column quality/metrics and three download hash matches; 61-file evidence archive verified"
   ],
   "changed_files": [
     "README.md",
@@ -40,7 +41,9 @@
     "docs/report_materials_check.py",
     "evidence/D/fixtures.json",
     "evidence/D/materials_20261102.json",
-    "handoffs/D.json"
+    "handoffs/D.json",
+    "docs/server_reproduction_20261102.md",
+    "evidence/D/server_reproduction_20261102.json"
   ],
   "verification": {
     "fixtures": {
@@ -66,12 +69,13 @@
       "status": "passed",
       "mode": "llm",
       "evidence": [
-        "evidence/D/adaptive_main_20261102.json"
+        "evidence/D/adaptive_main_20261102.json",
+        "evidence/D/server_reproduction_20261102.json"
       ]
     }
   },
   "blockers": [],
-  "next_action": "Independent-machine/server run by any actual operator (D allowed), with commit/environment/commands/run evidence still pending; native PowerPoint access, oral roles/rehearsal, recording and B prose confirmation remain pending. Latest acceptance.md supersedes historical another-member wording.",
+  "next_action": "Independent-server reproduction completed by D with AI-assisted SSH execution. Native PowerPoint opening, oral rehearsal/recording, classroom network and B prose confirmation remain pending. Preserve distinct original and server LLM plans/metrics.",
   "last_gate": {
     "checked_at": "2026-11-02T05:17:26.869510+00:00",
     "verified_revision": "2e8be18d9134aed79501484d50a8fff006386c72",
@@ -108,6 +112,7 @@
     "command": "python checks/check_D.py --integration",
     "explanation": "New integration attestations; not a claim that the member ran an earlier missing submit command.",
     "latest_llm_evidence": "evidence/D/main_llm_20261102.json",
-    "latest_materials_rules_evidence": "evidence/D/materials_main_rules_20261102.json"
+    "latest_materials_rules_evidence": "evidence/D/materials_main_rules_20261102.json",
+    "latest_server_evidence": "evidence/D/server_reproduction_20261102.json"
   }
 }

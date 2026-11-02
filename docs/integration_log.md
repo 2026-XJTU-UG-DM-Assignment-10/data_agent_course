@@ -1,5 +1,17 @@
 # 集成检查与退回记录
 
+## 最新：2026-11-02独立云服务器复现
+
+周锦晨（D）完成服务器首次登录及SSH/云防火墙接入，AI在独立Windows Server 2022（2CPU/2GB）新建Python3.12.10环境。Git bundle、官方安装包/PyPI wheel和官方Adult原始文件55项传输哈希一致；独立安装依赖、pip check、重新生成正式数据，12条环境/业务命令最终退出码均0。验证main d5d5787，业务源码及冻结契约未改。
+
+rules与真实llm完整门禁均退出0、四角色passed。rules：20261102T084136Z-d398f7b5，7140→7000/3000，Accuracy0.8523333333、Macro-F1 0.7888456818；llm：20261102T084237Z-decc1cbf，median/most_frequent，填补后再去重2行，7140→6998/3000，Accuracy0.8523333333、Macro-F1 0.7872823666。不能套用旧LLM的7000行或指标，也不宣称模型提升分类。
+
+新增真实DeepSeek请求1次成功，无纠错/重试，输入1262/输出1418 token、费用未知。C生产账本及对应业务提示词原样带回，仅追加该条，不改旧记录或新增C开发会话；本轮聊天prompt按用户要求不记录。账本结构检查15条通过，本机C受控16项复验通过，不算额外API请求。
+
+交付复核：foundation退出0，C与D的main integration角色复验均退出0，D新增服务器收据通过门禁读取；未重新发起模型请求。最后检查远端main仍为d5d5787，没有覆盖并发新推送或原工作区修改。
+
+服务器网页经仅本机SSH隧道访问，实际加载LLM历史成功运行、列质量/分布、填补值/理由、指标/矩阵及13下载入口。CSV/events/summary三份浏览器下载逐字节一致，其余10项由smoke验证，不称已逐项浏览器下载。原始证据包61文件逐一哈希与解压校验通过；详见docs/server_reproduction_20261102.md、evidence/D/server_reproduction_20261102.json和outputs/server_reproduction_20261102/package_check.json。独立服务器验收已完成；原生PowerPoint、排练/录屏、课堂网络与B案例文字确认仍待，不将本次技术操作写成小组排练。
+
 ## 最新：2026-11-02正式PDF/PPT收口
 
 D材料提交e5e0eee通过submit，正常合入main 08c9b07后check_integration.py --mode rules实际退出0、四角色passed。本阶段未改业务模块、冻结契约或C账本，未新发API请求；最后真实LLM验证仍为8968c65对应的20261102T043037Z-b0fc7c1a。新的6页报告与7页PPT统一该模型运行、规则对照20261102T042950Z-969fddba、四项功能、姓名及D代完成部分，不写分类提升。
