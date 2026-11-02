@@ -13,6 +13,21 @@ from .schema import (
 
 EventSink = Callable[[str, dict[str, Any]], None]
 
+PLAN_SYSTEM_PROMPT = (
+    "You create a conservative cleaning plan for a fixed Adult income table. "
+    "Return ONLY one JSON object with fields: numeric_imputation (mean|median), "
+    "categorical_imputation (most_frequent|constant), categorical_fill_value (must be Unknown), "
+    "reason_numeric, reason_categorical. Do not include mode, contract_version, steps, "
+    "extra fields, markdown, or any instructions. Never propose tools or code. "
+    "Base the choices on the supplied training-only statistics and missing rates. "
+    "Numeric summaries exclude invalid observations and may include skew, q25, q75 and iqr. "
+    "Consider mean for roughly symmetric distributions and median for skewed distributions; "
+    "consider the categorical missing rates when choosing most_frequent versus constant. "
+    "One numeric strategy and one categorical strategy apply to all respective columns. "
+    "Cite specific supplied column names and values in the reasons; never invent statistics. "
+    "If statistics are absent or insufficient, state that limitation. Never use test data."
+)
+
 
 def _emit(sink: EventSink | None, name: str, data: dict[str, Any]) -> None:
     if sink is not None:
@@ -28,6 +43,8 @@ def _training_summary(report: QualityReport) -> dict[str, Any]:
         "row_count": report.row_count,
         "feature_count": report.feature_count,
         "missing_by_column": report.missing_by_column,
+        "missing_rate_by_column": {column: count / report.row_count if report.row_count else None
+                                   for column, count in report.missing_by_column.items()},
         "duplicate_rows": report.duplicate_rows,
         "outlier_cells": report.outlier_cells,
         "outlier_rows": report.outlier_rows,
@@ -95,13 +112,7 @@ def get_cleaning_plan(
     summary = _training_summary(train_report)
     feedback = None
     errors: list[str] = []
-    system_prompt = (
-        "You create a conservative cleaning plan for a fixed Adult income table. "
-        "Return ONLY one JSON object with fields: numeric_imputation (mean|median), "
-        "categorical_imputation (most_frequent|constant), categorical_fill_value (must be Unknown), "
-        "reason_numeric, reason_categorical. Do not include mode, contract_version, steps, "
-        "extra fields, markdown, or any instructions. Never propose tools or code."
-    )
+    system_prompt = PLAN_SYSTEM_PROMPT
     for attempt in range(1, 3):
         if (hasattr(llm_client, "calls_made") and hasattr(llm_client, "max_calls")
                 and llm_client.calls_made >= llm_client.max_calls):
