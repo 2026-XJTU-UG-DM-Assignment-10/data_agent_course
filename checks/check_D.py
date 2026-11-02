@@ -43,6 +43,87 @@ def check(condition, message):
         raise AssertionError(message)
 
 
+def adaptive_ui_checks(report):
+    import app
+    train = app.parse_input_csv((ROOT / "examples/train_small.csv").read_bytes())
+    test = app.parse_input_csv((ROOT / "examples/test_small.csv").read_bytes())
+    train_original, test_original = train.copy(deep=True), test.copy(deep=True)
+    checked = app.preflight_inputs(train, test)
+    check(checked["训练不足5000行"] and checked["模型请求"] == "未调用", "Fixture scale not distinguished")
+    shuffled = train[list(reversed(train.columns))]
+    pd.testing.assert_frame_equal(app.parse_input_csv(shuffled.to_csv(index=False).encode("utf-8-sig")), train)
+    encoded = train.copy(); encoded.loc[0, "workclass"] = "本地职业"
+    pd.testing.assert_frame_equal(app.parse_input_csv(encoded.to_csv(index=False, sep=";").encode("gb18030")), encoded)
+    failures = 0
+
+    def reject(call):
+        nonlocal failures
+        try:
+            call()
+        except DataValidationError:
+            failures += 1
+        else:
+            raise AssertionError("Invalid uploaded input or history accepted")
+
+    raw = train.to_csv(index=False)
+    reject(lambda: app.parse_input_csv(b""))
+    reject(lambda: app.parse_input_csv(b"x" * (app.MAX_CSV_BYTES + 1)))
+    reject(lambda: app.parse_input_csv(raw.replace("age,", "income,", 1).encode()))
+    reject(lambda: app.parse_input_csv(train.drop(columns=["_group_id"]).to_csv(index=False).encode()))
+    reject(lambda: app.parse_input_csv((raw + "bad,row\n").encode()))
+    reject(lambda: app.parse_input_csv((",".join(train.columns) + "\n").encode()))
+    extra = train.assign(unexpected="x")
+    reject(lambda: app.parse_input_csv(extra.to_csv(index=False).encode()))
+    single_class = train.copy(); single_class["income"] = "<=50K"
+    reject(lambda: app.preflight_inputs(single_class, test))
+    for col, value in [("income", "INVALID"), ("_source_id", ""), ("age", "999")]:
+        changed = train.copy(); changed[col] = value
+        reject(lambda: app.preflight_inputs(changed, test))
+    for col in ("_group_id", "_source_id"):
+        changed = test.copy(); changed.loc[0, col] = train.loc[0, col]
+        reject(lambda: app.preflight_inputs(train, changed))
+    from src.pipeline import run_pipeline
+    with tempfile.TemporaryDirectory(prefix="adaptive-d-") as temporary:
+        root = Path(temporary)
+        paths = app.save_uploaded_inputs(train, test, root=root)
+        check(all(path.is_relative_to(root / "outputs/uploads") for path in paths), "Upload escaped destination")
+        result = run_pipeline(*paths, mode="rules", output_dir=root / "outputs")
+        check(result.status == "succeeded", "Actual uploaded-bytes rules pipeline failed")
+        saved = Path(result.output_dir) / "run_result.json"
+        original = saved.read_bytes()
+        body = json.loads(original); body["output_dir"] = str(root / "old-machine")
+        saved.write_text(json.dumps(body), encoding="utf-8")
+        with patch.object(app, "run_requested_pipeline", side_effect=AssertionError("History must not execute")) as execution:
+            loaded = app.load_history(saved, root=root)
+            check(loaded.output_dir == str(saved.parent), "History not rebased to extracted directory")
+            check(len(app.history_runs(root=root)) == 1, "Valid saved run not discovered")
+            execution.assert_not_called()
+        body["artifacts"]["summary"] = "../../outside.md"
+        saved.write_text(json.dumps(body), encoding="utf-8")
+        reject(lambda: app.load_history(saved, root=root))
+        check(not app.history_runs(root=root), "Unsafe history not hidden")
+        saved.write_bytes(original)
+        artifact = Path(result.output_dir) / "summary.md"
+        moved = artifact.with_suffix(".held")
+        artifact.rename(moved)
+        reject(lambda: app.load_history(saved, root=root))
+        moved.rename(artifact)
+        reject(lambda: app.load_history(ROOT / "README.md", root=root))
+        before = QualityReport.model_validate_json((saved.parent / "quality_before.json").read_text(encoding="utf-8"))
+        after = QualityReport.model_validate_json((saved.parent / "quality_after.json").read_text(encoding="utf-8"))
+        columns = app.column_quality(before, after)
+        check(len(columns) == 14 and columns["处理后缺失数"].sum() == 0, "Column quality table differs from actual output")
+        expected = before.missing_by_column["workclass"] / before.row_count * 100
+        check(columns.loc["workclass", "处理前缺失率(%)"] == expected, "Column missing rate denominator incorrect")
+    pd.testing.assert_frame_equal(train, train_original)
+    pd.testing.assert_frame_equal(test, test_original)
+    report["adaptive_features"] = {"rejected_cases": failures,
+        "checks": ["BOM_and_reordered_columns", "GB18030_semicolon", "preflight_no_model",
+                   "uploaded_bytes_real_rules_pipeline", "inputs_immutable", "history_relocated",
+                   "history_no_execution", "history_incomplete_or_outside_rejected", "column_quality_actual_exports"],
+        "scope": "Actual helpers and rules pipeline, synthetic small inputs; no external model request"}
+
+
 def smoke_event_checks(report, metrics):
     """Synthetic event-envelope regression only; no model request is made."""
     from scripts.smoke_check import verify_events
@@ -281,6 +362,20 @@ def ui_and_cli_checks(report, metrics, integration):
         if not exists:
             check(len(calls) == before_calls + 1, "Page redraw/selector called the pipeline")
         check(len(at.get("download_button")) >= 3, "Required download controls missing")
+        if exists:
+            import src.pipeline
+            # Actual history rendering and mode switching must not call pipeline.
+            with patch.object(src.pipeline, "run_pipeline", side_effect=AssertionError("Replay executed pipeline")) as execution:
+                next(b for b in at.button if b.label == "加载历史结果").click().run()
+                check(not at.exception and len(at.metric) == 2, "Historical success did not render")
+                check(any("历史结果回放" in w.value for w in at.warning), "History not explicitly labeled")
+                at.selectbox[0].select("rules").run()
+                execution.assert_not_called()
+            at.radio[0].set_value("上传CSV").run()
+            check(len(at.get("file_uploader")) == 2, "Upload controls missing")
+            next(b for b in at.button if b.label == "开始处理").click().run()
+            check(len(at.error) > 0 and len(at.metric) == 0, "Missing uploads kept stale result")
+            at.radio[0].set_value("本机CSV").run()
         at.text_input[0].set_value(str(OUTPUT / "does-not-exist.csv"))
         at.button[0].click().run()
         check(not at.exception and len(at.error) > 0 and len(at.metric) == 0, "Failed start kept stale success/metrics")
@@ -324,6 +419,7 @@ def main():
     code = 1
     try:
         metrics = classifier_checks(report)
+        adaptive_ui_checks(report)
         smoke_event_checks(report, metrics)
         code = ui_and_cli_checks(report, metrics, args.integration)
         report["status"] = "passed" if code == 0 else "not_ready"
@@ -345,6 +441,7 @@ def main():
                                "invalid_inputs_rejected": len(report["classification"]["invalid_inputs_rejected"]),
                                "ui_cli_checks": report["ui_cli"]["checks"],
                                "smoke_event_checks": report["smoke_event_checks"],
+                               "adaptive_features": report["adaptive_features"],
                                "limitations": "Synthetic 7/3 fixtures; missing C replaced ONLY for UI/CLI; no formal data, real model or end-to-end evidence"},
                    "artifacts": ["outputs/member_D/check.json", "outputs/member_D/classification/confusion_matrix.png"]}
         path = ROOT / "evidence/D/fixtures.json"

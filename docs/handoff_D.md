@@ -1,5 +1,15 @@
 # 成员 D 交接记录
 
+## 当前：四项功能补全（2026-11-02）
+
+本次用户明确要求补齐四项中低成本功能并登记prompt。D在成员归属分支补A的合法数值分布统计（6项新增检查）和C的训练缺失率/模型依据提示（新增1项测试），各自submit实际通过并正常合入main；D开发使用统一记入D-20261102-adaptive-features，不补录此前被排除的对话。
+
+D页面新增：固定17字段CSV上传和无模型预检，UTF8-BOM/GB18030、逗号/分号/制表符和字段顺序兼容；标签/来源组与ID交叉、无有效训练数值、重复头/坏行/字段错误/大小拒绝。内容哈希目录保存标准UTF8，页面仍只调用C的pipeline。14列缺失率图、训练分布与实际填补值可查；20%提示仅供展示，不改变处理规则。回放校验完整文件/日志/模式与路径，重定位归档目录，优先显示≥5000规模并标识小样本；回放/重绘/预检不触发模型。
+
+实际D自测含上传字节→正式生产rules流程、16项拒绝、编码/字段顺序、输入不变、历史路径/搬迁/缺文件/不执行、实际列统计，以及AppTest的上传空输入、回放与模式切换。浏览器实际执行正式rules、上传正式两文件、检查列级图及回放。最终D submit、main rules/LLM新复验和模型实际选择以输出及integration_log新增记录为准；旧成绩不冒充本轮新模型结果。
+
+说明docs/report_adaptive_features_20261102.md，证据outputs/adaptive_20261102及evidence/D/adaptive_features_20261102.json。报告/PPT原规则快照和既有真实模型补验保留，正式PDF/PPT整体更新、原生PowerPoint/真人跨机/全员排练仍为单独待办；本轮没有录屏。未改冻结契约或B核心。
+
 ## 真实模型联调补充（2026-11-02）
 
 DeepSeek官方接口/模型deepseek-flash已配置到临时进程并实际调用，C正式验证退出0（20261102T031150Z-ef13473e，一次请求，账本核对通过）。第二次main运行的业务pipeline也成功，但D smoke把C响应事件的attempt元数据传给严格LLMReply，误报ValidationError。真实数据、模型及C记账没有因此失败；初次完整main门禁退出2的原始报告保存在outputs/real_llm_check/deepseek_main_initial_failure_20261102.json。

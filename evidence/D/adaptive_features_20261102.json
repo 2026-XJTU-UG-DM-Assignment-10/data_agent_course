@@ -1,0 +1,31 @@
+{
+  "workflow_version": "2.0",
+  "contract_version": "1.0",
+  "role": "D",
+  "scope": "formal_data",
+  "status": "passed",
+  "checked_at": "2026-11-02T04:29:30.067853+00:00",
+  "command": "Browser UI at 127.0.0.1:8504; formal local CSV run, both-file upload run, column quality inspection, saved-run replay",
+  "uses_test_doubles": false,
+  "summary": {
+    "local_rules_run_id": "20261102T042307Z-475e6fde",
+    "uploaded_rules_run_id": "20261102T042735Z-95863c1c",
+    "train_before": 7140,
+    "train_after": 7000,
+    "test_rows": 3000,
+    "column_missing_rates_and_distribution_visible": true,
+    "upload_files_selected_and_execution_succeeded": true,
+    "history_labeled_and_original_id_preserved": true,
+    "project_requests_before_and_after_browser": 3,
+    "real_llm_checked": false,
+    "operator": "AI browser automation; not human cross-machine reproduction",
+    "recording": "not_run"
+  },
+  "artifacts": [
+    "outputs/adaptive_20261102/page_chart.png",
+    "outputs/adaptive_20261102/page_upload.png",
+    "outputs/adaptive_20261102/page_replay.png",
+    "outputs/20261102T042735Z-95863c1c/run_result.json",
+    "outputs/member_D/check.json"
+  ]
+}

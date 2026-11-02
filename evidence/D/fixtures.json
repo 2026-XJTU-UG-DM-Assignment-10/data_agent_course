@@ -4,7 +4,7 @@
   "role": "D",
   "scope": "fixtures",
   "status": "passed",
-  "checked_at": "2026-11-02T03:19:00.911697+00:00",
+  "checked_at": "2026-11-02T04:28:41.756006+00:00",
   "command": "python checks/check_D.py",
   "uses_test_doubles": false,
   "summary": {
@@ -60,6 +60,21 @@
       ],
       "rules_without_request": "passed",
       "scope": "synthetic event fixtures; no external request or runtime ledger entry"
+    },
+    "adaptive_features": {
+      "rejected_cases": 16,
+      "checks": [
+        "BOM_and_reordered_columns",
+        "GB18030_semicolon",
+        "preflight_no_model",
+        "uploaded_bytes_real_rules_pipeline",
+        "inputs_immutable",
+        "history_relocated",
+        "history_no_execution",
+        "history_incomplete_or_outside_rejected",
+        "column_quality_actual_exports"
+      ],
+      "scope": "Actual helpers and rules pipeline, synthetic small inputs; no external model request"
     },
     "limitations": "Synthetic 7/3 fixtures; missing C replaced ONLY for UI/CLI; no formal data, real model or end-to-end evidence"
   },
