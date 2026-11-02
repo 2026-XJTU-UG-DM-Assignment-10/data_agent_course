@@ -4,12 +4,12 @@
   "role": "D",
   "scope": "fixtures",
   "status": "passed",
-  "checked_at": "2026-11-02T13:19:01.787692+00:00",
+  "checked_at": "2026-11-02T13:26:56.939197+00:00",
   "command": "bundled material Python docs/report_materials_check.py plus individual visual inspection of all six PDF pages and seven slides",
   "uses_test_doubles": false,
   "summary": {
     "status": "passed",
-    "checked_at": "2026-11-02T13:19:01.787692+00:00",
+    "checked_at": "2026-11-02T13:26:56.939197+00:00",
     "scope": "local material structure, factual cross-checks and image embedding; separate visual inspection performed",
     "pdf_pages": 6,
     "slides": 7,
@@ -42,14 +42,14 @@
     "input_tokens": 5928,
     "output_tokens": 5652,
     "new_model_requests_during_materials": 0,
-    "pdf_sha256": "ed5789b9a2f13a2b0e6b33e855aed6dbfe6c481738cd03a11a37fc8fe2837ddc",
-    "pptx_sha256": "4f114122c6a048569c86de6664711f91a5e0b788b88e15ddf74973ef6c6f1089"
+    "pdf_sha256": "cbe2b4940baeac4600c8f5e7fac9ea23e46f7fd06ad0238fdf9ca22d3abb97e4",
+    "pptx_sha256": "c8b2c9182b430e8d65655928d8f13d4a706fd384f49cffb9ba2d1df265b60835"
   },
   "artifacts": [
     "docs/report.pdf",
     "docs/presentation.pptx",
     "docs/presentation_guide.md",
     "outputs/final_release_20261102/materials_check.json",
-    "outputs/final_release_20261102/ppt_build/validation-v2.json"
+    "outputs/final_release_20261102/ppt_build/validation-v3.json"
   ]
 }

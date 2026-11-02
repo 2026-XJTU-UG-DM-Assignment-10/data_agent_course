@@ -42,6 +42,10 @@ def build(python):
     integration = read(ROOT / "outputs/integration/integration_rules.json")
     assert integration["status"] == "passed"
     assert all(item["status"] == "passed" for item in integration["role_checks"].values())
+    for role, checked in integration["role_checks"].items():
+        for name, digest in checked["tested_files_sha256"].items():
+            actual = (ROOT / name).read_text(encoding="utf-8-sig").replace("\r\n", "\n")
+            assert sha(actual.encode("utf-8")) == digest, "Stale integration evidence: " + name
     ledger = read(ROOT / "ai_usage/C/usage.json")
     records = [r for r in ledger["records"] if r["scope"] == "project_runtime"]
     assert len(records) == 6 and sum(r["calls"] for r in records) == 6
@@ -113,7 +117,7 @@ def build(python):
         path = ROOT / "outputs/integration" / name
         if path.exists():
             add(path, "04_运行与验收证据/local_integration/" + name)
-    for name in ("materials_check.json", "report_data.json", "D_submit.log", "main_rules.log"):
+    for name in ("materials_check.json", "report_data.json", "D_submit.log", "main_rules.log", "B_review.log", "B_formal_review.log"):
         path = OUT / name
         if path.exists():
             add(path, "04_运行与验收证据/materials/" + name)
