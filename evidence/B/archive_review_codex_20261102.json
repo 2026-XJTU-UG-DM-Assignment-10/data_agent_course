@@ -1,0 +1,23 @@
+{
+  "checked_at": "2026-11-02T12:00:26.289295+00:00",
+  "role": "B",
+  "patch_sha256": "536b10ee5f4e14af45db98f8fe71c8f1af4ffc1b0403c4afa39f742e1c0f632f",
+  "outputs_sha256": "b560506ab26cd1ba1f1427d153ef16c7000050f359dd157e56ba445ba30b4992",
+  "decisions": {
+    "docs/cleaning.md": "reuse verified case/method ideas, rewrite current execution scope after fresh runs",
+    "docs/handoff_B.md": "preserve repository history, append fresh execution; no blind overwrite",
+    "handoffs/B.json": "do not import stale gate/review; update actual branch and fresh receipt references",
+    "evidence/B/formal_rules_case_review_20261102.json": "preserve bytes as historical_offline_case_review_20261102.json; never reference as current passed receipt",
+    "ai_usage/B/usage.json": "assert original records unchanged; merge only missing historical record; add current distinct session",
+    "ai_usage/B/prompts/B-20261102-session.md": "preserve supplied historical prompt bytes",
+    "outputs/member_B/*.py": "reviewed: direct B functions, no API/network/mutation of formal data; rerun ignored local helpers",
+    "outputs/member_B/*.csv/json": "historical results kept in archive_review; compare against new runs, never relabel as new"
+  },
+  "known_archive_gaps": [
+    "historical receipt lacks gate-required scope/summary fields",
+    "archive handoff points fixtures claim to a formal-data receipt",
+    "archive cannot prove real Git submit/push",
+    "archive dependency versions differ from requirements.txt"
+  ],
+  "source_code": "No normalization/cleaner source is present in either ZIP. Current cleaner fix comes from independently reproduced defects."
+}

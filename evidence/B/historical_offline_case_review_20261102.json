@@ -1,0 +1,203 @@
+{
+  "record_type": "member_B_offline_formal_cleaning_and_case_review",
+  "workflow_version": "2.0",
+  "contract_version": "1.0",
+  "role": "B",
+  "status": "passed",
+  "checked_at_utc": "2026-11-02T11:21:55.035503+00:00",
+  "verification_environment": {
+    "python": "3.13.5",
+    "dependencies": {
+      "pandas": "2.2.3",
+      "pydantic": "2.13.5",
+      "numpy": "2.3.5",
+      "scikit-learn": "1.8.0"
+    },
+    "note": "Actual packages differ from requirements.txt pinning; no claim of bit-for-bit platform equivalence"
+  },
+  "project_source": "data_agent_course-main (1).zip plus official data.zip supplied by member A",
+  "source_data_sha256": {
+    "data/dirty/train_dirty.csv": "d20733c943a5b9b1c98f5551ccff47bc288d8ed9c4e0617dc5c50250382bdc07",
+    "data/reference/test_reference.csv": "7a6d1ec21d93d6a633e81dcde7fb59ce189c77c648153d39e5eb14ac661365bf"
+  },
+  "commands": [
+    {
+      "command": "python scripts/check_delivery.py --foundation",
+      "exit_code": 0,
+      "status": "passed",
+      "scope": "shared foundation"
+    },
+    {
+      "command": "python checks/check_B.py --integration",
+      "exit_code": 0,
+      "status": "passed",
+      "checks_passed": 33,
+      "scope": "shared and synthetic fixtures; no test double"
+    },
+    {
+      "command": "python outputs/member_B/verify_formal_B.py",
+      "exit_code": 0,
+      "status": "passed",
+      "scope": "official supplied CSV with B modules directly; reproducible helper in outputs/member_B/"
+    },
+    {
+      "command": "python outputs/member_B/check_B_strategy_matrix.py",
+      "exit_code": 0,
+      "status": "passed",
+      "scope": "four allowed combinations and 4 invalid plan cases; reproducible helper in outputs/member_B/"
+    }
+  ],
+  "mode": "rules/offline_direct_B_module",
+  "not_a_pipeline_run": true,
+  "pipeline_run_id": null,
+  "real_model_requests_from_this_verification": 0,
+  "rules_plan": {
+    "contract_version": "1.0",
+    "mode": "rules",
+    "steps": [
+      "normalize_format",
+      "drop_duplicates",
+      "mark_invalid",
+      "impute_missing"
+    ],
+    "numeric_imputation": "median",
+    "categorical_imputation": "constant",
+    "categorical_fill_value": "Unknown",
+    "reason_numeric": "联调规则计划，固定使用中位数；不是模型返回。",
+    "reason_categorical": "联调规则计划，固定使用 Unknown；不是模型返回。"
+  },
+  "train_audit": {
+    "contract_version": "1.0",
+    "dataset": "train",
+    "input_rows": 7140,
+    "output_rows": 7000,
+    "format_cells_changed": 1218,
+    "parse_error_cells": 0,
+    "invalid_cells_set_missing": 70,
+    "missing_cells_filled": 5780,
+    "duplicate_rows_removed_before_fill": 140,
+    "duplicate_rows_removed_after_fill": 0,
+    "warnings": []
+  },
+  "test_audit": {
+    "contract_version": "1.0",
+    "dataset": "test",
+    "input_rows": 3000,
+    "output_rows": 3000,
+    "format_cells_changed": 0,
+    "parse_error_cells": 0,
+    "invalid_cells_set_missing": 0,
+    "missing_cells_filled": 431,
+    "duplicate_rows_removed_before_fill": 0,
+    "duplicate_rows_removed_after_fill": 0,
+    "warnings": []
+  },
+  "results": {
+    "train_input_rows": 7140,
+    "train_output_rows": 7000,
+    "test_input_rows": 3000,
+    "test_output_rows": 3000,
+    "input_frames_unchanged": true,
+    "test_label_source_group_order_unchanged": true,
+    "post_train_feature_missing_cells": 0
+  },
+  "strategy_matrix": [
+    {
+      "numeric_strategy": "mean",
+      "categorical_strategy": "most_frequent",
+      "train_output_rows": 6998,
+      "test_output_rows": 3000,
+      "duplicate_rows_removed_before_fill": 140,
+      "duplicate_rows_removed_after_fill": 2
+    },
+    {
+      "numeric_strategy": "mean",
+      "categorical_strategy": "constant",
+      "train_output_rows": 7000,
+      "test_output_rows": 3000,
+      "duplicate_rows_removed_before_fill": 140,
+      "duplicate_rows_removed_after_fill": 0
+    },
+    {
+      "numeric_strategy": "median",
+      "categorical_strategy": "most_frequent",
+      "train_output_rows": 6998,
+      "test_output_rows": 3000,
+      "duplicate_rows_removed_before_fill": 140,
+      "duplicate_rows_removed_after_fill": 2
+    },
+    {
+      "numeric_strategy": "median",
+      "categorical_strategy": "constant",
+      "train_output_rows": 7000,
+      "test_output_rows": 3000,
+      "duplicate_rows_removed_before_fill": 140,
+      "duplicate_rows_removed_after_fill": 0
+    }
+  ],
+  "invalid_plan_cases_rejected": 4,
+  "cases": [
+    {
+      "problem_type": "missing",
+      "source_id": "S016453",
+      "field": "native_country",
+      "raw_value": "?",
+      "normalized_value": null,
+      "output_value": "Unknown",
+      "handling": "Rule plan categorical constant Unknown, learned numeric fills exclusively from valid train rows",
+      "dirty_csv_position_zero_based": 3484,
+      "clean_csv_original_index_zero_based": 3484
+    },
+    {
+      "problem_type": "duplicate",
+      "source_id": "S025957",
+      "field": "whole_row",
+      "raw_value": "two records with same 14 features and income",
+      "raw_csv_positions_zero_based": [
+        5565,
+        7000
+      ],
+      "output": "one record kept at original position 5565, duplicate 7000 removed in first dedup",
+      "duplicate_key": "14 features + income; excludes metadata IDs",
+      "first_dedup_total": 140,
+      "post_fill_dedup_total": 0
+    },
+    {
+      "problem_type": "outlier",
+      "source_id": "S002083",
+      "field": "age",
+      "raw_value": "-5",
+      "normalized_value": -5.0,
+      "output_value": 37.0,
+      "handling": "Age legal range 17..120; out of range -> NaN -> train median age 37.0",
+      "dirty_csv_position_zero_based": 434
+    },
+    {
+      "problem_type": "format",
+      "source_id": "S010642",
+      "field": "fnlwgt",
+      "raw_value": " 363591 ",
+      "normalized_value": 363591.0,
+      "output_value": 363591.0,
+      "handling": "Strip harmless spaces and parse numeric; this field is >0, no upper bound",
+      "dirty_csv_position_zero_based": 2251
+    }
+  ],
+  "audit_interpretation": "7140-140 first pass duplicates-0 final duplicates=7000; 70 invalid cells set missing, 5780 cells filled, 1218 formatting adjustments; counts overlap and are not disjoint problem row counts. 5815 missing cells before clean include 105 in dropped duplicate rows; 5815-105+70=5780.",
+  "historical_llm_scope": "The supplied main docs record successful real LLM runs on D/C side, including median/most_frequent (6998 output). No real LLM call was made by B here; historical archived LLM post-clean CSV not present in this source ZIP, so its direct byte-level comparison is not claimed.",
+  "not_run": [
+    "Git branch sync/commit/push (ZIP has no .git)",
+    "B --submit gate in actual member branch",
+    "D main integration gate",
+    "fresh real LLM model invocation"
+  ],
+  "raw_outputs": [
+    "outputs/member_B/formal_rules_B_20261102.json",
+    "outputs/member_B/strategy_matrix_20261102.json",
+    "outputs/member_B/train_clean_rules_20261102.csv",
+    "outputs/member_B/test_transformed_rules_20261102.csv",
+    "outputs/member_B/verify_formal_B.py",
+    "outputs/member_B/check_B_strategy_matrix.py"
+  ],
+  "case_review_of_existing_report": "Existing docs/report.md four example input/output values corroborated on official A data for median/constant Unknown plan. Historical LLM run archive was not independently rehashed."
+}

@@ -1,0 +1,232 @@
+{
+  "workflow_version": "2.0",
+  "contract_version": "1.0",
+  "role": "B",
+  "status": "passed",
+  "checked_at": "2026-11-02T12:05:57.620299+00:00",
+  "uses_test_doubles": false,
+  "base_commit": "65e7b651e068e628c969603278dfaf7993982464",
+  "verified_by": "member B / Codex; member branch only",
+  "scope": "formal_data",
+  "command": "python evidence/B/verify_stage2.py",
+  "summary": {
+    "scope": "formal A data; real A profiler/C rules plan/B cleaner; direct module execution, no classifier or pipeline",
+    "pipeline_run_id": null,
+    "mode": "rules",
+    "real_model_requests": 0,
+    "source_data_sha256": {
+      "data/dirty/train_dirty.csv": "d20733c943a5b9b1c98f5551ccff47bc288d8ed9c4e0617dc5c50250382bdc07",
+      "data/reference/test_reference.csv": "7a6d1ec21d93d6a633e81dcde7fb59ce189c77c648153d39e5eb14ac661365bf"
+    },
+    "train_audit": {
+      "contract_version": "1.0",
+      "dataset": "train",
+      "input_rows": 7140,
+      "output_rows": 7000,
+      "format_cells_changed": 1218,
+      "parse_error_cells": 0,
+      "invalid_cells_set_missing": 70,
+      "missing_cells_filled": 5780,
+      "duplicate_rows_removed_before_fill": 140,
+      "duplicate_rows_removed_after_fill": 0,
+      "warnings": []
+    },
+    "test_audit": {
+      "contract_version": "1.0",
+      "dataset": "test",
+      "input_rows": 3000,
+      "output_rows": 3000,
+      "format_cells_changed": 0,
+      "parse_error_cells": 0,
+      "invalid_cells_set_missing": 0,
+      "missing_cells_filled": 431,
+      "duplicate_rows_removed_before_fill": 0,
+      "duplicate_rows_removed_after_fill": 0,
+      "warnings": []
+    },
+    "state": {
+      "contract_version": "1.0",
+      "plan": {
+        "contract_version": "1.0",
+        "mode": "rules",
+        "steps": [
+          "normalize_format",
+          "drop_duplicates",
+          "mark_invalid",
+          "impute_missing"
+        ],
+        "numeric_imputation": "median",
+        "categorical_imputation": "constant",
+        "categorical_fill_value": "Unknown",
+        "reason_numeric": "使用训练集合法观测的中位数，降低极端值对填补值的影响。",
+        "reason_categorical": "使用固定的 Unknown，避免把缺失类别误判为常见类别。"
+      },
+      "numeric_fill_values": {
+        "age": 37.0,
+        "fnlwgt": 177727.0,
+        "education_num": 10.0,
+        "capital_gain": 0.0,
+        "capital_loss": 0.0,
+        "hours_per_week": 40.0
+      },
+      "categorical_fill_values": {
+        "workclass": "Unknown",
+        "education": "Unknown",
+        "marital_status": "Unknown",
+        "occupation": "Unknown",
+        "relationship": "Unknown",
+        "race": "Unknown",
+        "sex": "Unknown",
+        "native_country": "Unknown"
+      },
+      "feature_columns": [
+        "age",
+        "workclass",
+        "fnlwgt",
+        "education",
+        "education_num",
+        "marital_status",
+        "occupation",
+        "relationship",
+        "race",
+        "sex",
+        "capital_gain",
+        "capital_loss",
+        "hours_per_week",
+        "native_country"
+      ]
+    },
+    "cases": [
+      {
+        "problem_type": "missing",
+        "source_id": "S016453",
+        "group_id": "G5b4f787a52141f83",
+        "field": "native_country",
+        "dirty_position_zero_based": 3484,
+        "raw_value": "?",
+        "normalized_value": null,
+        "output_value": "Unknown",
+        "output_csv_position_zero_based": 3484
+      },
+      {
+        "problem_type": "duplicate",
+        "source_id": "S025957",
+        "field": "14 features + income",
+        "group_ids": [
+          "G6e5874ae0f2bb001",
+          "G6e5874ae0f2bb001"
+        ],
+        "dirty_positions_zero_based": [
+          5565,
+          7000
+        ],
+        "retained_original_positions": [
+          5565
+        ],
+        "removed_original_positions": [
+          7000
+        ],
+        "metadata_excluded_from_key": true,
+        "normalized_full_key_equal": true,
+        "output_value": "one retained, one removed in first dedup"
+      },
+      {
+        "problem_type": "outlier",
+        "source_id": "S002083",
+        "group_id": "G045b824ad2c85ed2",
+        "field": "age",
+        "dirty_position_zero_based": 434,
+        "raw_value": "-5",
+        "normalized_value": -5.0,
+        "output_value": 37.0,
+        "output_csv_position_zero_based": 434
+      },
+      {
+        "problem_type": "format",
+        "source_id": "S010642",
+        "group_id": "Gf013fabfe0f74e29",
+        "field": "fnlwgt",
+        "dirty_position_zero_based": 2251,
+        "raw_value": " 363591 ",
+        "normalized_value": 363591.0,
+        "output_value": 363591.0,
+        "output_csv_position_zero_based": 2251
+      }
+    ],
+    "strategies": [
+      {
+        "numeric": "mean",
+        "categorical": "most_frequent",
+        "train_rows": 6998,
+        "before_dedup": 140,
+        "after_dedup": 2,
+        "test_rows": 3000
+      },
+      {
+        "numeric": "mean",
+        "categorical": "constant",
+        "train_rows": 7000,
+        "before_dedup": 140,
+        "after_dedup": 0,
+        "test_rows": 3000
+      },
+      {
+        "numeric": "median",
+        "categorical": "most_frequent",
+        "train_rows": 6998,
+        "before_dedup": 140,
+        "after_dedup": 2,
+        "test_rows": 3000
+      },
+      {
+        "numeric": "median",
+        "categorical": "constant",
+        "train_rows": 7000,
+        "before_dedup": 140,
+        "after_dedup": 0,
+        "test_rows": 3000
+      }
+    ],
+    "assertions": {
+      "inputs_unchanged": true,
+      "test_rows_index_labels_ids_unchanged": true,
+      "train_survivor_labels_ids_unchanged": true,
+      "state_unchanged": true,
+      "training_only_fill_values_independently_checked": true,
+      "train_test_groups_disjoint": true
+    },
+    "python": "3.12.13",
+    "dependencies": {
+      "pandas": "2.3.3",
+      "numpy": "2.3.5",
+      "pydantic": "2.12.4",
+      "scikit-learn": "1.7.2",
+      "requests": "2.32.5",
+      "streamlit": "1.51.0",
+      "matplotlib": "3.10.6"
+    },
+    "prior_output_comparison": [
+      {
+        "historical": "train_clean_rules_20261102.csv",
+        "fresh": "train_clean_rules.csv",
+        "parsed_frames_equal": true,
+        "rows": 7000,
+        "comparison": "pandas assert_frame_equal default numeric tolerance; no claim of byte identity"
+      },
+      {
+        "historical": "test_transformed_rules_20261102.csv",
+        "fresh": "test_transformed_rules.csv",
+        "parsed_frames_equal": true,
+        "rows": 3000,
+        "comparison": "pandas assert_frame_equal default numeric tolerance; no claim of byte identity"
+      }
+    ]
+  },
+  "artifacts": [
+    "outputs/member_B/codex_20261102/formal_verification.json",
+    "outputs/member_B/codex_20261102/train_clean_rules.csv",
+    "outputs/member_B/codex_20261102/test_transformed_rules.csv",
+    "outputs/member_B/codex_20261102/data_import_review.json",
+    "outputs/member_B/codex_20261102/historical_output_comparison.json"
+  ]
+}
