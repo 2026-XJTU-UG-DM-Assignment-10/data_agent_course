@@ -1,5 +1,13 @@
 # 集成检查与退回记录
 
+## 最新：2026-11-02正式PDF/PPT收口
+
+D材料提交e5e0eee通过submit，正常合入main 08c9b07后check_integration.py --mode rules实际退出0、四角色passed。本阶段未改业务模块、冻结契约或C账本，未新发API请求；最后真实LLM验证仍为8968c65对应的20261102T043037Z-b0fc7c1a。新的6页报告与7页PPT统一该模型运行、规则对照20261102T042950Z-969fddba、四项功能、姓名及D代完成部分，不写分类提升。
+
+PDF与PPT全部逐页渲染目视检查，PPT导入保留原稿按锚点编辑，继承原尺寸/字体/设计。发现过路径替换图片未实际嵌入，改用真实字节嵌入；现2张媒体与原始证据哈希完全一致。3张原生表格、字体与重新导入检查通过。原生PowerPoint应用访问授权等待超时，未记为通过；无录屏或真人跨机/排练声明。证据evidence/D/materials_20261102.json和materials_main_rules_20261102.json，原始验证在outputs/materials_20261102。
+
+原始规则材料副本和旧交付包保留。新包outputs/real_llm_check/data_agent_course_materials_20261102.zip包含源码、数据、全部真实请求/成功运行、受控故障、正式材料及AI记录；实际解压/SHA-256校验见同目录materials_package_check.json。D当前同一会话条目更新为2次可核实成员输入，内部用量仍未知；不补录此前被排除的对话。剩余真人事项见acceptance.md和demo_script.md。
+
 ## 最新：2026-11-02四项功能补全完成
 
 按用户本次要求，D补训练分布统计、列级质量图、成功历史回放和固定结构CSV上传/预检，并恢复本次prompt使用登记。A统计扩展f055a31、C训练摘要与共享系统提示词89a6eb4、D页面与回归e6a15ad均按本人分支实际submit退出0，正常合并。main 8968c65的rules/LLM完整门禁实际退出0、四角色passed；当前代码的A60项断言、B33项断言、C16项测试、D16项新增拒绝与正例/AppTest全部通过。冻结契约和B核心未改，其他工作区未提交修改保留。

@@ -71,7 +71,7 @@
     }
   },
   "blockers": [],
-  "next_action": "Submit updated D materials and main rules revalidation, archive current source/data/LLM proof/materials. Human cross-machine/rehearsal, recording, native PowerPoint access and B prose/oral roles remain pending.",
+  "next_action": "Formal PDF6/PPT7 and current technical backup complete; native PowerPoint app access timed out. Human cross-machine reproduction, oral roles/rehearsal, recording and B prose confirmation still need actual participation.",
   "last_gate": {
     "checked_at": "2026-11-02T05:17:26.869510+00:00",
     "verified_revision": "2e8be18d9134aed79501484d50a8fff006386c72",
@@ -107,6 +107,7 @@
     "verified_revision": "1597bfafb2eba8fd5c59e5b263ca5577974f9cd2",
     "command": "python checks/check_D.py --integration",
     "explanation": "New integration attestations; not a claim that the member ran an earlier missing submit command.",
-    "latest_llm_evidence": "evidence/D/main_llm_20261102.json"
+    "latest_llm_evidence": "evidence/D/main_llm_20261102.json",
+    "latest_materials_rules_evidence": "evidence/D/materials_main_rules_20261102.json"
   }
 }
