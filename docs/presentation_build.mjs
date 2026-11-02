@@ -76,7 +76,7 @@ edit(6,118,'系统已完成独立服务器验证并提供公网演示入口');
 edit(6,205,'A 宋艳婷：数据准备、来源划分与质量检测\nB 杨陈紫逸：格式规范化、清洗与测试转换\nC 胡宇轩：模型客户端、计划生成、流程与日志\nD 周锦晨：分类与页面、训练摘要与输入校验、集成部署及材料',27);
 edit(6,420,'验证：规则与真实LLM完整流程、独立服务器与公网访问',27);
 edit(6,535,'交付：报告、源码、数据、日志、AI记录及课堂指南\n课前完成教室网络登录与排练',26);
-slide(6).speakerNotes.text='55秒，合计建议7分钟。按实际完成工作介绍四位成员。D还完成历史回放、模型边界校验与逐次记账验证，完整工作见docs/contributions.md。技术验证包括A60断言/B33断言/C16测试/D真实流程与输入边界检查，独立WindowsServer2022/Python3.12.10安装及正式数据重建。公网认证/TLS/WSS14项、服务重启及关闭SSH后的访问通过。系统仍限定Adult结构和全局填补策略，课堂网络与实际排练以真实操作为准。来源docs/report.md、public_gateway_20261102.md及evidence/D。';
+slide(6).speakerNotes.text='55秒，合计建议7分钟。按实际完成工作介绍四位成员。D还完成历史回放、模型边界校验与逐次记账验证，完整工作见docs/contributions.md。技术验证包括A60断言/B44断言/C16测试/D真实流程与输入边界检查，独立WindowsServer2022/Python3.12.10安装及正式数据重建。公网认证/TLS/WSS14项、服务重启及关闭SSH后的访问通过。系统仍限定Adult结构和全局填补策略，课堂网络与实际排练以真实操作为准。来源docs/report.md、public_gateway_20261102.md及evidence/D。';
 for(const [i,s] of p.slides.items.entries()){
  const png=await p.export({slide:s,format:'png',scale:1});
  await fs.writeFile(path.join(out,`slide-${i+1}.png`),new Uint8Array(await png.arrayBuffer()));
