@@ -27,6 +27,62 @@
       "result": "partial",
       "source_id": "C-local-session-20261029-01",
       "notes": "实现 C 的模型适配器、计划校验、pipeline 和离线自测；7 项自测通过。没有发起真实项目模型请求。真实 API、正式数据及端到端验收尚未验证。"
+    },
+    {
+      "id": "C-20261102-runtime-ef13473e-1",
+      "scope": "project_runtime",
+      "time": "2026-11-02T11:11:51.033286+08:00",
+      "tool": "OpenAI-compatible API via requests",
+      "model": "deepseek-flash",
+      "parameters": {
+        "temperature": 0,
+        "endpoint_kind": "chat_completions"
+      },
+      "parameters_note": "The client sends temperature=0; provider-specific hidden parameters are not assumed.",
+      "prompt_files": [
+        "ai_usage/C/prompts/runtime-20261102T031150Z-ef13473e-1.md"
+      ],
+      "calls": 1,
+      "interactions": null,
+      "input_tokens": 714,
+      "output_tokens": 418,
+      "cost": {
+        "kind": "unknown",
+        "amount": null,
+        "currency": null,
+        "basis": "Provider did not expose a verifiable per-request cost."
+      },
+      "result": "succeeded",
+      "source_id": "20261102T031150Z-ef13473e:1",
+      "notes": "One actual production-client HTTP attempt; raw response and execution events are in outputs/<run_id>/events.jsonl."
+    },
+    {
+      "id": "C-20261102-runtime-102c7ebc-1",
+      "scope": "project_runtime",
+      "time": "2026-11-02T11:12:11.014144+08:00",
+      "tool": "OpenAI-compatible API via requests",
+      "model": "deepseek-flash",
+      "parameters": {
+        "temperature": 0,
+        "endpoint_kind": "chat_completions"
+      },
+      "parameters_note": "The client sends temperature=0; provider-specific hidden parameters are not assumed.",
+      "prompt_files": [
+        "ai_usage/C/prompts/runtime-20261102T031210Z-102c7ebc-1.md"
+      ],
+      "calls": 1,
+      "interactions": null,
+      "input_tokens": 714,
+      "output_tokens": 369,
+      "cost": {
+        "kind": "unknown",
+        "amount": null,
+        "currency": null,
+        "basis": "Provider did not expose a verifiable per-request cost."
+      },
+      "result": "succeeded",
+      "source_id": "20261102T031210Z-102c7ebc:1",
+      "notes": "One actual production-client HTTP attempt; raw response and execution events are in outputs/<run_id>/events.jsonl."
     }
   ]
 }

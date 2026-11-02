@@ -1,5 +1,13 @@
 # 成员 C 交接记录
 
+## 真实模型补验（2026-11-02 11:11–11:12，Asia/Shanghai）
+
+DeepSeek官方接口https://api.deepseek.com、模型deepseek-flash已实际验证。checks/check_C.py --integration --real-llm退出0，正式数据完整pipeline成功，run_id为20261102T031150Z-ef13473e；一次真实请求、逐次记账核对通过。训练7140→7000、测试3000，Accuracy0.8523333333、Macro-F1 0.7888456818。evidence/C/real_llm_deepseek_20261102.json为脱敏证据。
+
+随后main的另一运行20261102T031210Z-102c7ebc也完成模型/清洗/分类，但D的smoke解析器把事件attempt元数据当作LLMReply额外字段，完整门禁退出2；D修复并复验前不称main LLM验收通过。两次实际模型请求均在C账本，各calls=1、result=succeeded，服务未提供单次费用，保持null。没有把离线测试或聊天指导记成真实项目调用。密钥只在临时进程环境使用，未写入文件；新终端仍需重新加载配置。
+
+本节更新真实运行结果，不登记配置指导对话的prompt使用。历史的“未配置”描述保留原时间点。
+
 ## 当前增量（2026-11-02，D按用户授权代完成）
 
 用户授权D代完成C未尽部分。本次使用member-c-agent、基于main 13d35de，只改C归属文件；开发AI使用记录随后并入D账本，保留原C账本与历史交接。
