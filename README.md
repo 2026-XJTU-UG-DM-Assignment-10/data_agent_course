@@ -6,6 +6,8 @@
 
 ## 从哪里开始
 
+2026-11-02新增：训练分布摘要驱动的策略解释（偏度/四分位数/IQR/缺失率）、14列质量图与实际填补值、历史成功运行回放，以及同结构CSV上传/预检。使用方式、支持范围和实测证据见[功能补全说明](docs/report_adaptive_features_20261102.md)。
+
 1. 从[统一入口](docs/START_HERE.md)开始。协作协议为 2.0，业务契约仍为 1.0。
 2. 成员分别把 [A](prompts/A.md)、[B](prompts/B.md)、[C](prompts/C.md)、[D](prompts/D.md) 的开工指令交给自己的 AI；任何模型均需按文件读取规则，不依赖聊天记忆。
 3. 遵守[低沟通协作协议](docs/低沟通协作协议.md)、`collaboration/roles.json` 及[公共接口说明](docs/公共接口说明.md)。

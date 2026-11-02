@@ -4,7 +4,7 @@
   "role": "D",
   "branch": "member-d-ui",
   "status": "ready_for_review",
-  "based_on_commit": "ed56b10c677a5653b6befd7678ee42e9154ef523",
+  "based_on_commit": "831797bfe00bb8fbc4cd8997ecb1ad9f263c0851",
   "completed": [
     "Real 14-feature LogisticRegression classifier with train-only transforms, fixed metrics/matrix and PNG",
     "Streamlit and CLI call only C pipeline; explicit execution, persistent state, quality/plan/audit/download UI",
@@ -15,15 +15,19 @@
     "Nov2: reviewed and merged A d7cc1da; 54 checks and independent real-data count review passed; A confirmed documentation",
     "Nov2: user-authorized C takeover committed on C branch 18c1d68; 15 controlled tests and C submit passed; actual missing-config preflight exited 2 without requests",
     "Nov2: formal rules rerun passed and report/PDF6/PPT7 updated and rendered; original dated browser evidence retained",
-    "Real DeepSeek validation passed; fixed D smoke response-event attempt metadata compatibility and added positive/negative offline event regressions"
+    "Real DeepSeek validation passed; fixed D smoke response-event attempt metadata compatibility and added positive/negative offline event regressions",
+    "Four authorized features: distribution evidence, column quality, verified historical replay and fixed-schema upload/preflight; actual regression and browser verification"
   ],
   "changed_files": [
+    "README.md",
+    "ai_usage/D/prompts/D-20261102-adaptive-features.md",
+    "app.py",
     "checks/check_D.py",
     "docs/handoff_D.md",
+    "docs/report_adaptive_features_20261102.md",
+    "docs/report_llm_package.py",
     "evidence/D/fixtures.json",
-    "evidence/D/real_llm_deepseek_20261102.json",
-    "handoffs/D.json",
-    "scripts/smoke_check.py"
+    "handoffs/D.json"
   ],
   "verification": {
     "fixtures": {
@@ -35,8 +39,7 @@
     "formal_data": {
       "status": "passed",
       "evidence": [
-        "evidence/D/latest_review_20261102.json",
-        "evidence/D/formal_browser_stage2_20261030.json"
+        "evidence/D/adaptive_features_20261102.json"
       ]
     },
     "real_llm": {
@@ -54,18 +57,18 @@
     }
   },
   "blockers": [],
-  "next_action": "Main real LLM integration passed. Load local environment in new terminal; consult LLM validation supplement and verified backup. Human cross-machine/rehearsal/native-PowerPoint/LLM-UI-recording/names and B prose confirmation remain pending.",
+  "next_action": "Submit D, merge normally and verify current main rules/LLM; final PDF/PPT consolidation and human acceptance remain pending.",
   "last_gate": {
-    "checked_at": "2026-11-02T03:19:04.195621+00:00",
-    "verified_revision": "ed56b10c677a5653b6befd7678ee42e9154ef523",
+    "checked_at": "2026-11-02T04:28:49.059222+00:00",
+    "verified_revision": "831797bfe00bb8fbc4cd8997ecb1ad9f263c0851",
     "tested_files_sha256": {
       "src/classifier.py": "d482d152e848fa899e9a49ee658e0ab010dcf5f4774f95df057dd50bea69bc24",
       "src/cli.py": "f68d041555f7ca13784e54d69f05b1168c086efc63b1945dccd9ba8981da740d",
-      "app.py": "592442f57ca3c9224c50c85d6767af00e04325c04aa38ebe8f042d147af0afe3",
+      "app.py": "0389d1e9cca9d81c8908ac70eebe154270a3d430d3ae561f6418ebce66bc0d10",
       "scripts/smoke_check.py": "fa347944346cb5534a39375cbf362c89547063f71287bb4c12b67bf9e23b3c9f",
-      "checks/check_D.py": "0a16d48f54ace47d39604f19bb4e3d97f72e3ae6415da32ccfcb7d138b20f829",
+      "checks/check_D.py": "728a6577ab8a43c3e33810d80c3e8dcaf187ddfe19727fe1477a678e4def9500",
       "docs/classification.md": "cc600024b9538b1db20f43545b108e68a38b658a8a4a29fdde8260c00d2fd765",
-      "docs/handoff_D.md": "292c101c0dec662850529d6da1ded540b3b3a8b9780ba4526ecaeddb8a2852cd"
+      "docs/handoff_D.md": "d74da1003f3026703a6233ccca0207448543e91346865f13bee28638b961eb60"
     }
   },
   "integration_review": {
