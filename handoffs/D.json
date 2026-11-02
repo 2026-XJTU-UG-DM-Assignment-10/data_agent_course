@@ -4,7 +4,7 @@
   "role": "D",
   "branch": "member-d-ui",
   "status": "ready_for_review",
-  "based_on_commit": "2e8be18d9134aed79501484d50a8fff006386c72",
+  "based_on_commit": "65e7b651e068e628c969603278dfaf7993982464",
   "completed": [
     "Real 14-feature LogisticRegression classifier with train-only transforms, fixed metrics/matrix and PNG",
     "Streamlit and CLI call only C pipeline; explicit execution, persistent state, quality/plan/audit/download UI",
@@ -19,41 +19,38 @@
     "Four authorized features: distribution evidence, column quality, verified historical replay and fixed-schema upload/preflight; actual regression and browser verification",
     "Updated 6-page PDF/MD and 7-slide editable PPT to actual LLM/four features/confirmed names; all pages visually checked, evidence-image hashes verified; native PowerPoint app access timed out, not claimed passed",
     "Independent Tencent Cloud Windows Server 2022/Python 3.12.10 reproduction at d5d5787: fresh dependency installation and formal data generation, rules and actual DeepSeek integration passed; browser history/column quality/metrics and three download hash matches; 61-file evidence archive verified",
-    "Public HTTPS IP gateway with independent bcrypt login; backend/gateway automatic low-privilege Windows services; DPAPI-protected model setting; service restart, 14 external public checks and actual PNG hash passed after SSH closure; one new live browser LLM run a2090032 succeeded"
+    "Public HTTPS IP gateway with independent bcrypt login; backend/gateway automatic low-privilege Windows services; DPAPI-protected model setting; service restart, 14 external public checks and actual PNG hash passed after SSH closure; one new live browser LLM run a2090032 succeeded",
+    "Final course report and editable seven-slide deck integrate input, training-summary decisions, quality explanations and reuse into achieved goals; latest public LLM evidence a2090032, direct completed-work contributions, PPT/classroom guide and reproducible final package builder; all 6 PDF pages and 7 slides visually inspected and factual/media checks passed"
   ],
   "changed_files": [
     "README.md",
     "ai_usage/D/prompts/D-20261102-adaptive-features.md",
     "ai_usage/D/usage.json",
+    "docs/acceptance.md",
     "docs/contributions.md",
     "docs/demo_script.md",
     "docs/handoff_D.md",
     "docs/presentation.pptx",
     "docs/presentation_build.mjs",
+    "docs/presentation_guide.md",
     "docs/presentation_outline.md",
     "docs/report.md",
     "docs/report.pdf",
-    "docs/report_assets/confusion_matrix_llm.png",
-    "docs/report_assets/page_distribution_llm.jpg",
-    "docs/report_assets/page_llm_history.jpg",
-    "docs/report_assets/presentation_template_rules.pptx",
+    "docs/report_assets/confusion_matrix_current.png",
     "docs/report_build.py",
-    "docs/report_llm_package.py",
+    "docs/report_final_package.py",
     "docs/report_materials_check.py",
     "evidence/D/fixtures.json",
-    "evidence/D/materials_20261102.json",
-    "handoffs/D.json",
-    "docs/server_reproduction_20261102.md",
-    "evidence/D/server_reproduction_20261102.json",
-    "docs/public_gateway_20261102.md",
-    "evidence/D/public_gateway_20261102.json"
+    "evidence/D/materials_release_20261102.json",
+    "handoffs/D.json"
   ],
   "verification": {
     "fixtures": {
       "status": "passed",
       "evidence": [
         "evidence/D/fixtures.json",
-        "evidence/D/materials_20261102.json"
+        "evidence/D/materials_20261102.json",
+        "evidence/D/materials_release_20261102.json"
       ]
     },
     "formal_data": {
@@ -78,10 +75,10 @@
     }
   },
   "blockers": [],
-  "next_action": "Public classroom URL ready and independent of client SSH. Operator should sign in once from classroom network, restrict temporary broad cloud firewall rules; whole OS reboot, phone hardware, native PowerPoint, oral rehearsal/recording and B prose confirmation remain pending.",
+  "next_action": "Run D submit and reviewed main rules checks, build and verify the final archive using docs/report_final_package.py; classroom network/projection, native PowerPoint opening, timed rehearsal/recording and optional whole-OS/phone checks remain actual preclass work.",
   "last_gate": {
-    "checked_at": "2026-11-02T05:17:26.869510+00:00",
-    "verified_revision": "2e8be18d9134aed79501484d50a8fff006386c72",
+    "checked_at": "2026-11-02T13:20:02.715874+00:00",
+    "verified_revision": "65e7b651e068e628c969603278dfaf7993982464",
     "tested_files_sha256": {
       "src/classifier.py": "d482d152e848fa899e9a49ee658e0ab010dcf5f4774f95df057dd50bea69bc24",
       "src/cli.py": "f68d041555f7ca13784e54d69f05b1168c086efc63b1945dccd9ba8981da740d",
@@ -89,7 +86,7 @@
       "scripts/smoke_check.py": "fa347944346cb5534a39375cbf362c89547063f71287bb4c12b67bf9e23b3c9f",
       "checks/check_D.py": "728a6577ab8a43c3e33810d80c3e8dcaf187ddfe19727fe1477a678e4def9500",
       "docs/classification.md": "cc600024b9538b1db20f43545b108e68a38b658a8a4a29fdde8260c00d2fd765",
-      "docs/handoff_D.md": "713b249eb75145623ae8b1e94f5c76fc04b6b40a4adc46b94199fce3e5708df0"
+      "docs/handoff_D.md": "9f86998fac2d3dacf5b64ccf7747c960e1d3184ab4795024ba1dccd56a093c30"
     }
   },
   "integration_review": {

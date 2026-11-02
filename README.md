@@ -126,17 +126,19 @@ git push -u origin member-b-clean
 
 正式提交需包含报告、源码、原始及处理后数据、PPT、贡献说明和真实运行日志。生成数据和日志虽不进入 Git，最终仍需另行打包提交。
 
-## 正式材料（2026-11-02，真实LLM与功能更新版）
+## 正式交付材料（2026-11-02）
 
-6页报告：docs/report.md、docs/report.pdf。7页可编辑演示稿：docs/presentation.pptx；提纲及7分钟建议流程见docs/presentation_outline.md、docs/demo_script.md。姓名和实际贡献已确认入稿，D代完成的A/C增量单列，不推断比例。
+[项目报告](docs/report.pdf)共6页，另有[Markdown源文](docs/report.md)；[可编辑PPT](docs/presentation.pptx)共7页，附讲者备注。[PPT制作与课堂展示指南](docs/presentation_guide.md)说明各页重点、7分钟安排、网页点击步骤、答辩与备用方案；[贡献说明](docs/contributions.md)直接列示各成员完成的工作。
 
-材料主要采用真实LLM运行20261102T043037Z-b0fc7c1a，规则对照20261102T042950Z-969fddba；新截图明确为已验证成功运行的历史回放，不称本次新请求。PDF6页/PPT7页全部渲染检查，三张原生表格、字体、重新导入与两张证据图片的实际嵌入哈希核对通过。PowerPoint应用访问授权超时，原生打开未验；异机运行、全员排练和录屏仍待。复现改为操作者不限的异机运行，D本人可在独立服务器完成；当前尚未实跑，最新口径见[验收清单](docs/acceptance.md)。课堂网页展示方案见[演示脚本](docs/demo_script.md)，旧稿对操作者的限定不再适用。
+当前材料采用公网服务真实运行20261102T100936Z-a2090032：median/most_frequent，训练6,998/测试3,000，Accuracy85.23%、Macro-F1 0.787282；规则对照20261102T084136Z-d398f7b5，训练7,000/测试3,000、Macro-F1 0.788846。输入预检、训练分布与列级解释、历史复用贯穿项目目标和流程。PDF6页/PPT7页逐页渲染、事实交叉检查、3张原生表格、字体、重导入及2张证据图片字节核对通过。
 
-本轮完整技术包：outputs/real_llm_check/data_agent_course_materials_20261102.zip；解压与SHA-256校验见同目录materials_package_check.json。此前规则、真实LLM和功能包保留，各自代表原时间点。新包仍不等于真人事项已完成。
+独立服务器环境安装、正式数据重建、rules/真实LLM集成与页面下载已有实际证据。公网入口https://111.230.149.166/配置独立认证与自动后台服务，关闭SSH后访问通过；演示口令私下保管。课前仍需教室网络/投影、原生PowerPoint打开、计时排练及录屏。当前验收范围见[验收清单](docs/acceptance.md)，旧阶段描述保留为历史。
 
-构建源为docs/report_build.py和docs/presentation_build.mjs。PDF使用reportlab；PPT使用Artifact Tool导入保留的原稿docs/report_assets/presentation_template_rules.pptx，按锚点编辑，保留原设计和原生对象。运行时和字体依赖需另行准备；最终文件与源码一起交付，不要求队友重建。材料环境执行python docs/report_materials_check.py核对事实/媒体，python docs/report_llm_package.py --tag materials重新打包；它们不调用模型。PPT finalizer不覆盖现有输出，重新构建应设置新的MATERIALS_BUILD_ID（如v4）。
+最终包位于outputs/final_release_20261102/data_agent_course_final_20261102.zip，含报告、PPT与课堂指南、完整源码/Git历史、正式数据及实际运行、异机/公网证据、四人AI记录与清单。实际解压/哈希/同机规则运行结果见同目录package_check.json。旧包保留。
 
-模型使用https://api.deepseek.com与deepseek-flash，实际配置不持久化。新终端设置三项LLM环境变量后，在main执行真实LLM验证；缺配置不会降级成rules成功。模型业务prompt正常记入C，本次材料制作未新发项目请求。
+材料构建源为docs/report_build.py与docs/presentation_build.mjs；PPT继续编辑保留的原稿，使用Artifact Tool和字节嵌入图片。构建依赖独立于业务requirements；最终PDF/PPT随包提供。材料环境运行`python docs/report_materials_check.py`核对，再在干净main执行`python docs/report_final_package.py --python <已安装业务依赖的解释器>`打包。PPT重新构建使用新的MATERIALS_BUILD_ID，finalizer不覆盖旧产物。
+
+DeepSeek API使用https://api.deepseek.com与deepseek-flash。服务器模型设置已DPAPI加密并限制ACL；其他机器需安全设置LLM_API_URL、LLM_API_KEY、LLM_MODEL，.env不会自动加载。缺配置不会降级为rules成功。模型业务prompt和6次实际请求正常记入C，本次材料制作没有新增项目模型请求。
 
 ## AI 使用记录
 
