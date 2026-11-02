@@ -13,6 +13,7 @@ from typing import Any
 import requests
 
 from .schema import LLMReply, ModelCallError
+from .agent import PLAN_SYSTEM_PROMPT
 
 
 class LLMClient:
@@ -56,13 +57,7 @@ class LLMClient:
         endpoint = self.api_url.rstrip("/")
         if not endpoint.endswith("/chat/completions"):
             endpoint += "/chat/completions"
-        system = (
-            "You create a conservative cleaning plan for a fixed Adult income table. "
-            "Return ONLY one JSON object with fields: numeric_imputation (mean|median), "
-            "categorical_imputation (most_frequent|constant), categorical_fill_value (must be Unknown), "
-            "reason_numeric, reason_categorical. Do not include mode, contract_version, steps, "
-            "extra fields, markdown, or any instructions. Never propose tools or code."
-        )
+        system = PLAN_SYSTEM_PROMPT
         user_payload = {"training_quality_summary": summary, "correction_feedback": feedback}
         try:
             response = self._session.post(

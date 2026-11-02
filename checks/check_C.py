@@ -68,6 +68,22 @@ def row(i, income="<=50K"):
 
 
 class AgentChecks(unittest.TestCase):
+    def test_adaptive_summary_and_actual_system_prompt_match(self):
+        from src.agent import PLAN_SYSTEM_PROMPT
+        for skew, missing in [(0.0, 1), (3.5, 5)]:
+            report = load_report().model_copy(update={"row_count": 10,
+                "missing_by_column": {"age": missing},
+                "numeric_summary": {"age": {"skew": skew, "q25": 20.0, "q75": 40.0, "iqr": 20.0}}})
+            client = FakeClient([reply(valid_text())]); events = []
+            get_cleaning_plan(report, mode="llm", llm_client=client,
+                              event_sink=lambda n,d: events.append((n,d)))
+            summary = client.calls[0]["summary"]
+            self.assertEqual(summary["missing_rate_by_column"]["age"], missing / 10)
+            self.assertEqual(summary["numeric_summary"]["age"]["skew"], skew)
+            self.assertEqual(events[0][1]["system_prompt"], PLAN_SYSTEM_PROMPT)
+            self.assertNotIn("test", summary)
+            self.assertNotIn("_source_id", summary)
+
     def test_rules_are_offline_and_valid(self):
         class MustNotCall:
             def generate_plan(self, *args, **kwargs):
@@ -288,6 +304,8 @@ class TransportChecks(unittest.TestCase):
         session = self.session([self.body()]); client = self.client(session, max_calls=1)
         result = client.generate_plan({"row_count": 7}, feedback="controlled feedback")
         url, request = session.posts[0]
+        from src.agent import PLAN_SYSTEM_PROMPT
+        self.assertEqual(request["json"]["messages"][0]["content"], PLAN_SYSTEM_PROMPT)
         self.assertEqual(url, "https://controlled.invalid/v1/chat/completions")
         self.assertEqual(request["json"]["temperature"], 0)
         user = json.loads(request["json"]["messages"][1]["content"])
