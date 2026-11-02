@@ -4,7 +4,7 @@
   "role": "C",
   "branch": "member-c-agent",
   "status": "ready_for_review",
-  "based_on_commit": "d6b144c4a57045ddf56f2c6c5403b3de2aa892c6",
+  "based_on_commit": "8968c65d3db9778f5ac9ff1d67664edbad29a941",
   "completed": [
     "OpenAI-compatible LLM client with environment configuration and no hidden retries",
     "Rule/LLM plan selection with strict allowlist and two-attempt correction budget",
@@ -15,15 +15,15 @@
     "15 offline checks including real HTTP client behavior with controlled remote transport, malformed response and finite timeout validation",
     "Real DeepSeek formal pipeline verification passed with one actual request and complete C runtime accounting; secrets not persisted",
     "Main real LLM integration passed after D event parser fix; third actual request succeeded and was recorded",
-    "D authorized distribution-adaptive enhancement: training-only missing rates, skew/quantile context and shared actual/event system prompt"
+    "D authorized distribution-adaptive enhancement: training-only missing rates, skew/quantile context and shared actual/event system prompt",
+    "Adaptive training summary verified with actual DeepSeek request; returned reasons cite supplied skew/missing rates, main LLM passed"
   ],
   "changed_files": [
-    "checks/check_C.py",
-    "docs/handoff_C.md",
+    "ai_usage/C/prompts/runtime-20261102T043037Z-b0fc7c1a-1.md",
+    "ai_usage/C/usage.json",
+    "evidence/C/adaptive_llm_20261102.json",
     "evidence/C/fixtures_check.json",
-    "handoffs/C.json",
-    "src/agent.py",
-    "src/llm_client.py"
+    "handoffs/C.json"
   ],
   "verification": {
     "fixtures": {
@@ -39,7 +39,7 @@
     "real_llm": {
       "status": "passed",
       "evidence": [
-        "evidence/C/real_llm_deepseek_20261102.json"
+        "evidence/C/adaptive_llm_20261102.json"
       ]
     },
     "end_to_end": {
@@ -51,10 +51,10 @@
     }
   },
   "blockers": [],
-  "next_action": "API/model and main real LLM integration verified. New terminal still needs local environment loading. Runtime backup and technical validation supplement are maintained by D; human presentation checks remain pending.",
+  "next_action": "Current adaptive prompt verified on main; runtime ledger includes the new request. Final materials and human acceptance remain separate.",
   "last_gate": {
-    "checked_at": "2026-11-02T03:52:10.877121+00:00",
-    "verified_revision": "d6b144c4a57045ddf56f2c6c5403b3de2aa892c6",
+    "checked_at": "2026-11-02T04:32:30.431748+00:00",
+    "verified_revision": "8968c65d3db9778f5ac9ff1d67664edbad29a941",
     "tested_files_sha256": {
       "src/llm_client.py": "86752a2a2ad4c98e60c7e57e60f045e5d9db5cc4384437cac8631530407a4922",
       "src/agent.py": "0271ff19f5dd5b4c3b2f7cc291164cfffaf73ca3e6bd29d5165afef05121dcb3",
