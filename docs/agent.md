@@ -2,6 +2,8 @@
 
 业务契约：1.0；工作流：2.0。
 
+2026-11-02真实补验：DeepSeek官方地址`https://api.deepseek.com`、`deepseek-flash`已由正式pipeline成功调用并核对逐次账本；证据`evidence/C/real_llm_deepseek_20261102.json`。配置不持久化，后续启动仍需本地设置三项环境变量。客户端没有显式设置thinking模式或max_tokens，不将服务商默认行为猜作实测参数。早前无配置记录为历史状态。
+
 ## 处理流程
 
 `run_pipeline(train_path, test_path, mode, output_dir, seed, llm_client)` 是唯一总流程入口：

@@ -4,7 +4,7 @@
   "role": "C",
   "branch": "member-c-agent",
   "status": "ready_for_review",
-  "based_on_commit": "13d35de6a42aef631750aefdcb4eec54b6bde7ca",
+  "based_on_commit": "0f86d573227f4e0a6f6a794f546bbbdcc6e12422",
   "completed": [
     "OpenAI-compatible LLM client with environment configuration and no hidden retries",
     "Rule/LLM plan selection with strict allowlist and two-attempt correction budget",
@@ -12,15 +12,18 @@
     "Offline checks and C handoff documentation",
     "AI development usage record and sanitized prompt transcript",
     "2026-11-02 D delegated by user: production-pipeline real verification entry point with per-attempt runtime accounting",
-    "15 offline checks including real HTTP client behavior with controlled remote transport, malformed response and finite timeout validation"
+    "15 offline checks including real HTTP client behavior with controlled remote transport, malformed response and finite timeout validation",
+    "Real DeepSeek formal pipeline verification passed with one actual request and complete C runtime accounting; secrets not persisted"
   ],
   "changed_files": [
-    "checks/check_C.py",
+    "ai_usage/C/prompts/runtime-20261102T031150Z-ef13473e-1.md",
+    "ai_usage/C/prompts/runtime-20261102T031210Z-102c7ebc-1.md",
+    "ai_usage/C/usage.json",
     "docs/agent.md",
     "docs/handoff_C.md",
     "evidence/C/fixtures_check.json",
-    "handoffs/C.json",
-    "src/llm_client.py"
+    "evidence/C/real_llm_deepseek_20261102.json",
+    "handoffs/C.json"
   ],
   "verification": {
     "fixtures": {
@@ -34,9 +37,10 @@
       "evidence": []
     },
     "real_llm": {
-      "status": "blocked",
-      "evidence": [],
-      "reason": "User confirmed no provider configuration on 2026-11-02; no external model request."
+      "status": "passed",
+      "evidence": [
+        "evidence/C/real_llm_deepseek_20261102.json"
+      ]
     },
     "end_to_end": {
       "status": "passed",
@@ -47,17 +51,17 @@
     }
   },
   "blockers": [],
-  "next_action": "D integrates this delegated C delivery on main. Supply local LLM_API_URL/LLM_API_KEY/LLM_MODEL, then run --integration --real-llm and main llm gate; real service remains unverified.",
+  "next_action": "D fixes its event-envelope smoke parsing and reruns main LLM integration. API setup is verified; new processes still require local environment loading. Final human checks/materials remain separate.",
   "last_gate": {
-    "checked_at": "2026-11-02T02:35:25.438639+00:00",
-    "verified_revision": "13d35de6a42aef631750aefdcb4eec54b6bde7ca",
+    "checked_at": "2026-11-02T03:16:02.408966+00:00",
+    "verified_revision": "0f86d573227f4e0a6f6a794f546bbbdcc6e12422",
     "tested_files_sha256": {
       "src/llm_client.py": "41bf683531c9c894fe6bf38f359c5ab44ec96d7f93f11f5e356e8f45d1d5da3b",
       "src/agent.py": "4b514b503dfd41acb4627c4018dbcc79cee9671595cb79a5c7e9aee6af30d3db",
       "src/pipeline.py": "7d9c21870ae23e92198778ca980ad82b89238c2e4673ba9b6daec2ada6d83cc9",
       "checks/check_C.py": "5358368ac86dc523b63bd43ce8ba36ca31be2382eb003d581c26f9deaec601ea",
-      "docs/agent.md": "a0f23cf383ff97eaaad3aa5b8615d672090456b4aa815889c23254c546729cbf",
-      "docs/handoff_C.md": "52169ebb9a1450ae4875b27bc94f4fb6149f3a92dd2158dc16fe65a446eaa043"
+      "docs/agent.md": "05ab1d2bdd2e2536dcf84e20961a98095811ca2d4ed7fd6595a9eb93a6f298e4",
+      "docs/handoff_C.md": "0364595642d63571c0df5e5cb5065444fd8ace97f602ead8e9ccfac18d50ae79"
     }
   },
   "integration_review": {
