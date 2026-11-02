@@ -21,7 +21,8 @@
     "Independent Tencent Cloud Windows Server 2022/Python 3.12.10 reproduction at d5d5787: fresh dependency installation and formal data generation, rules and actual DeepSeek integration passed; browser history/column quality/metrics and three download hash matches; 61-file evidence archive verified",
     "Public HTTPS IP gateway with independent bcrypt login; backend/gateway automatic low-privilege Windows services; DPAPI-protected model setting; service restart, 14 external public checks and actual PNG hash passed after SSH closure; one new live browser LLM run a2090032 succeeded",
     "Final course report and editable seven-slide deck integrate input, training-summary decisions, quality explanations and reuse into achieved goals; latest public LLM evidence a2090032, direct completed-work contributions, PPT/classroom guide and reproducible final package builder; all 6 PDF pages and 7 slides visually inspected and factual/media checks passed",
-    "Reviewed B 66d5522 without overwriting its work; B submitted main gate 44 checks and all four formal strategy combinations passed, rule case confirmation received; full main rules integration passed before final material count update"
+    "Reviewed B 66d5522 without overwriting its work; B submitted main gate 44 checks and all four formal strategy combinations passed, rule case confirmation received; full main rules integration passed before final material count update",
+    "Final archive CRC and all extracted SHA-256 checks passed; main Git bundle restored to matching HEAD and actual rules CLI succeeded using existing dependencies; latest main rules integration and all 18 AI records passed; current package checksum remains in ignored package_check.json to avoid self-reference"
   ],
   "changed_files": [
     "README.md",
@@ -76,7 +77,7 @@
     }
   },
   "blockers": [],
-  "next_action": "Run D submit and reviewed main rules checks, build and verify the final archive using docs/report_final_package.py; classroom network/projection, native PowerPoint opening, timed rehearsal/recording and optional whole-OS/phone checks remain actual preclass work.",
+  "next_action": "Deliver local final ZIP and classroom guide. Await explicit authorization before GitHub push (automatic review rejected). Before class: classroom login/projection, native PowerPoint, timed rehearsal and recording. Public server remains verified d5d5787; latest B boundary patch is locally integrated, not redeployed.",
   "last_gate": {
     "checked_at": "2026-11-02T13:28:08.904546+00:00",
     "verified_revision": "e7abf0d863b92cfbd5f95ef4ee4e84c3e78fe351",
@@ -115,6 +116,7 @@
     "latest_llm_evidence": "evidence/D/main_llm_20261102.json",
     "latest_materials_rules_evidence": "evidence/D/materials_main_rules_20261102.json",
     "latest_server_evidence": "evidence/D/server_reproduction_20261102.json",
-    "latest_public_gateway_evidence": "evidence/D/public_gateway_20261102.json"
+    "latest_public_gateway_evidence": "evidence/D/public_gateway_20261102.json",
+    "latest_final_delivery_evidence": "evidence/D/final_delivery_20261102.json"
   }
 }

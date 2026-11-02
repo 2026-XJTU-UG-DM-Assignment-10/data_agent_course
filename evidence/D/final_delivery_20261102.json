@@ -1,0 +1,113 @@
+{
+  "workflow_version": "2.0",
+  "contract_version": "1.0",
+  "role": "D",
+  "scope": "end_to_end",
+  "status": "passed",
+  "checked_at": "2026-11-02T13:34:47.662497+00:00",
+  "command": "python scripts/check_integration.py --mode rules; bundled Python docs/report_final_package.py --python <business interpreter>",
+  "uses_test_doubles": false,
+  "verified_revision": "a47a01c80b2fdfb49264ecbc93552716347066aa",
+  "summary": {
+    "role_status": {
+      "A": "passed",
+      "B": "passed",
+      "C": "passed",
+      "D": "passed"
+    },
+    "rules_run_id": "20261102T132945Z-5ec69047",
+    "formal_data_checked": true,
+    "latest_B_review": "66d5522; 44 checks plus four formal strategy combinations passed; rule cases confirmed",
+    "material_check": {
+      "status": "passed",
+      "checked_at": "2026-11-02T13:26:56.939197+00:00",
+      "scope": "local material structure, factual cross-checks and image embedding; separate visual inspection performed",
+      "pdf_pages": 6,
+      "slides": 7,
+      "native_tables": 3,
+      "embedded_evidence_images": 2,
+      "image_bytes_match": true,
+      "primary_run_id": "20261102T100936Z-a2090032",
+      "rules_run_id": "20261102T084136Z-d398f7b5",
+      "native_powerpoint": "not_run; rendered and structural verification only",
+      "visual_inspection": {
+        "pdf_pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "slides": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7
+        ]
+      },
+      "runtime_requests": 6,
+      "input_tokens": 5928,
+      "output_tokens": 5652,
+      "new_model_requests_during_materials": 0,
+      "pdf_sha256": "cbe2b4940baeac4600c8f5e7fac9ea23e46f7fd06ad0238fdf9ca22d3abb97e4",
+      "pptx_sha256": "c8b2c9182b430e8d65655928d8f13d4a706fd384f49cffb9ba2d1df265b60835"
+    },
+    "archive_roundtrip": {
+      "status": "passed",
+      "verified_source_revision": "b57082e4f16d3ac6c75a0435a6a933c3d20cffa3",
+      "crc_and_hashes": "passed",
+      "bundle_clone": true,
+      "new_rules_run_id": "20261102T133218Z-4d787618",
+      "metrics": {
+        "contract_version": "1.0",
+        "accuracy": 0.8523333333333334,
+        "macro_f1": 0.788845681782975,
+        "test_rows": 3000,
+        "class_counts_test": {
+          "<=50K": 2290,
+          ">50K": 710
+        },
+        "labels": [
+          "<=50K",
+          ">50K"
+        ],
+        "confusion_matrix": [
+          [
+            2101,
+            189
+          ],
+          [
+            254,
+            456
+          ]
+        ],
+        "confusion_matrix_path": "D:\\iot\\member_d_delivery_20261026\\outputs\\final_release_20261102\\unpacked_09f12198675f\\03_完整项目\\reproduced\\outputs\\20261102T133218Z-4d787618\\confusion_matrix.png"
+      },
+      "scope": "Same-machine archive/bundle restoration and actual rules CLI using existing dependencies; independent server evidence is separately preserved."
+    },
+    "new_model_requests": 0,
+    "runtime_requests_preserved": 6,
+    "not_run": [
+      "native_powerpoint",
+      "classroom_network",
+      "timed_rehearsal_recording",
+      "whole_server_reboot",
+      "phone_hardware"
+    ],
+    "public_server_verified_business_revision": "d5d5787cfb5d641e2eb70fdedbe5950501272163",
+    "latest_B_patch_redeployed_to_server": false,
+    "remote_push": "not_run; automatic approval rejected upload; awaiting explicit user authorization"
+  },
+  "artifacts": [
+    "docs/report.pdf",
+    "docs/presentation.pptx",
+    "docs/presentation_guide.md",
+    "outputs/final_release_20261102/data_agent_course_final_20261102.zip",
+    "outputs/final_release_20261102/package_check.json",
+    "outputs/final_release_20261102/main_rules.log"
+  ]
+}
