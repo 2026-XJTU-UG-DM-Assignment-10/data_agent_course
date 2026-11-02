@@ -17,7 +17,7 @@ from .schema import (
     TARGET_COLUMN, DatasetKind, QualityReport, ReportStage,
 )
 
-_SUMMARY_FIELDS = ("count", "mean", "median", "min", "max", "std")
+_SUMMARY_FIELDS = ("count", "mean", "median", "min", "max", "std", "q25", "q75", "iqr", "skew")
 
 
 def _is_raw_missing(value: object) -> bool:
@@ -67,6 +67,10 @@ def _numeric_summary(normalized: pd.DataFrame) -> dict[str, dict[str, float | No
             entry["min"] = _finite_or_none(valid.min())
             entry["max"] = _finite_or_none(valid.max())
             entry["std"] = _finite_or_none(valid.std()) if len(valid) > 1 else None
+            entry["q25"] = _finite_or_none(valid.quantile(0.25))
+            entry["q75"] = _finite_or_none(valid.quantile(0.75))
+            entry["iqr"] = _finite_or_none(entry["q75"] - entry["q25"])
+            entry["skew"] = _finite_or_none(valid.skew()) if len(valid) >= 3 else None
         summary[column] = entry
     return summary
 

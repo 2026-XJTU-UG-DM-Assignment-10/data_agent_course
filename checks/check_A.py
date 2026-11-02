@@ -228,6 +228,17 @@ def run(profile_data, normalize_frame, *, integration: bool, reports: dict) -> d
                set(entry) >= {"count", "mean", "median", "min", "max", "std"})
 
     expected = independent_counts(train)
+    distribution = pd.concat([train.iloc[[0]]] * 5, ignore_index=True)
+    distribution["age"] = ["20", "21", "22", "23", "999 years"]
+    distribution["fnlwgt"] = ["1", "2", "3", "4", "100"]
+    stats = profile_data(distribution).numeric_summary
+    verify("quantiles_exclude_invalid_numeric", stats["age"]["q25"] == 20.75 and stats["age"]["q75"] == 22.25)
+    verify("iqr_independent_expected", stats["age"]["iqr"] == 1.5)
+    verify("symmetric_skew_zero", abs(stats["age"]["skew"]) < 1e-12)
+    verify("right_skew_detected", stats["fnlwgt"]["skew"] > 1)
+    verify("short_sample_skew_null", profile_data(distribution.iloc[:2]).numeric_summary["age"]["skew"] is None)
+    distribution["age"] = "?"
+    verify("all_missing_stats_null", all(v is None for v in profile_data(distribution).numeric_summary["age"].values()))
     compare(before, expected, "fixture", checks)
     verify("fixture_has_problems", expected["missing_total"] > 0 and expected["duplicate_rows"] > 0
            and expected["outlier_cells"] > 0 and expected["format_issue_cells"] > 0)
