@@ -4,16 +4,14 @@
   "role": "A",
   "branch": "member-a-data",
   "status": "ready_for_review",
-  "based_on_commit": "62a635e673f793af11e95e1c401bb9ff629c67a2",
+  "based_on_commit": "0db635769a6d1de6fac9e53c06327f8b49c145c5",
   "changed_files": [
-    "ai_usage/A/prompts/A-20261101-session.md",
-    "ai_usage/A/usage.json",
-    "data/manifests/preparation_summary.json",
-    "docs/data.md",
+    "checks/check_A.py",
     "docs/handoff_A.md",
     "evidence/A/fixtures.json",
     "evidence/A/formal_data.json",
-    "handoffs/A.json"
+    "handoffs/A.json",
+    "src/profiler.py"
   ],
   "completed": [
     "读取全部规则、公共契约、A 角色任务与本人交接模板",
@@ -29,7 +27,8 @@
     "第二阶段 A1：本机复现正式数据，规模与注入计数与基线一致，5 个产物 SHA-256 逐项匹配准备摘要",
     "第二阶段 A2：逐条核对 D 补写的 docs/data.md，补充 3 行原生重复、解释两处复制行带入的计数差值",
     "第二阶段 A3：docs/data.md 重写为 9 节，含规模表、四类问题统计表、图表建议与三个必答问题",
-    "第二阶段 A4：新增 ai_usage/A/prompts/A-20261101-session.md 与账本记录"
+    "第二阶段 A4：新增 ai_usage/A/prompts/A-20261101-session.md 与账本记录",
+    "D authorized adaptive enhancement: q25/q75/iqr/skew on valid numeric observations; 6 boundary regressions"
   ],
   "verification": {
     "fixtures": {
@@ -58,14 +57,14 @@
   "blockers": [],
   "next_action": "Maintainer-revalidated on main; collect real LLM evidence after configuring provider and continue integration maintenance.",
   "last_gate": {
-    "checked_at": "2026-11-01T07:07:29.167880+00:00",
-    "verified_revision": "62a635e673f793af11e95e1c401bb9ff629c67a2",
+    "checked_at": "2026-11-02T03:50:59.357100+00:00",
+    "verified_revision": "0db635769a6d1de6fac9e53c06327f8b49c145c5",
     "tested_files_sha256": {
       "scripts/prepare_data.py": "9664205a1f8fc88f0724199f1ea4dc2ac3526500d51bb4305fe6c82cce0035af",
-      "src/profiler.py": "4c728d416277853b10fa631158f2a1733956870993a2f324837722e7944b5d6a",
-      "checks/check_A.py": "2c1762fd4d73937e7ca81013908151fc9706b2b39a76ccfe18b83dea9cc2b810",
+      "src/profiler.py": "95ababd7695fbc1aace371d2bf9cc30d7df0e72d0b33cc9cc8b7be75b753bc30",
+      "checks/check_A.py": "27a3655de25a5d86f2af28bdae3b1a583b8689eacd5e571c1bb2ccd78df2930d",
       "docs/data.md": "fb73782a2dd70766486586be000b8cf7dfb7dbf013d41f2b041461d52e69f996",
-      "docs/handoff_A.md": "972095fa2a98467baa597b444090bc2303158c79942c9d7f54cfeb6eba77491f"
+      "docs/handoff_A.md": "b17ac435c9fff47c468e6abac48fa312e4dde9be6e9c30640e357d4d5b7ed143"
     }
   },
   "notes": [

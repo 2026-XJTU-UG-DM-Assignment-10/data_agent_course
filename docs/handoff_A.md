@@ -1,5 +1,7 @@
 # 成员 A 交接记录
 
+2026-11-02功能补全：D按本次用户授权扩展numeric_summary的q25/q75/iqr/skew，复用原有合法训练数值视图，排除缺失/解析失败/越界值；不足3行偏度为null。冻结契约不变，新增6项独立期望值检查；开发使用记录在D-20261102-adaptive-features，不代填A开发账本。
+
 协作协议：2.0；业务契约：1.0；当前状态：ready_for_review（自测通过，`check_delivery --role A --submit` 通过，待 D 复验）。
 
 ## 完成内容和修改文件
