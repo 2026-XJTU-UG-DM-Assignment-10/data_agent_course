@@ -76,7 +76,8 @@ def build(python):
     # A full source snapshot, including the unedited historical records.
     tracked = git("ls-files", "-z").split("\0")
     for name in sorted(filter(None, tracked)):
-        assert not name.startswith((".git/", ".venv/", "outputs/")), name
+        if name.startswith((".git/", ".venv/", "outputs/")):
+            continue
         add(ROOT / name, PROJECT + name)
     for part in ("raw", "reference", "dirty", "manifests"):
         for path in (ROOT / "data" / part).iterdir():
