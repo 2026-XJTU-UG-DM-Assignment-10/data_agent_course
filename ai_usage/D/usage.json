@@ -149,9 +149,9 @@
         "currency": null,
         "basis": "无可核实会话用量及单次计费，不计零。"
       },
-      "result": "partial",
+      "result": "succeeded",
       "source_id": "D-local-session-20261102-adaptive-features",
-      "notes": "按本次新授权开始记录四项功能补全；不追溯此前排除记录的对话。实现及验证进行中。"
+      "notes": "四项授权功能完成；A60/B33/C16及D16项新增拒绝与编码/真实流程/历史/AppTest通过，D submit和main rules/真实LLM门禁实际退出0。浏览器正式本地/上传运行、图表及回放检查完成，新增模型请求由C记账（1262/1723token、成本未知）。本条开发调用/模型/token/费用仍未知；本人prompt含本次输入、补全方案和修正过程，排除此前用户不记录的对话。PDF/PPT整体同步和真人事项仍待。"
     }
   ]
 }

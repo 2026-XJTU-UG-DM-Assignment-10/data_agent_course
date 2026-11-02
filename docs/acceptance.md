@@ -1,5 +1,7 @@
 # 当前验收清单（2026-11-02）
 
+最新四项功能已补齐：训练分布自适应统计与模型依据、列级质量图/填补值、完整历史回放、同结构CSV上传/无模型预检。当前main rules/真实LLM均通过，正式双CSV上传和回放已在浏览器操作核对。验证范围与新包见docs/report_adaptive_features_20261102.md；正式PDF/PPT整体同步、真人跨机/排练及录屏仍为单独待办，不用代码验收替代。
+
 ## 最新：真实模型已补验
 
 DeepSeek官方接口/模型deepseek-flash实际C验证退出0，D修复smoke事件attempt元数据解析后，main 1128a52完整LLM门禁实际退出0、四角色复验passed；最终运行20261102T031942Z-8d6dc4ee，正式数据与模型证据均通过。共3次真实请求、输入token2142/输出token1146，费用未知。第三次之前的main误报及两次真实运行证据均保留。见docs/report_llm_validation_20261102.md及evidence/D/main_llm_20261102.json。

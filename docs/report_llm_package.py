@@ -65,6 +65,13 @@ def build(tag="baseline"):
         for path in folder.iterdir():
             if path.is_file():
                 add(path, "project/" + path.relative_to(ROOT).as_posix())
+        browser = json.loads((ROOT / "evidence/D/adaptive_features_20261102.json").read_text(encoding="utf-8"))
+        for key in ("local_rules_run_id", "uploaded_rules_run_id"):
+            run_id = browser["summary"][key]
+            assert re.fullmatch(r"\d{8}T\d{6}Z-[a-f0-9]{8}", run_id)
+            for path in (ROOT / "outputs" / run_id).iterdir():
+                if path.is_file():
+                    add(path, "project/" + path.relative_to(ROOT).as_posix())
         for path in (ROOT / "outputs/adaptive_20261102").iterdir():
             if path.is_file() and path.suffix in (".json", ".log", ".png"):
                 add(path, "本轮验证/adaptive/" + path.name)
@@ -92,7 +99,7 @@ def build(tag="baseline"):
     }
     selected["交付清单.json"] = json.dumps(manifest, ensure_ascii=False, indent=2).encode("utf-8")
     selected["请先阅读.txt"] = ("真实LLM技术验证已通过，真人验收仍待。进入project，阅读README及docs/report_llm_validation_20261102.md。\n"
-                                  "本包包含正式数据、旧规则主运行、三次真实模型运行、初次门禁误报及修复后通过证据、源码和AI账本。\n"
+                                  f"本包包含正式数据、旧规则主运行、{len(records)}次真实模型运行、初次门禁误报及修复后通过证据、源码和AI账本。\n"
                                   "PDF/PPT保持规则阶段快照；业务prompt属于真实项目请求，未新增配置指导对话的开发prompt记录。\n"
                                   "不包含密钥。新终端仍需本地设置LLM_API_URL、LLM_API_KEY、LLM_MODEL；.env不自动加载。\n").encode("utf-8")
     target = OUT / ("data_agent_course_adaptive_20261102.zip" if tag == "adaptive" else "data_agent_course_llm_verified_20261102.zip")

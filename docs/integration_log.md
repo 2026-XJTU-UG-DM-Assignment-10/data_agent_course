@@ -1,5 +1,15 @@
 # 集成检查与退回记录
 
+## 最新：2026-11-02四项功能补全完成
+
+按用户本次要求，D补训练分布统计、列级质量图、成功历史回放和固定结构CSV上传/预检，并恢复本次prompt使用登记。A统计扩展f055a31、C训练摘要与共享系统提示词89a6eb4、D页面与回归e6a15ad均按本人分支实际submit退出0，正常合并。main 8968c65的rules/LLM完整门禁实际退出0、四角色passed；当前代码的A60项断言、B33项断言、C16项测试、D16项新增拒绝与正例/AppTest全部通过。冻结契约和B核心未改，其他工作区未提交修改保留。
+
+LLM运行20261102T043037Z-b0fc7c1a，一次真实请求。模型理由明确引用capital_gain偏度11.4218、capital_loss偏度4.4913及列缺失率，实际选择仍为median/Unknown，Accuracy0.8523333333、Macro-F1 0.7888456818。此结果证明提供并使用统计依据，不证明策略变化或分类提升。C运行账新增输入1262/输出1723 token，成本未知；C按分支门禁补交真实运行增量，不与D开发账重复。
+
+浏览器AI操作实际完成正式本地CSV/双文件上传规则运行、14列图与分布、历史标识检查；新证据evidence/D/adaptive_features_20261102.json及evidence/D/adaptive_main_20261102.json。预检/回放没有新增项目模型请求；原始ID与模式保留。历史包可重定位，损坏/越界记录拒绝，小样本与≥5000规模明确标识。应用预检20 MB限制与框架200 MB接收上限分别说明。
+
+新功能说明docs/report_adaptive_features_20261102.md，新技术包data_agent_course_adaptive_20261102.zip及实际解压哈希记录在outputs/real_llm_check；旧包不覆盖。D-20261102-adaptive-features只记录本次用户授权和补全内容，不补录此前被排除的对话。PDF/PPT整体同步、原生PowerPoint、真人跨机、全员排练及LLM页面录屏仍待；本轮没有录屏或新增任意CSV/逐列混合策略。
+
 ## 最新：2026-11-02 DeepSeek真实模型验收
 
 真实API使用官方地址https://api.deepseek.com，models端点返回200及deepseek-flash/deepseek-v4-pro；实际采用deepseek-flash。C真实入口退出0，运行20261102T031150Z-ef13473e；随后main运行20261102T031210Z-102c7ebc业务pipeline也成功，但D的verify_events把事件attempt元数据传入严格LLMReply，出现extra_forbidden，完整门禁退出2。这一失败不是鉴权/模型/清洗失败，原始失败报告及实际请求账本保留。

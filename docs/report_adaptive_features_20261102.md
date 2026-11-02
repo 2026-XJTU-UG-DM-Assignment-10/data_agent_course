@@ -20,6 +20,10 @@ A的numeric_summary新增q25/q75/iqr/skew，均从规范化后合法数值计算
 
 ## 验证与证据
 
+最终实测：main 8968c65的rules和LLM完整门禁均退出0，四角色复验passed（A60项断言、B33项断言、C16项测试、D实际功能/边界/AppTest）。正式LLM运行20261102T043037Z-b0fc7c1a；一次真实DeepSeek请求，输入1262/输出1723 token，费用未知。模型明确引用capital_gain偏度11.4218、capital_loss偏度4.4913及各列缺失率，仍选择median与Unknown；7140→7000训练/3000测试，Accuracy85.23%、Macro-F1 0.7888456818。本次验证了增强统计被真实模型读取并用于理由，不声称一定改变策略或提高指标。
+
+浏览器本地CSV运行20261102T042307Z-475e6fde，双文件上传后运行20261102T042735Z-95863c1c均成功，图表/实际填补值/历史标识可见。预检与回放前后C项目请求数仍为3；之后main LLM增加1条真实请求，累计4条。全部新运行、截图、日志和SHA-256清单备份为outputs/real_llm_check/data_agent_course_adaptive_20261102.zip；解压校验adaptive_package_check.json。本次prompt与结果的完整记录为ai_usage/D/prompts/D-20261102-adaptive-features.md。
+
 A新增6项独立期望值/边界检查；C新增训练摘要变化与真实系统提示词一致性检查。D检查实际编码解析、上传字节走真实rules流水线、16项拒绝、来源隔离、原输入不变、历史文件不完整/越界拒绝、归档搬迁、回放不执行pipeline、实际列统计及AppTest展示/状态。
 
 浏览器操作采用AI控制本机页面，正式rules和CSV上传流程、14列图、分布统计及历史标识已有检查；它不是另一位真人跨机复现或全员排练。本次D门禁、main新rules/LLM结果及真实模型选择由实际输出汇总到docs/integration_log.md与evidence/D，不用历史LLM成功代替新提示词的真实验证。

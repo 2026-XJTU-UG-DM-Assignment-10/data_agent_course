@@ -52,12 +52,12 @@
       "status": "passed",
       "mode": "llm",
       "evidence": [
-        "evidence/D/main_llm_20261102.json"
+        "evidence/D/adaptive_main_20261102.json"
       ]
     }
   },
   "blockers": [],
-  "next_action": "Submit D, merge normally and verify current main rules/LLM; final PDF/PPT consolidation and human acceptance remain pending.",
+  "next_action": "Four features verified on main rules and actual DeepSeek. Use adaptive feature supplement/backup; formal PDF/PPT consolidation, recording, human cross-machine and rehearsal remain pending.",
   "last_gate": {
     "checked_at": "2026-11-02T04:28:49.059222+00:00",
     "verified_revision": "831797bfe00bb8fbc4cd8997ecb1ad9f263c0851",

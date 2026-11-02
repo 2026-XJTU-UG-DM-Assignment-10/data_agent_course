@@ -20,3 +20,7 @@ D页面：14列质量表/缺失率图、训练数值分布与实际填补值；�
 开发修正：首次App补丁的except位置错误由自测发现并纠正；新增历史损坏测试发现DataValidationError不继承ValueError，已明确捕获；保留严格响应校验，未用放宽冻结契约绕过问题。
 
 实际运行与最终提交结果见docs/report_adaptive_features_20261102.md、docs/integration_log.md和新增evidence/D摘要。未记录或持久化API密钥。
+
+## 实际完成结果
+
+A60项断言、B33项断言、C16项测试，D16项新增拒绝及正例/AppTest通过。D submit、main rules与真实LLM完整门禁退出0。浏览器正式本地CSV和双文件上传运行成功，列级图和历史标识已核对。真实LLM运行20261102T043037Z-b0fc7c1a引用偏度与缺失率选择median/Unknown，Accuracy85.23%、Macro-F1 0.7888456818；这一条业务调用由C记录，开发内部用量仍null。最终提交、包与实际解压校验以integration_log及adaptive_package_check.json为准。
