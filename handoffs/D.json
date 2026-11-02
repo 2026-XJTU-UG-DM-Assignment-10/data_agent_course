@@ -18,7 +18,8 @@
     "Real DeepSeek validation passed; fixed D smoke response-event attempt metadata compatibility and added positive/negative offline event regressions",
     "Four authorized features: distribution evidence, column quality, verified historical replay and fixed-schema upload/preflight; actual regression and browser verification",
     "Updated 6-page PDF/MD and 7-slide editable PPT to actual LLM/four features/confirmed names; all pages visually checked, evidence-image hashes verified; native PowerPoint app access timed out, not claimed passed",
-    "Independent Tencent Cloud Windows Server 2022/Python 3.12.10 reproduction at d5d5787: fresh dependency installation and formal data generation, rules and actual DeepSeek integration passed; browser history/column quality/metrics and three download hash matches; 61-file evidence archive verified"
+    "Independent Tencent Cloud Windows Server 2022/Python 3.12.10 reproduction at d5d5787: fresh dependency installation and formal data generation, rules and actual DeepSeek integration passed; browser history/column quality/metrics and three download hash matches; 61-file evidence archive verified",
+    "Public HTTPS IP gateway with independent bcrypt login; backend/gateway automatic low-privilege Windows services; DPAPI-protected model setting; service restart, 14 external public checks and actual PNG hash passed after SSH closure; one new live browser LLM run a2090032 succeeded"
   ],
   "changed_files": [
     "README.md",
@@ -43,7 +44,9 @@
     "evidence/D/materials_20261102.json",
     "handoffs/D.json",
     "docs/server_reproduction_20261102.md",
-    "evidence/D/server_reproduction_20261102.json"
+    "evidence/D/server_reproduction_20261102.json",
+    "docs/public_gateway_20261102.md",
+    "evidence/D/public_gateway_20261102.json"
   ],
   "verification": {
     "fixtures": {
@@ -75,7 +78,7 @@
     }
   },
   "blockers": [],
-  "next_action": "Independent-server reproduction completed by D with AI-assisted SSH execution. Native PowerPoint opening, oral rehearsal/recording, classroom network and B prose confirmation remain pending. Preserve distinct original and server LLM plans/metrics.",
+  "next_action": "Public classroom URL ready and independent of client SSH. Operator should sign in once from classroom network, restrict temporary broad cloud firewall rules; whole OS reboot, phone hardware, native PowerPoint, oral rehearsal/recording and B prose confirmation remain pending.",
   "last_gate": {
     "checked_at": "2026-11-02T05:17:26.869510+00:00",
     "verified_revision": "2e8be18d9134aed79501484d50a8fff006386c72",
@@ -113,6 +116,7 @@
     "explanation": "New integration attestations; not a claim that the member ran an earlier missing submit command.",
     "latest_llm_evidence": "evidence/D/main_llm_20261102.json",
     "latest_materials_rules_evidence": "evidence/D/materials_main_rules_20261102.json",
-    "latest_server_evidence": "evidence/D/server_reproduction_20261102.json"
+    "latest_server_evidence": "evidence/D/server_reproduction_20261102.json",
+    "latest_public_gateway_evidence": "evidence/D/public_gateway_20261102.json"
   }
 }

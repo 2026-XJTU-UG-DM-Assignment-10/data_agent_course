@@ -167,6 +167,34 @@
       "result": "succeeded",
       "source_id": "20261102T084237Z-decc1cbf:1",
       "notes": "One actual production-client HTTP attempt; raw response and execution events are in outputs/<run_id>/events.jsonl."
+    },
+    {
+      "id": "C-20261102-runtime-a2090032-1",
+      "scope": "project_runtime",
+      "time": "2026-11-02T18:09:48.322541+08:00",
+      "tool": "OpenAI-compatible API via requests",
+      "model": "deepseek-flash",
+      "parameters": {
+        "temperature": 0,
+        "endpoint_kind": "chat_completions"
+      },
+      "parameters_note": "The client sends temperature=0; provider-specific hidden parameters are not assumed.",
+      "prompt_files": [
+        "ai_usage/C/prompts/runtime-20261102T100936Z-a2090032-1.md"
+      ],
+      "calls": 1,
+      "interactions": null,
+      "input_tokens": 1262,
+      "output_tokens": 1365,
+      "cost": {
+        "kind": "unknown",
+        "amount": null,
+        "currency": null,
+        "basis": "Provider did not expose a verifiable per-request cost."
+      },
+      "result": "succeeded",
+      "source_id": "20261102T100936Z-a2090032:1",
+      "notes": "One actual production-client HTTP attempt; raw response and execution events are in outputs/<run_id>/events.jsonl."
     }
   ]
 }

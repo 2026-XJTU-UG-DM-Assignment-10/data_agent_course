@@ -1,0 +1,246 @@
+{
+  "workflow_version": "2.0",
+  "contract_version": "1.0",
+  "role": "D",
+  "scope": "public_deployment",
+  "status": "passed",
+  "checked_at": "2026-11-02T10:23:31.876646+00:00",
+  "uses_test_doubles": false,
+  "command": "Install dedicated Windows gateway/backend services; restart both; external HTTP/HTTPS/auth/WSS checks; actual browser LLM click; close SSH and repeat public checks",
+  "summary": {
+    "url": "https://111.230.149.166",
+    "verified_business_revision": "d5d5787cfb5d641e2eb70fdedbe5950501272163",
+    "services": [
+      {
+        "Name": "CourseAgentApp",
+        "State": "Running",
+        "StartMode": "Auto",
+        "StartName": "NT AUTHORITY\\NetworkService",
+        "ProcessId": 3888
+      },
+      {
+        "Name": "CourseAgentGateway",
+        "State": "Running",
+        "StartMode": "Auto",
+        "StartName": "NT AUTHORITY\\LocalService",
+        "ProcessId": 5804
+      }
+    ],
+    "listeners": [
+      {
+        "LocalAddress": "::",
+        "LocalPort": 443,
+        "OwningProcess": 5804
+      },
+      {
+        "LocalAddress": "::",
+        "LocalPort": 80,
+        "OwningProcess": 5804
+      },
+      {
+        "LocalAddress": "127.0.0.1",
+        "LocalPort": 8501,
+        "OwningProcess": 3840
+      }
+    ],
+    "host_firewall_original_state_preserved": true,
+    "cloud_all_tcp_rule_still_needs_operator_restriction": true,
+    "api_configuration_at_rest": "Windows DPAPI LocalMachine; restricted service ACL; no plaintext setting file",
+    "frontend_access": "HTTPS Basic authentication; bcrypt hash; separate demo identity",
+    "public_checks": {
+      "status": "passed",
+      "checked_at": "2026-11-02T10:18:39.651925+00:00",
+      "url": "https://111.230.149.166",
+      "checks": [
+        {
+          "name": "http_redirect_status",
+          "actual": 308,
+          "expected": 308,
+          "passed": true
+        },
+        {
+          "name": "http_redirect_destination",
+          "actual": "https://111.230.149.166/",
+          "expected": "https://111.230.149.166/",
+          "passed": true
+        },
+        {
+          "name": "anonymous_blocked:/",
+          "actual": 401,
+          "expected": 401,
+          "passed": true
+        },
+        {
+          "name": "anonymous_blocked:/_stcore/health",
+          "actual": 401,
+          "expected": 401,
+          "passed": true
+        },
+        {
+          "name": "anonymous_blocked:/_stcore/stream",
+          "actual": 401,
+          "expected": 401,
+          "passed": true
+        },
+        {
+          "name": "anonymous_blocked:/media/nonexistent.png",
+          "actual": 401,
+          "expected": 401,
+          "passed": true
+        },
+        {
+          "name": "anonymous_upload_blocked",
+          "actual": 401,
+          "expected": 401,
+          "passed": true
+        },
+        {
+          "name": "wrong_password_blocked",
+          "actual": 401,
+          "expected": 401,
+          "passed": true
+        },
+        {
+          "name": "authenticated_root",
+          "actual": 200,
+          "expected": 200,
+          "passed": true
+        },
+        {
+          "name": "authenticated_html",
+          "actual": true,
+          "expected": true,
+          "passed": true
+        },
+        {
+          "name": "authenticated_health",
+          "actual": 200,
+          "expected": 200,
+          "passed": true
+        },
+        {
+          "name": "healthy_body",
+          "actual": "ok",
+          "expected": "ok",
+          "passed": true
+        },
+        {
+          "name": "public_ip_certificate_san",
+          "actual": true,
+          "expected": true,
+          "passed": true
+        },
+        {
+          "name": "authenticated_websocket_subprotocol",
+          "actual": "streamlit",
+          "expected": "streamlit",
+          "passed": true
+        }
+      ],
+      "tls": {
+        "version": "TLSv1.3",
+        "issuer": [
+          [
+            [
+              "countryName",
+              "US"
+            ]
+          ],
+          [
+            [
+              "organizationName",
+              "Let's Encrypt"
+            ]
+          ],
+          [
+            [
+              "commonName",
+              "YE1"
+            ]
+          ]
+        ],
+        "not_before": "Nov  2 08:55:48 2026 GMT",
+        "not_after": "Nov  9 00:55:47 2026 GMT",
+        "subject_alt_names": [
+          [
+            "IP Address",
+            "111.230.149.166"
+          ]
+        ]
+      },
+      "uses_ssh_tunnel": false,
+      "credentials_in_report": false,
+      "new_model_requests_in_this_check": 0,
+      "scope": "Actual external public HTTP/HTTPS, access controls, backend health and WSS; not a classroom network or phone test",
+      "loopback_tunnel_closed": true,
+      "verified_after_ssh_sessions_closed": true
+    },
+    "public_media": {
+      "status": "passed",
+      "public_media_path": "/media/147bf37a37be3dcac6d3fa131adf3d46c398e6d569edbe73da3fa28e.png",
+      "bytes": 22438,
+      "sha256": "3e550daa927ac4aa1e467333f96f25261758116d15cca317fda6b6163192634d",
+      "http_status": 200,
+      "authentication_required": true
+    },
+    "service_restart_passed": true,
+    "independent_of_client_ssh": true,
+    "actual_os_reboot_tested": false,
+    "actual_browser_ui": {
+      "route": "loopback SSH tunnel to the same new service, before tunnel closure",
+      "run_id": "20261102T100936Z-a2090032",
+      "mode": "llm",
+      "status": "succeeded",
+      "new_run_not_replay": true,
+      "train_before": 7140,
+      "train_after": 6998,
+      "test_rows": 3000,
+      "quality_issues_after": 0,
+      "accuracy": 0.8523333333333334,
+      "macro_f1": 0.7872823665725043,
+      "confusion_matrix": [
+        [
+          2108,
+          182
+        ],
+        [
+          261,
+          449
+        ]
+      ]
+    },
+    "new_real_model_requests": 1,
+    "model": "deepseek-flash",
+    "input_tokens": 1262,
+    "output_tokens": 1365,
+    "cost_amount": null,
+    "project_runtime_calls_after": 6,
+    "project_input_tokens_after": 5928,
+    "project_output_tokens_after": 5652,
+    "archive": {
+      "status": "passed",
+      "files_verified": 26,
+      "archive_sha256": "cc955bbc211371b1ac2794b9d76492158b5495dcaeaf5e49d65e6afc3f060c3f",
+      "private_material_excluded": true,
+      "public_media_matches_actual_run": true,
+      "runtime_records_added": 1
+    },
+    "not_tested": [
+      "classroom network",
+      "phone hardware",
+      "interactive public browser sign-in",
+      "whole operating system reboot",
+      "full certificate renewal period"
+    ],
+    "screenshots": {
+      "docs/report_assets/public_gateway_20261102/page_service_live_run.jpg": "e53957fded3bd4d748704fae240ebbf49d36b4b4ba91d8ffa47a7035ed0f3848",
+      "docs/report_assets/public_gateway_20261102/page_service_metrics.jpg": "56f67baefc28afa4639064174acb6978e0914679a44c0c3f28056e0523035fd0"
+    }
+  },
+  "artifacts": [
+    "outputs/public_gateway_20261102/public_gateway_evidence_20261102.zip",
+    "outputs/public_gateway_20261102/package_check.json",
+    "outputs/public_gateway_20261102/public_check.json",
+    "outputs/public_gateway_20261102/public_media_check.json"
+  ]
+}

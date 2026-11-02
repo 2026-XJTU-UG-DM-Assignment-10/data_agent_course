@@ -1,5 +1,15 @@
 # 集成检查与退回记录
 
+## 最新：2026-11-02公网HTTPS入口与后台服务
+
+按用户授权配置https://111.230.149.166/：官方Caddy2.11.7+公信IP证书、独立demo账号bcrypt认证，Streamlit继续仅127.0.0.1:8501。CourseAgentGateway/CourseAgentApp自动启动，分别LocalService/NetworkService低权限账号；key用Windows DPAPI加密并限ACL，不进源码/日志/证据包。服务实际重启通过，关闭SSH终端与隧道后公网14项HTTP/认证/TLS/WSS检查及真实PNG下载/哈希仍通过。
+
+通过同一新服务的回环网页实际点击一次llm处理：20261102T100936Z-a2090032成功，7140→6998/3000，median/most_frequent，Accuracy0.8523333333、Macro-F1 0.7872823666。新增真实DeepSeek1次，1262输入/1365输出token、费用未知；C自动业务记录原样追加，旧记录逐字段一致。项目累计6次、5928输入/5652输出token。本轮聊天不记录开发prompt，认证/网络测试不冒充模型请求。
+
+26项原始包解压/逐项哈希通过，包含新运行和服务快照，排除所有私钥、模型加密blob和网页登录凭据/哈希配置。部署、实际故障修复及范围见docs/public_gateway_20261102.md和evidence/D/public_gateway_20261102.json。原有Windows镜像MpsSvc已停用，未改变全局状态；云端此前全部TCP规则仍需操作者收紧。未实际整机重启、手机/教室网络或全员排练，未更改业务模块与冻结契约。
+
+收口检查：foundation与16条AI账本结构检查退出0，公开新增文本未发现凭据形态值，git diff --check通过。提交前远端仍为4c6fcaf，本次不包含其他成员改动或任何网页登录秘密。
+
 ## 最新：2026-11-02独立云服务器复现
 
 周锦晨（D）完成服务器首次登录及SSH/云防火墙接入，AI在独立Windows Server 2022（2CPU/2GB）新建Python3.12.10环境。Git bundle、官方安装包/PyPI wheel和官方Adult原始文件55项传输哈希一致；独立安装依赖、pip check、重新生成正式数据，12条环境/业务命令最终退出码均0。验证main d5d5787，业务源码及冻结契约未改。
