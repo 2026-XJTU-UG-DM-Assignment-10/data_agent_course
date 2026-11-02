@@ -4,18 +4,16 @@
   "role": "A",
   "branch": "member-a-data",
   "status": "ready_for_review",
-  "based_on_commit": "1597bfafb2eba8fd5c59e5b263ca5577974f9cd2",
+  "based_on_commit": "62a635e673f793af11e95e1c401bb9ff629c67a2",
   "changed_files": [
-    "ai_usage/A/prompts/A-20261028-session.md",
+    "ai_usage/A/prompts/A-20261101-session.md",
     "ai_usage/A/usage.json",
-    "checks/check_A.py",
+    "data/manifests/preparation_summary.json",
     "docs/data.md",
     "docs/handoff_A.md",
     "evidence/A/fixtures.json",
     "evidence/A/formal_data.json",
-    "handoffs/A.json",
-    "scripts/prepare_data.py",
-    "src/profiler.py"
+    "handoffs/A.json"
   ],
   "completed": [
     "读取全部规则、公共契约、A 角色任务与本人交接模板",
@@ -23,21 +21,28 @@
     "实现 src/profiler.py 的 profile_data，调用 B 的 normalize_frame，按公共口径输出 14 列缺失、六数值摘要与五类问题计数",
     "实现 checks/check_A.py，支持 --integration，使用独立重算而非硬编码数字，验证输入不被修改",
     "实际运行 checks/check_A.py 与 --integration，54 项检查全部通过",
-    "验证三态行为：真实模块通过、缺少 B 模块时时使用具名替身、--integration 下缺少 B 模块返回 2",
+    "验证三态行为：真实模块通过、缺少 B 模块时使用具名替身、--integration 下缺少 B 模块返回 2",
     "验证缺少正式数据时不自动下载，输出固定准备命令并返回 2",
     "撰写 docs/data.md 数据说明与报告素材",
-    "更新 handoffs/A.json 与 ai_usage/A 账本"
+    "更新 handoffs/A.json 与 ai_usage/A 账本",
+    "第二阶段 A1：同步 main（落后 23 个提交），解决 6 处合并冲突，未丢弃任一侧记录",
+    "第二阶段 A1：本机复现正式数据，规模与注入计数与基线一致，5 个产物 SHA-256 逐项匹配准备摘要",
+    "第二阶段 A2：逐条核对 D 补写的 docs/data.md，补充 3 行原生重复、解释两处复制行带入的计数差值",
+    "第二阶段 A3：docs/data.md 重写为 9 节，含规模表、四类问题统计表、图表建议与三个必答问题",
+    "第二阶段 A4：新增 ai_usage/A/prompts/A-20261101-session.md 与账本记录"
   ],
   "verification": {
     "fixtures": {
       "status": "passed",
       "evidence": [
+        "evidence/A/fixtures.json",
         "evidence/A/integration_fixtures_20261030.json"
       ]
     },
     "formal_data": {
       "status": "passed",
       "evidence": [
+        "evidence/A/formal_data.json",
         "evidence/A/integration_formal_data_20261030.json"
       ]
     },
@@ -53,21 +58,19 @@
   "blockers": [],
   "next_action": "Maintainer-revalidated on main; collect real LLM evidence after configuring provider and continue integration maintenance.",
   "last_gate": {
-    "checked_at": "2026-10-30T06:16:18.540305+00:00",
-    "verified_revision": "1597bfafb2eba8fd5c59e5b263ca5577974f9cd2",
+    "checked_at": "2026-11-01T07:07:29.167880+00:00",
+    "verified_revision": "62a635e673f793af11e95e1c401bb9ff629c67a2",
     "tested_files_sha256": {
       "scripts/prepare_data.py": "9664205a1f8fc88f0724199f1ea4dc2ac3526500d51bb4305fe6c82cce0035af",
       "src/profiler.py": "4c728d416277853b10fa631158f2a1733956870993a2f324837722e7944b5d6a",
       "checks/check_A.py": "2c1762fd4d73937e7ca81013908151fc9706b2b39a76ccfe18b83dea9cc2b810",
-      "docs/data.md": "b155a2bc4428a08fc4a06a6e49fe0881aa2fceee45cf1ead7c5c581c6cc8ad42",
-      "docs/handoff_A.md": "b6f88646898342071576554ef8977e49de1c9c756b1348ba0321ec0c65596e79"
-    },
-    "verified_by": "D maintainer revalidation"
+      "docs/data.md": "fb73782a2dd70766486586be000b8cf7dfb7dbf013d41f2b041461d52e69f996",
+      "docs/handoff_A.md": "972095fa2a98467baa597b444090bc2303158c79942c9d7f54cfeb6eba77491f"
+    }
   },
   "notes": [
     "formal_data 验证只在真实获取 UCI adult.data 并运行准备脚本后标记 passed",
-    "real_llm 与 end_to_end 分别由 C 的真实模型调用和完整流程验收负责，A 不声称已验证",
-    "本机未安装 Git，未执行分支提交；提交与推送需成员在有 Git 的环境完成"
+    "real_llm 与 end_to_end 分别由 C 的真实模型调用和完整流程验收负责，A 不声称已验证"
   ],
   "integration_review": {
     "reviewer": "D",

@@ -3,7 +3,7 @@
   "workflow_version": "2.0",
   "contract_version": "1.0",
   "role": "A",
-  "generated_at": "2026-10-30T06:05:20.985041+00:00",
+  "generated_at": "2026-11-01T07:02:56.709658+00:00",
   "generator": "scripts/prepare_data.py",
   "command": "python scripts/prepare_data.py --seed 42 --sample-size 10000",
   "source": {
@@ -12,7 +12,7 @@
     "download_url": "https://archive.ics.uci.edu/static/public/2/adult.zip",
     "license": "CC BY 4.0",
     "citation": "Becker, B. and Kohavi, R. (1996). Adult. UCI Machine Learning Repository. https://doi.org/10.24432/C5XW20",
-    "provenance": "downloaded from https://archive.ics.uci.edu/static/public/2/adult.zip",
+    "provenance": "existing local file (not re-downloaded)",
     "raw_path": "data/raw/adult.data",
     "raw_sha256": "5b00264637dbfec36bdeaab5676b0b309ff9eb788d63554ca0a249491c86603d",
     "raw_bytes": 3974305
