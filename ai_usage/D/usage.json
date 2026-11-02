@@ -140,7 +140,7 @@
         "ai_usage/D/prompts/D-20261102-adaptive-features.md"
       ],
       "calls": null,
-      "interactions": 1,
+      "interactions": 2,
       "input_tokens": null,
       "output_tokens": null,
       "cost": {
@@ -151,7 +151,7 @@
       },
       "result": "succeeded",
       "source_id": "D-local-session-20261102-adaptive-features",
-      "notes": "四项授权功能完成；A60/B33/C16及D16项新增拒绝与编码/真实流程/历史/AppTest通过，D submit和main rules/真实LLM门禁实际退出0。浏览器正式本地/上传运行、图表及回放检查完成，新增模型请求由C记账（1262/1723token、成本未知）。本条开发调用/模型/token/费用仍未知；本人prompt含本次输入、补全方案和修正过程，排除此前用户不记录的对话。PDF/PPT整体同步和真人事项仍待。"
+      "notes": "四项授权功能完成；A60/B33/C16及D16项新增拒绝与编码/真实流程/历史/AppTest通过，D submit和main rules/真实LLM门禁实际退出0。浏览器正式本地/上传运行、图表及回放检查完成，新增模型请求由C记账（1262/1723token、成本未知）。本条开发调用/模型/token/费用仍未知；本人prompt含本次输入、补全方案和修正过程，排除此前用户不记录的对话。PDF/PPT整体同步和真人事项仍待。 同一会话继续：用户“下一步”，正式材料同步与交付包更新进行中。 继续响应“下一步”：6页PDF/MD和7页PPT已同步真实LLM、四项功能、姓名与准确贡献；逐页渲染和媒体哈希核对通过。曾发现路径图片未嵌入，改字节嵌入；PowerPoint应用访问授权超时，未声明原生通过。本阶段未新增项目模型请求，开发内部用量仍未知；交付/打包最终结果见实际记录。"
     }
   ]
 }

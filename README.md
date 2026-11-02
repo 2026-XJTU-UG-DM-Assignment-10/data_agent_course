@@ -122,19 +122,17 @@ git push -u origin member-b-clean
 
 正式提交需包含报告、源码、原始及处理后数据、PPT、贡献说明和真实运行日志。生成数据和日志虽不进入 Git，最终仍需另行打包提交。
 
-## 最新增量与材料（2026-11-02）
+## 正式材料（2026-11-02，真实LLM与功能更新版）
 
-已接收 A 最新推送 `d7cc1da`：54项复验通过，A已确认数据说明；D独立重算原生缺失853格、原生重复3行、复制额外缺失105格及格式20格。C未有新推送，按用户授权由D在C分支补齐真实验证入口与HTTP边界检查，提交`18c1d68`；15项受控测试通过。开发AI记录属于D，C运行账本未新增真实请求。
+6页报告：docs/report.md、docs/report.pdf。7页可编辑演示稿：docs/presentation.pptx；提纲及7分钟建议流程见docs/presentation_outline.md、docs/demo_script.md。姓名和实际贡献已确认入稿，D代完成的A/C增量单列，不推断比例。
 
-配置后可先执行 `python checks/check_C.py --integration --real-llm --report outputs/real_llm_check/real_llm_evidence.json`；该入口使用正式数据和生产pipeline，核对每次请求对应C账本，再在main执行完整llm集成。当前缺配置预检实际退出2，未发出请求。
+材料主要采用真实LLM运行20261102T043037Z-b0fc7c1a，规则对照20261102T042950Z-969fddba；新截图明确为已验证成功运行的历史回放，不称本次新请求。PDF6页/PPT7页全部渲染检查，三张原生表格、字体、重新导入与两张证据图片的实际嵌入哈希核对通过。PowerPoint应用访问授权超时，原生打开未验；真人跨机、全员排练和录屏仍待。
 
-报告源稿与6页PDF：`docs/report.md`、`docs/report.pdf`。7页可编辑演示稿与讲者备注：`docs/presentation.pptx`，提纲与演示流程见`docs/presentation_outline.md`和`docs/demo_script.md`。材料统一使用规则运行`20261030T070819Z-7779c942`，不能称为真实模型成绩。PDF/PPT已渲染检查，原生PowerPoint兼容和另一台真人机器验收仍待补。
+本轮完整技术包：outputs/real_llm_check/data_agent_course_materials_20261102.zip；解压与SHA-256校验见同目录materials_package_check.json。此前规则、真实LLM和功能包保留，各自代表原时间点。新包仍不等于真人事项已完成。
 
-本轮规则阶段包：`outputs/review_20261102/data_agent_course_rules_stage_20261102.zip`，包含源码、正式数据、处理后数据、规则日志、更新材料及AI记录。解压校验见同目录`package_check.json`。10月30日旧包保留在`outputs/final_delivery/`。真实模型、跨机真人复现、排练和姓名确认仍待补。
+构建源为docs/report_build.py和docs/presentation_build.mjs。PDF使用reportlab；PPT使用Artifact Tool导入保留的原稿docs/report_assets/presentation_template_rules.pptx，按锚点编辑，保留原设计和原生对象。运行时和字体依赖需另行准备；最终文件与源码一起交付，不要求队友重建。材料环境执行python docs/report_materials_check.py核对事实/媒体，python docs/report_llm_package.py --tag materials重新打包；它们不调用模型。PPT finalizer不覆盖现有输出，重新构建应设置新的MATERIALS_BUILD_ID（如v4）。
 
-材料构建源为`docs/report_build.py`和`docs/presentation_build.mjs`；前者需reportlab，后者需Artifact Tool、演示文稿技能运行时和Node模块解析路径。本轮在outputs/presentation_build_20261102接入运行时node_modules并指定RUNTIME_NODE_MODULES后实际执行；校验receipt在同目录。PDF6页和PPT7页已逐页检查；源码、PDF/PPT和打包证据一起交付，不要求队友重建材料。`python docs/report_package.py`可在具备pypdf且上述运行证据齐全的材料环境中重新打包。
-
-跟踪的三个`data/manifests/`清单由A的准备脚本生成并维护，已列入A精确归属。修改它们仍需实际准备/验证；其他角色不因此获得任意data目录写权限。
+模型使用https://api.deepseek.com与deepseek-flash，实际配置不持久化。新终端设置三项LLM环境变量后，在main执行真实LLM验证；缺配置不会降级成rules成功。模型业务prompt正常记入C，本次材料制作未新发项目请求。
 
 ## AI 使用记录
 
