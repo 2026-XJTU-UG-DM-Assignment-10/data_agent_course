@@ -83,7 +83,9 @@ def verify_events(path, result):
     successes = [e for e in requests if e.status == "succeeded"]
     require(1 <= len(attempts) <= 2 and bool(successes), "Need 1–2 real request attempts and a successful reply")
     payloads = [item for event in requests for item in walk(event.data) if isinstance(item, dict)]
-    replies = [LLMReply.model_validate(item) for item in payloads
+    # C attaches its event attempt number beside LLMReply fields. It belongs to
+    # the event envelope, while all actual reply fields remain strictly checked.
+    replies = [LLMReply.model_validate({key: value for key, value in item.items() if key != "attempt"}) for item in payloads
                if {"text", "provider", "model"} <= item.keys()]
     require(any(reply.text.strip() and reply.model.strip() and reply.provider.strip()
                 and "TEST_DOUBLE" not in reply.model.upper() for reply in replies),

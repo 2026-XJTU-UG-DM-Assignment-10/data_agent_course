@@ -1,5 +1,13 @@
 # 成员 D 交接记录
 
+## 真实模型联调补充（2026-11-02）
+
+DeepSeek官方接口/模型deepseek-flash已配置到临时进程并实际调用，C正式验证退出0（20261102T031150Z-ef13473e，一次请求，账本核对通过）。第二次main运行的业务pipeline也成功，但D smoke把C响应事件的attempt元数据传给严格LLMReply，误报ValidationError。真实数据、模型及C记账没有因此失败；初次完整main门禁退出2的原始报告保存在outputs/real_llm_check/deepseek_main_initial_failure_20261102.json。
+
+本次在member-d-ui修复D解析器，仅剥离已知事件元数据attempt，保留LLMReply字段校验。新增合成事件回归：合法C事件、非法usage/额外响应字段、缺模型/提示词、测试替身标识、序列/运行ID/请求预算、无请求rules边界。它们不发送外部请求；另用两次既有真实日志实际重放解析。本轮不改冻结契约。D submit后正常合入main，再用真实配置执行完整LLM门禁；最终结果看integration_log和新增证据，不预填通过。
+
+业务模型的实际prompt与逐次请求由pipeline保存；本轮配置指导对话不登记开发prompt使用。密钥未持久化，新进程仍需本地加载。历史材料是规则阶段快照，真实模型补验结果单独提供；真人跨机、原生PowerPoint及全员排练仍待。
+
 ## 当前增量（2026-11-02）
 
 在D:/iot/member_d_delivery_20261026继续，原两个工作区的未提交修改原样保留。接收A最新推送d7cc1da并正常合入main，A实际复验54项通过；独立重算A说明的853格原生缺失、3行原生重复、复制额外105格缺失和20格格式问题均一致。A数据说明已确认，B正式案例文字确认仍待。

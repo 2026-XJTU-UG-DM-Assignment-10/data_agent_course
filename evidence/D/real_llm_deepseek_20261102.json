@@ -1,0 +1,46 @@
+{
+  "workflow_version": "2.0",
+  "contract_version": "1.0",
+  "role": "D",
+  "scope": "real_llm",
+  "status": "passed",
+  "checked_at": "2026-11-02T03:11:50.813918+00:00",
+  "command": "python checks/check_C.py --integration --real-llm --report outputs/real_llm_check/deepseek_C_20261102.json",
+  "uses_test_doubles": false,
+  "summary": {
+    "provider": "openai_compatible",
+    "model": "deepseek-flash",
+    "run_id": "20261102T031150Z-ef13473e",
+    "real_llm_checked": true,
+    "accounting_checked": true,
+    "calls_made": 1,
+    "request_source_ids": [
+      "20261102T031150Z-ef13473e:1"
+    ],
+    "train_before": 7140,
+    "train_after": 7000,
+    "test_rows": 3000,
+    "accuracy": 0.8523333333333334,
+    "macro_f1": 0.788845681782975,
+    "endpoint": "https://api.deepseek.com/chat/completions",
+    "cost_known": false,
+    "cross_reference": "evidence/C/real_llm_deepseek_20261102.json; same actual request, not an additional call"
+  },
+  "artifacts": [
+    "outputs/real_llm_check/deepseek_C_20261102.json",
+    "outputs/real_llm_check/deepseek_C_20261102.log",
+    "outputs/real_llm_check/20261102T031150Z-ef13473e/events.jsonl",
+    "outputs/real_llm_check/20261102T031150Z-ef13473e/quality_before.json",
+    "outputs/real_llm_check/20261102T031150Z-ef13473e/quality_after.json",
+    "outputs/real_llm_check/20261102T031150Z-ef13473e/cleaning_plan.json",
+    "outputs/real_llm_check/20261102T031150Z-ef13473e/train_processed.csv",
+    "outputs/real_llm_check/20261102T031150Z-ef13473e/test_processed.csv",
+    "outputs/real_llm_check/20261102T031150Z-ef13473e/cleaning_state.json",
+    "outputs/real_llm_check/20261102T031150Z-ef13473e/audit_train.json",
+    "outputs/real_llm_check/20261102T031150Z-ef13473e/audit_test.json",
+    "outputs/real_llm_check/20261102T031150Z-ef13473e/metrics.json",
+    "outputs/real_llm_check/20261102T031150Z-ef13473e/summary.md",
+    "outputs/real_llm_check/20261102T031150Z-ef13473e/run_result.json",
+    "outputs/real_llm_check/20261102T031150Z-ef13473e/confusion_matrix.png"
+  ]
+}
